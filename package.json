@@ -1,6 +1,6 @@
 {
   "name": "site-indicator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A chrome extension to help you quickly identify websites",
   "repository": {
     "type": "git",
