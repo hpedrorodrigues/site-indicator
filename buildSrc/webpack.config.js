@@ -164,6 +164,33 @@ const options = {
     new CopyWebpackPlugin({
       patterns: [
         {
+          from: 'src/assets/img/icon-16.png',
+          to: path.join(rootDir, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/assets/img/icon-32.png',
+          to: path.join(rootDir, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/assets/img/icon-48.png',
+          to: path.join(rootDir, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
           from: 'src/assets/img/icon-128.png',
           to: path.join(rootDir, 'build'),
           force: true,
@@ -173,7 +200,16 @@ const options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/assets/img/icon-34.png',
+          from: 'src/assets/img/icon-192.png',
+          to: path.join(rootDir, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/assets/img/icon-512.png',
           to: path.join(rootDir, 'build'),
           force: true,
         },

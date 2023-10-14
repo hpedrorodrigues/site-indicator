@@ -27,7 +27,7 @@ const { Title } = Typography;
 export const INITIAL_SITE: Site = {
   label: '',
   value: '',
-  color: '#2E38B9',
+  color: '#179aeb',
   labelColor: '#F1F1F1',
   shape: Shape.Ribbon,
   matchRule: MatchRule.Exact,

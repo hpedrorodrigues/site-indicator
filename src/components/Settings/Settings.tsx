@@ -9,6 +9,7 @@ const theme: ThemeConfig = {
     Layout: {
       headerHeight: 40,
       headerColor: '#f7fcff',
+      headerBg: '#179aeb',
       headerPadding: '0 16px',
       footerPadding: '16px 50px',
     },
