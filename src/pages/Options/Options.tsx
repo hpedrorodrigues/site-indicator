@@ -6,6 +6,7 @@ import {
   SiteTable,
   SiteModal,
   NoSite,
+  ExportModal,
   INITIAL_SITE,
 } from '../../components';
 import {
@@ -16,12 +17,15 @@ import {
   useLoadItem,
   useSaveItem,
 } from '../../hooks';
-import { Labels } from '../../labels';
-import { Site, StorageKey } from '../../persistence';
+import { DefaultFileName, Labels } from '../../labels';
+import { Site, StorageKey, ExternalData } from '../../persistence';
+import { downloadFile } from '../../util';
 
 const Options = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [initialSite, setInitialSite] = useState<Site>(INITIAL_SITE);
+
+  const [showExportModal, setShowExportModal] = useState<boolean>(false);
 
   const urlParams = useMemo(
     () => new URLSearchParams(window.location.search),
@@ -35,7 +39,11 @@ const Options = () => {
       setInitialSite(site);
     },
   });
-  const { data: sites, reload: reloadSites } = useListSites();
+  const {
+    data: sites,
+    reload: reloadSites,
+    isLoading: isLoadingSites,
+  } = useListSites();
   const { mutate: saveSite } = useSaveSite({ onSuccess: reloadSites });
   const { mutate: deleteSite } = useDeleteSite({ onSuccess: reloadSites });
   const { data: isEnabled, reload: reloadIsEnabled } = useLoadItem<boolean>({
@@ -57,6 +65,10 @@ const Options = () => {
   const onClose = () => {
     setShowModal(false);
     setInitialSite(INITIAL_SITE);
+  };
+
+  const onCloseExportModal = () => {
+    setShowExportModal(false);
   };
 
   return (
@@ -81,9 +93,14 @@ const Options = () => {
                 flex="50%"
                 style={{ display: 'flex', justifyContent: 'flex-end' }}
               >
-                <Button onClick={() => setShowModal(true)}>
-                  {Labels.Action.Add}
-                </Button>
+                <Space direction="horizontal" size="middle">
+                  <Button onClick={() => setShowExportModal(true)}>
+                    {Labels.Action.Export}
+                  </Button>
+                  <Button onClick={() => setShowModal(true)}>
+                    {Labels.Action.Add}
+                  </Button>
+                </Space>
               </Col>
             </Row>
             <SiteTable sites={sites} onDelete={deleteSite} onEdit={onEdit} />
@@ -95,6 +112,18 @@ const Options = () => {
         open={showModal}
         onSave={saveSite}
         initialSite={initialSite}
+      />
+      <ExportModal
+        open={showExportModal}
+        onClose={onCloseExportModal}
+        sites={sites}
+        isLoading={isLoadingSites}
+        onExport={(sites) =>
+          downloadFile<ExternalData>(DefaultFileName, {
+            version: 1,
+            data: sites,
+          })
+        }
       />
     </Settings>
   );

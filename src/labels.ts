@@ -1,5 +1,7 @@
 import { MatchRule, Placement, Shape } from './persistence';
 
+export const DefaultFileName = 'site-indicator-settings.json';
+
 export const Labels = <const>{
   AppName: 'Site Indicator',
   Copyright: 'Site Indicator ©2023',
@@ -58,6 +60,7 @@ export const Labels = <const>{
     Preferences: 'Preferences',
     Enabled: 'Enabled',
     Disabled: 'Disabled',
+    Export: 'Export',
   },
   Form: {
     SectionTitle: 'Indicator',
@@ -67,8 +70,11 @@ export const Labels = <const>{
       Add: 'Add new site',
       Edit: 'Edit site',
     },
-    Ok: 'Save',
+    Save: 'Save',
     Cancel: 'Cancel',
+  },
+  Export: {
+    ModalTitle: 'Export Sites',
   },
 };
 

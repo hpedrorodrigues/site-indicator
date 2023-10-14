@@ -29,3 +29,8 @@ export type Site = {
   matchRule: MatchRule;
   placement: Placement;
 };
+
+export type ExternalData = {
+  version: 1;
+  data: Site[];
+};
