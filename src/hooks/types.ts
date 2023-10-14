@@ -15,7 +15,7 @@ export type MutationParams<T> = {
   onError?: (error: Error) => void;
 };
 
-export type MutationHook<P> = {
+export type MutationHook = {
   isLoading: boolean;
-  mutate: (param: P) => void;
+  mutate: (...params: any) => void;
 };

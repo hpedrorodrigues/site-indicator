@@ -5,7 +5,7 @@ import { MutationHook, MutationParams } from './types';
 const useDeleteSite = ({
   onSuccess,
   onError,
-}: MutationParams<boolean> = {}): MutationHook<number> => {
+}: MutationParams<boolean> = {}): MutationHook => {
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const mutate = useCallback(

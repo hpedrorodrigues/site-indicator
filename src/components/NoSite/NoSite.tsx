@@ -8,12 +8,12 @@ const emptyStyle: CSSProperties = {
 };
 
 type NoSiteOptions = {
-  addSite?: () => void;
+  onAddSite?: () => void;
 };
 
-const NoSite = ({ addSite }: NoSiteOptions) => (
+const NoSite = ({ onAddSite }: NoSiteOptions) => (
   <Empty style={emptyStyle} description={Labels.Site.NoSite}>
-    <Button type="primary" onClick={addSite}>
+    <Button type="primary" onClick={onAddSite}>
       {Labels.Action.AddNow}
     </Button>
   </Empty>

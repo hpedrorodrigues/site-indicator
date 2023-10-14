@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Button, Space } from 'antd';
+import { Button, Col, Row, Space, Switch } from 'antd';
 import {
   PageLayout,
   Settings,
@@ -13,9 +13,11 @@ import {
   useDeleteSite,
   useListSites,
   useLoadSite,
+  useLoadItem,
+  useSaveItem,
 } from '../../hooks';
 import { Labels } from '../../labels';
-import { Site } from '../../persistence';
+import { Site, StorageKey } from '../../persistence';
 
 const Options = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -36,6 +38,12 @@ const Options = () => {
   const { data: sites, reload: reloadSites } = useListSites();
   const { mutate: saveSite } = useSaveSite({ onSuccess: reloadSites });
   const { mutate: deleteSite } = useDeleteSite({ onSuccess: reloadSites });
+  const { data: isEnabled, reload: reloadIsEnabled } = useLoadItem<boolean>({
+    key: StorageKey.IsEnabled,
+  });
+  const { mutate: saveItem } = useSaveItem<boolean>({
+    onSuccess: reloadIsEnabled,
+  });
 
   useEffect(() => {
     setShowModal(urlParams.has('modal') && urlParams.get('modal') === 'true');
@@ -55,16 +63,31 @@ const Options = () => {
     <Settings>
       <PageLayout title={Labels.AppName} copyright={Labels.Copyright}>
         {!sites || sites.length === 0 ? (
-          <NoSite addSite={() => setShowModal(true)} />
+          <NoSite onAddSite={() => setShowModal(true)} />
         ) : (
-          <>
-            <Space direction="vertical" size="middle" align="end">
-              <Button onClick={() => setShowModal(true)}>
-                {Labels.Action.Add}
-              </Button>
-              <SiteTable sites={sites} onDelete={deleteSite} onEdit={onEdit} />
-            </Space>
-          </>
+          <Space direction="vertical" size="middle">
+            <Row gutter={42} justify="space-around" align="middle">
+              <Col flex="50%">
+                <Switch
+                  checkedChildren={Labels.Action.Enabled}
+                  unCheckedChildren={Labels.Action.Disabled}
+                  checked={isEnabled === undefined || isEnabled}
+                  onChange={(checked) =>
+                    saveItem(StorageKey.IsEnabled, checked)
+                  }
+                />
+              </Col>
+              <Col
+                flex="50%"
+                style={{ display: 'flex', justifyContent: 'flex-end' }}
+              >
+                <Button onClick={() => setShowModal(true)}>
+                  {Labels.Action.Add}
+                </Button>
+              </Col>
+            </Row>
+            <SiteTable sites={sites} onDelete={deleteSite} onEdit={onEdit} />
+          </Space>
         )}
       </PageLayout>
       <SiteModal

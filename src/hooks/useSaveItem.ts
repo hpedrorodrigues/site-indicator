@@ -1,19 +1,19 @@
 import { useState, useCallback } from 'react';
-import { storage, Site } from '../persistence';
+import { storage, Key, Value } from '../persistence';
 import { MutationHook, MutationParams } from './types';
 
-const useSaveSite = ({
+const useSaveItem = <T>({
   onSuccess,
   onError,
-}: MutationParams<Site> = {}): MutationHook => {
+}: MutationParams<Value<T>>): MutationHook => {
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const mutate = useCallback(
-    (site: Site) => {
+    (key: Key, value: Value<T>) => {
       setLoading(true);
 
       storage
-        .save(site)
+        .setKey<T>(key, value)
         .then(onSuccess)
         .catch(onError)
         .finally(() => setLoading(false));
@@ -24,4 +24,4 @@ const useSaveSite = ({
   return { mutate, isLoading };
 };
 
-export default useSaveSite;
+export default useSaveItem;
