@@ -3,6 +3,7 @@
   "name": "Site Indicator",
   "description": "A chrome extension to help you quickly identify websites",
   "options_page": "options.html",
+  "incognito": "split",
   "background": {
     "service_worker": "background.bundle.js"
   },
