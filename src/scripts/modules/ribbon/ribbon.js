@@ -25,7 +25,7 @@ const insertElement = (site) => {
       break;
     case Shape.Triangle:
       config.height = 100;
-      config.distanceToCorner = 50;
+      config.distanceToCorner = 20;
       config.alignItems = 'end';
       config.padding = '16px';
       break;
@@ -35,7 +35,7 @@ const insertElement = (site) => {
 
   const verticalOffset =
     config.distanceToCorner / Math.sqrt(2) - config.height / 2;
-  const width = config.distanceToCorner * 2 + config.height;
+  const width = config.distanceToCorner * 2 + config.height * 2;
   const horizontalOffset = config.distanceToCorner / Math.sqrt(2) - width / 2;
 
   const styles = {

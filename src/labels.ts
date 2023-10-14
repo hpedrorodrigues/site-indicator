@@ -3,7 +3,7 @@ import { MatchRule, Placement, Shape } from './persistence';
 export const Labels = <const>{
   AppName: 'Site Indicator',
   Copyright: 'Site Indicator ©2023',
-  RefreshPage: 'Please, refresh the pages!',
+  RefreshPage: 'Please, refresh the page!',
   Site: {
     NoSite: 'No sites configured!',
     Field: {
