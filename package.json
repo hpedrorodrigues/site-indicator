@@ -9,7 +9,7 @@
   "scripts": {
     "build": "node buildSrc/build.js",
     "start": "node buildSrc/devServer.js",
-    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}' '!build/**'"
+    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,yaml,yml,css,scss,md}' '!build/**'"
   },
   "dependencies": {
     "antd": "^5.9.4",
