@@ -1,5 +1,7 @@
 # Site Indicator
 
+A tiny extension to help me learn more about AntD and how extensions work.
+
 Boilerplate used to create this project: [Chrome Extension (MV3) Boilerplate with React 18 and Webpack 5][boilerplate].
 
 ## Installing and Running
