@@ -1,9 +1,10 @@
 import browser from 'webextension-polyfill';
+import { isEmpty } from './util';
 
 const openExtensionTab = async (path: string, queryParams: string = '') => {
   const url = browser.runtime.getURL(path) + queryParams;
   const tabs = await browser.tabs.query({ url });
-  if (!tabs || tabs.length === 0) {
+  if (isEmpty(tabs)) {
     return browser.tabs.create({ url });
   }
   const tab = tabs[0];

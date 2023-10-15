@@ -1,12 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Button, Col, Row, Space, Switch } from 'antd';
+import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   PageLayout,
   Settings,
   SiteTable,
   SiteModal,
   NoSite,
-  ExportModal,
+  SiteSelectionModal,
+  ImportButton,
   INITIAL_SITE,
 } from '../../components';
 import {
@@ -18,14 +20,16 @@ import {
   useSaveItem,
 } from '../../hooks';
 import { DefaultFileName, Labels } from '../../labels';
-import { Site, StorageKey, ExternalData } from '../../persistence';
-import { downloadFile } from '../../util';
+import { Site, StorageKey, Configuration } from '../../persistence';
+import { downloadFile, isEmpty } from '../../util';
 
 const Options = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [initialSite, setInitialSite] = useState<Site>(INITIAL_SITE);
 
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
+  const [showImportModal, setShowImportModal] = useState<boolean>(false);
+  const [importSites, setImportSites] = useState<Site[]>([]);
 
   const urlParams = useMemo(
     () => new URLSearchParams(window.location.search),
@@ -67,15 +71,16 @@ const Options = () => {
     setInitialSite(INITIAL_SITE);
   };
 
-  const onCloseExportModal = () => {
-    setShowExportModal(false);
+  const onImport = (configuration: Configuration) => {
+    setShowImportModal(true);
+    setImportSites(configuration.data);
   };
 
   return (
     <Settings>
       <PageLayout title={Labels.AppName} copyright={Labels.Copyright}>
-        {!sites || sites.length === 0 ? (
-          <NoSite onAddSite={() => setShowModal(true)} />
+        {isEmpty(sites) ? (
+          <NoSite onAddSite={() => setShowModal(true)} onImport={onImport} />
         ) : (
           <Space direction="vertical" size="middle">
             <Row gutter={42} justify="space-around" align="middle">
@@ -94,10 +99,17 @@ const Options = () => {
                 style={{ display: 'flex', justifyContent: 'flex-end' }}
               >
                 <Space direction="horizontal" size="middle">
-                  <Button onClick={() => setShowExportModal(true)}>
+                  <ImportButton onImport={onImport} />
+                  <Button
+                    onClick={() => setShowExportModal(true)}
+                    icon={<DownloadOutlined />}
+                  >
                     {Labels.Action.Export}
                   </Button>
-                  <Button onClick={() => setShowModal(true)}>
+                  <Button
+                    onClick={() => setShowModal(true)}
+                    icon={<PlusOutlined />}
+                  >
                     {Labels.Action.Add}
                   </Button>
                 </Space>
@@ -113,17 +125,25 @@ const Options = () => {
         onSave={saveSite}
         initialSite={initialSite}
       />
-      <ExportModal
+      <SiteSelectionModal
         open={showExportModal}
-        onClose={onCloseExportModal}
+        onClose={() => setShowExportModal(false)}
         sites={sites}
         isLoading={isLoadingSites}
-        onExport={(sites) =>
-          downloadFile<ExternalData>(DefaultFileName, {
+        okText={Labels.Action.Export}
+        onSitesSelected={(sites) =>
+          downloadFile<Configuration>(DefaultFileName, {
             version: 1,
             data: sites,
           })
         }
+      />
+      <SiteSelectionModal
+        open={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        sites={importSites}
+        okText={Labels.Action.Import}
+        onSitesSelected={(sites) => sites.forEach(saveSite)}
       />
     </Settings>
   );

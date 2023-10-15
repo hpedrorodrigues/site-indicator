@@ -1,6 +1,6 @@
 import { MatchRule, Placement, Shape } from './persistence';
 
-export const DefaultFileName = 'site-indicator-settings.json';
+export const DefaultFileName = 'site-indicator-configuration.json';
 
 export const Labels = <const>{
   AppName: 'Site Indicator',
@@ -60,21 +60,30 @@ export const Labels = <const>{
     Preferences: 'Preferences',
     Enabled: 'Enabled',
     Disabled: 'Disabled',
+    Import: 'Import',
     Export: 'Export',
   },
   Form: {
     SectionTitle: 'Indicator',
+  },
+  Configuration: {
+    Errors: {
+      InvalidFile:
+        'Invalid file uploaded! This file does not have the expected format!',
+      CouldNotUpload: 'An error occurred uploading the selected file!',
+    },
   },
   Modal: {
     Title: {
       Add: 'Add new site',
       Edit: 'Edit site',
     },
+    Ok: 'Ok',
     Save: 'Save',
     Cancel: 'Cancel',
   },
-  Export: {
-    ModalTitle: 'Export Sites',
+  Selection: {
+    ModalTitle: 'Select Sites',
   },
 };
 

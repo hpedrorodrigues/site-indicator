@@ -21,6 +21,7 @@ import {
   Placements,
   Shapes,
 } from '../../labels';
+import { isEmpty } from '../../util';
 
 const { Title } = Typography;
 
@@ -47,10 +48,9 @@ const hasUnsetFields = (
   form: FormInstance,
   nameList: NamePath[] = []
 ): boolean => {
-  const values =
-    nameList.length === 0
-      ? form.getFieldsValue()
-      : form.getFieldsValue(nameList);
+  const values = isEmpty(nameList)
+    ? form.getFieldsValue()
+    : form.getFieldsValue(nameList);
   return (
     !values ||
     Object.values(values).some(

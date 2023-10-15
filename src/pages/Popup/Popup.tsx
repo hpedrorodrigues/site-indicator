@@ -10,6 +10,7 @@ import {
 import { Labels } from '../../labels';
 import { Tabs } from '../../tabs';
 import { StorageKey } from '../../persistence';
+import { isEmpty } from '../../util';
 
 const spaceStyles: CSSProperties = {
   width: '100%',
@@ -29,7 +30,7 @@ const Popup = () => {
   return (
     <Settings>
       <PageLayout title={Labels.AppName} copyright={Labels.Copyright}>
-        {!sites || sites.length === 0 ? (
+        {isEmpty(sites) ? (
           <NoSite onAddSite={() => Tabs.openOptionsPage('?modal=true')} />
         ) : (
           <Space direction="vertical" size="middle" style={spaceStyles}>

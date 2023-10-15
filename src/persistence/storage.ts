@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import { Site } from './site';
+import { isEmpty } from '../util';
 
 export type Key = string;
 
@@ -48,7 +49,7 @@ class Storage {
   async getKey<T>(key: Key): Promise<Value<T>> {
     console.debug('Finding key', key);
     const result = Object.values(await browser.storage.sync.get(key));
-    if (result.length === 0) {
+    if (isEmpty(result)) {
       return undefined;
     }
 

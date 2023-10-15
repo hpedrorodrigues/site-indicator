@@ -1,49 +1,53 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
-import ExportTable from './ExportTable';
+import SiteSelectionTable from './SiteSelectionTable';
 import { Labels } from '../../labels';
 import { Site } from '../../persistence';
 import { isEmpty } from '../../util';
 
-type ExportModalProps = {
+type SiteSelectionModalProps = {
   onClose?: () => void;
   open?: boolean;
   sites?: Site[];
   isLoading?: boolean;
-  onExport?: (sites: Site[]) => void;
+  onSitesSelected?: (sites: Site[]) => void;
+  okText?: string;
 };
 
-const ExportModal = ({
+const SiteSelectionModal = ({
   open,
   onClose,
   sites,
   isLoading,
-  onExport,
-}: ExportModalProps) => {
+  onSitesSelected,
+  okText,
+}: SiteSelectionModalProps) => {
   const [selectedSiteIds, setSelectedSiteIds] = useState<number[]>([]);
 
   return (
     <Modal
       centered
-      title={Labels.Export.ModalTitle}
+      title={Labels.Selection.ModalTitle}
       keyboard={false}
       open={open}
       maskClosable={false}
       destroyOnClose
       width={700}
       okButtonProps={{ disabled: isEmpty(selectedSiteIds) }}
-      okText={Labels.Action.Export}
+      okText={okText ?? Labels.Modal.Ok}
       cancelText={Labels.Modal.Cancel}
       closeIcon={false}
       onCancel={onClose}
       onOk={() => {
         onClose?.();
-        if (onExport && sites) {
-          onExport(sites.filter((site) => selectedSiteIds.includes(site.id!)));
+        if (onSitesSelected && sites) {
+          onSitesSelected(
+            sites.filter((site) => selectedSiteIds.includes(site.id!))
+          );
         }
       }}
     >
-      <ExportTable
+      <SiteSelectionTable
         sites={sites}
         isLoading={isLoading}
         selectedSiteIds={selectedSiteIds}
@@ -53,4 +57,4 @@ const ExportModal = ({
   );
 };
 
-export default ExportModal;
+export default SiteSelectionModal;

@@ -5,19 +5,19 @@ import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 
 const { Column } = Table;
 
-type ExportTableProps = {
+type SiteSelectionTableProps = {
   sites?: Site[];
   isLoading?: boolean;
   selectedSiteIds?: number[];
   onSelectionChanged?: (newSiteIds: number[]) => void;
 };
 
-const ExportTable = ({
+const SiteSelectionTable = ({
   sites,
   isLoading,
   selectedSiteIds,
   onSelectionChanged,
-}: ExportTableProps) => {
+}: SiteSelectionTableProps) => {
   const getSiteKey = useCallback((site: Site): number => site.id!, []);
 
   useEffect(() => {
@@ -74,4 +74,4 @@ const ExportTable = ({
   );
 };
 
-export default ExportTable;
+export default SiteSelectionTable;

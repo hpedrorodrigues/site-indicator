@@ -30,7 +30,34 @@ export type Site = {
   placement: Placement;
 };
 
-export type ExternalData = {
+const SiteProperties: Array<keyof Site> = [
+  'id',
+  'label',
+  'value',
+  'color',
+  'labelColor',
+  'shape',
+  'matchRule',
+  'placement',
+];
+
+export type Configuration = {
   version: 1;
   data: Site[];
+};
+
+export const isConfiguration = (value: any): value is Configuration => {
+  if (!value) {
+    return false;
+  }
+  const hasValidVersion = value.version === 1;
+  const hasValidData =
+    Array.isArray(value.data) &&
+    value.data.length >= 1 &&
+    value.data.every((innerValue: any) => {
+      const keys = Object.keys(innerValue);
+      return SiteProperties.every((property) => keys.includes(property));
+    });
+
+  return hasValidVersion && hasValidData;
 };
