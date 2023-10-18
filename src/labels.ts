@@ -23,6 +23,7 @@ export const Labels = <const>{
     },
     MatchRule: {
       Exact: 'Exact',
+      ContainsWords: 'Contains words',
       StartsWith: 'Starts with',
       EndsWith: 'Ends with',
       RegEx: 'Regular Expression',
@@ -31,6 +32,8 @@ export const Labels = <const>{
       Description: {
         Exact:
           '"Exact" will perform equality to match the page domain (ignoring "www.").',
+        ContainsWords:
+          '"Contains words" will check whether the page domain contains any of the given words. Please, provide words separated by comma.',
         StartsWith:
           '"Starts with" will check whether the page domain begins with the given value (ignoring "www.").',
         EndsWith:
@@ -94,6 +97,7 @@ export const Shapes: Record<Shape, string> = <const>{
 
 export const MatchRules: Record<MatchRule, string> = <const>{
   [MatchRule.Exact]: Labels.Site.MatchRule.Exact,
+  [MatchRule.ContainsWords]: Labels.Site.MatchRule.ContainsWords,
   [MatchRule.StartsWith]: Labels.Site.MatchRule.StartsWith,
   [MatchRule.EndsWith]: Labels.Site.MatchRule.EndsWith,
   [MatchRule.RegEx]: Labels.Site.MatchRule.RegEx,
@@ -103,6 +107,7 @@ export const MatchRules: Record<MatchRule, string> = <const>{
 
 export const MatchRuleDescriptions: Record<MatchRule, string> = <const>{
   [MatchRule.Exact]: Labels.Site.MatchRule.Description.Exact,
+  [MatchRule.ContainsWords]: Labels.Site.MatchRule.Description.ContainsWords,
   [MatchRule.StartsWith]: Labels.Site.MatchRule.Description.StartsWith,
   [MatchRule.EndsWith]: Labels.Site.MatchRule.Description.EndsWith,
   [MatchRule.RegEx]: Labels.Site.MatchRule.Description.RegEx,

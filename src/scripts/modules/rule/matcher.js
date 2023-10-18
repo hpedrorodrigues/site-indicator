@@ -17,6 +17,9 @@ const isMatch = (domain, value, operation) => {
 const isExactMatch = (domain, value) =>
   isMatch(domain, value, (domain, value) => domain === value);
 
+const isContainsWordsMatch = (domain, value) =>
+  value.split(',').some((word) => domain.includes(word.toLowerCase()));
+
 const isStartsWithMatch = (domain, value) =>
   isMatch(domain, value, (domain, value) => domain.startsWith(value));
 
@@ -47,6 +50,8 @@ const ruleMatcher = {
     switch (site.matchRule) {
       case MatchRule.Exact:
         return isExactMatch(domain, site.value);
+      case MatchRule.ContainsWords:
+        return isContainsWordsMatch(domain, site.value);
       case MatchRule.StartsWith:
         return isStartsWithMatch(domain, site.value);
       case MatchRule.EndsWith:

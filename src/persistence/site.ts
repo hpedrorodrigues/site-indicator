@@ -5,6 +5,7 @@ export enum Shape {
 
 export enum MatchRule {
   Exact = 'EXACT',
+  ContainsWords = 'CONTAINS_WORDS',
   StartsWith = 'STARTS_WITH',
   EndsWith = 'ENDS_WITH',
   RegEx = 'REGULAR_EXPRESSION',
