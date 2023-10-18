@@ -3,12 +3,12 @@ name: Build & Release
 on:
   push:
     branches:
-      - main
+      - '*'
     tags:
       - 'v*'
 
 jobs:
-  release:
+  build-and-release:
     permissions:
       contents: write
     runs-on: ubuntu-latest
