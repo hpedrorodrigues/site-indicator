@@ -21,5 +21,6 @@ In order to release a new version, follow these steps:
 1. Update the `version` in `package.json`.
 1. Run `npm install` (this will update the lock file).
 1. Create a tag in GitHub with the pattern `v*` (use the same version declared in `package.json`).
+   - e.g., `git tag v<version> && git push origin v<version>`
 
 [boilerplate]: https://github.com/lxieyang/chrome-extension-boilerplate-react
