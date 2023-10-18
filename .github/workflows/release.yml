@@ -35,3 +35,14 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: zip/site-indicator-*.zip
+
+      - name: Publish to Web Store
+        uses: mnao305/chrome-extension-upload@v4.0.1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          file-path: zip/site-indicator-*.zip
+          extension-id: jpipimaonfgahpepmjnhbbafgceikfal
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          glob: true
