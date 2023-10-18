@@ -1,7 +1,7 @@
 {
   "name": "site-indicator",
   "version": "1.0.1",
-  "description": "A chrome extension to help you quickly identify websites",
+  "description": "Quickly identify websites by adding an indicator to differentiate them.",
   "repository": {
     "type": "git",
     "url": "https://github.com/hpedrorodrigues/site-indicator.git"

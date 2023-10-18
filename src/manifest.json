@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Site Indicator",
-  "description": "A chrome extension to help you quickly identify websites",
+  "description": "Quickly identify websites by adding an indicator to differentiate them.",
   "options_page": "options.html",
   "incognito": "split",
   "background": {
