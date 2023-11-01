@@ -12,7 +12,7 @@
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,yaml,yml,css,scss,md}' '!build/**'"
   },
   "dependencies": {
-    "antd": "^5.9.4",
+    "antd": "^5.10.3",
     "dns-over-http-resolver": "^2.1.2",
     "favico.js": "^0.3.10",
     "ipaddr.js": "^2.1.0",
