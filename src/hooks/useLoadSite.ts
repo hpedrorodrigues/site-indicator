@@ -36,7 +36,7 @@ const useLoadSite = ({
         onError?.(error);
       })
       .finally(() => setLoading(false));
-  }, [siteId, refreshId]);
+  }, [onError, onSuccess, refreshId, siteId]);
 
   return {
     data: site,

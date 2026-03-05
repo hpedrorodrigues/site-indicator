@@ -9,6 +9,7 @@
   "scripts": {
     "build": "node buildSrc/build.js",
     "start": "node buildSrc/devServer.js",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,yaml,yml,css,scss,md}' '!build/**'"
   },
   "dependencies": {

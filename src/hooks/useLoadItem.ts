@@ -36,7 +36,7 @@ const useLoadItem = <T>({
         onError?.(error);
       })
       .finally(() => setLoading(false));
-  }, [key, refreshId]);
+  }, [key, onError, onSuccess, refreshId]);
 
   return {
     data: value,
