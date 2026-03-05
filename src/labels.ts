@@ -65,6 +65,7 @@ export const Labels = <const>{
     Disabled: 'Disabled',
     Import: 'Import',
     Export: 'Export',
+    Search: 'Search by label, match rule, or value...',
   },
   Form: {
     SectionTitle: 'Indicator',
