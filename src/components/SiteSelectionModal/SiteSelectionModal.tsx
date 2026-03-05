@@ -30,8 +30,8 @@ const SiteSelectionModal = ({
       title={Labels.Selection.ModalTitle}
       keyboard={false}
       open={open}
-      maskClosable={false}
-      destroyOnClose
+      mask={{ closable: false }}
+      destroyOnHidden
       width={700}
       okButtonProps={{ disabled: isEmpty(selectedSiteIds) }}
       okText={okText ?? Labels.Modal.Ok}

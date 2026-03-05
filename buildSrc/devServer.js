@@ -36,7 +36,7 @@ const compiler = webpack(config);
 
 const server = new WebpackDevServer(
   {
-    https: false,
+    server: 'http',
     hot: false,
     client: false,
     compress: false, // SSE doesn't work when this config is enabled!
