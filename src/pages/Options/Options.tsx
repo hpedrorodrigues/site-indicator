@@ -82,7 +82,7 @@ const Options = () => {
         {isEmpty(sites) ? (
           <NoSite onAddSite={() => setShowModal(true)} onImport={onImport} />
         ) : (
-          <Space direction="vertical" size="middle">
+          <Space orientation="vertical" size="middle">
             <Row gutter={42} justify="space-around" align="middle">
               <Col flex="50%">
                 <Switch
@@ -98,7 +98,7 @@ const Options = () => {
                 flex="50%"
                 style={{ display: 'flex', justifyContent: 'flex-end' }}
               >
-                <Space direction="horizontal" size="middle">
+                <Space orientation="horizontal" size="middle">
                   <ImportButton onImport={onImport} />
                   <Button
                     onClick={() => setShowExportModal(true)}

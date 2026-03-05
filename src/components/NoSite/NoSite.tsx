@@ -16,7 +16,7 @@ type NoSiteOptions = {
 
 const NoSite = ({ onAddSite, onImport }: NoSiteOptions) => (
   <Empty style={emptyStyle} description={Labels.Site.NoSite}>
-    <Space direction="horizontal" size="middle">
+    <Space orientation="horizontal" size="middle">
       <Button type="primary" onClick={onAddSite}>
         {Labels.Action.AddNow}
       </Button>

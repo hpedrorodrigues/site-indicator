@@ -1,6 +1,9 @@
 export const isEmpty = <T>(array: Array<T> | undefined | null): boolean =>
   !array || array.length === 0;
 
+export const compareText = (left: string, right: string): number =>
+  left.localeCompare(right, undefined, { sensitivity: 'base' });
+
 export const toJSON = (value: string): any => {
   try {
     return JSON.parse(value);

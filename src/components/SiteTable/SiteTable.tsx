@@ -2,6 +2,8 @@ import React from 'react';
 import { Table, Button, Tag, Popconfirm, Row, Col } from 'antd';
 import { MatchRule, Placement, Shape, Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
+import { compareText } from '../../util';
+import { getColumnSearchProps } from '../search';
 
 const { Column } = Table;
 
@@ -18,32 +20,49 @@ const SiteTable = ({ sites, onDelete, onEdit, isLoading }: SiteTableProps) => (
     rowKey={(site) => `${site.id}`}
     loading={isLoading}
   >
-    <Column
+    <Column<Site>
       title={Labels.Site.Field.Label}
       dataIndex="label"
       key="label"
       ellipsis
+      sorter={(a, b) => compareText(a.label, b.label)}
+      {...getColumnSearchProps(
+        (site) => site.label,
+        Labels.Action.SearchByLabel
+      )}
     />
-    <Column
+    <Column<Site>
       title={Labels.Site.Field.MatchRule}
       dataIndex="matchRule"
       key="matchRule"
+      sorter={(a, b) =>
+        compareText(MatchRules[a.matchRule], MatchRules[b.matchRule])
+      }
       render={(value) => MatchRules[value as MatchRule]}
+      {...getColumnSearchProps(
+        (site) => MatchRules[site.matchRule],
+        Labels.Action.SearchByMatchRule
+      )}
     />
-    <Column
+    <Column<Site>
       title={Labels.Site.Field.Value}
       dataIndex="value"
       key="value"
       ellipsis
+      sorter={(a, b) => compareText(a.value, b.value)}
+      {...getColumnSearchProps(
+        (site) => site.value,
+        Labels.Action.SearchByValue
+      )}
     />
-    <Column
+    <Column<Site>
       title={Labels.Site.Field.Shape}
       dataIndex="shape"
       key="shape"
       align="center"
       render={(value) => Shapes[value as Shape]}
     />
-    <Column
+    <Column<Site>
       title={Labels.Site.Field.Placement}
       dataIndex="placement"
       key="placement"
@@ -56,7 +75,7 @@ const SiteTable = ({ sites, onDelete, onEdit, isLoading }: SiteTableProps) => (
       key="color"
       align="center"
       render={(color) => (
-        <Tag bordered color={color}>
+        <Tag variant="filled" color={color}>
           &nbsp;&nbsp;&nbsp;
         </Tag>
       )}
@@ -67,7 +86,7 @@ const SiteTable = ({ sites, onDelete, onEdit, isLoading }: SiteTableProps) => (
       key="labelColor"
       align="center"
       render={(color) => (
-        <Tag bordered color={color}>
+        <Tag variant="filled" color={color}>
           &nbsp;&nbsp;&nbsp;
         </Tag>
       )}

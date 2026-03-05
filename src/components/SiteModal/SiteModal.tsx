@@ -23,8 +23,8 @@ const SiteModal = ({ onClose, open, onSave, initialSite }: SiteModalProps) => {
       }
       keyboard={false}
       open={open}
-      maskClosable={false}
-      destroyOnClose
+      mask={{ closable: false }}
+      destroyOnHidden
       width={610}
       okText={Labels.Modal.Ok}
       cancelText={Labels.Modal.Cancel}
