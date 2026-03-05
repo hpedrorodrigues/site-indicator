@@ -13,7 +13,7 @@ const openExtensionTab = async (path: string, queryParams: string = '') => {
   window.close();
 };
 
-export const Tabs = <const>{
+export const Tabs = {
   openOptionsPage: (queryParams: string = '') =>
     openExtensionTab('options.html', queryParams),
-};
+} as const;

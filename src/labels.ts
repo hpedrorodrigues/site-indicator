@@ -2,7 +2,7 @@ import { MatchRule, Placement, Shape } from './persistence';
 
 export const DefaultFileName = 'site-indicator-configuration.json';
 
-export const Labels = <const>{
+export const Labels = {
   AppName: 'Site Indicator',
   Copyright: 'Site Indicator ©2023',
   RefreshPage: 'Please, refresh the page!',
@@ -93,14 +93,14 @@ export const Labels = <const>{
   Selection: {
     ModalTitle: 'Select Sites',
   },
-};
+} as const;
 
-export const Shapes: Record<Shape, string> = <const>{
+export const Shapes: Record<Shape, string> = {
   [Shape.Ribbon]: Labels.Site.Shape.Ribbon,
   [Shape.Triangle]: Labels.Site.Shape.Triangle,
-};
+} as const;
 
-export const MatchRules: Record<MatchRule, string> = <const>{
+export const MatchRules: Record<MatchRule, string> = {
   [MatchRule.Exact]: Labels.Site.MatchRule.Exact,
   [MatchRule.ContainsWords]: Labels.Site.MatchRule.ContainsWords,
   [MatchRule.StartsWith]: Labels.Site.MatchRule.StartsWith,
@@ -108,9 +108,9 @@ export const MatchRules: Record<MatchRule, string> = <const>{
   [MatchRule.RegEx]: Labels.Site.MatchRule.RegEx,
   [MatchRule.CidrV4]: Labels.Site.MatchRule.CidrV4,
   [MatchRule.CidrV6]: Labels.Site.MatchRule.CidrV6,
-};
+} as const;
 
-export const MatchRuleDescriptions: Record<MatchRule, string> = <const>{
+export const MatchRuleDescriptions: Record<MatchRule, string> = {
   [MatchRule.Exact]: Labels.Site.MatchRule.Description.Exact,
   [MatchRule.ContainsWords]: Labels.Site.MatchRule.Description.ContainsWords,
   [MatchRule.StartsWith]: Labels.Site.MatchRule.Description.StartsWith,
@@ -118,11 +118,11 @@ export const MatchRuleDescriptions: Record<MatchRule, string> = <const>{
   [MatchRule.RegEx]: Labels.Site.MatchRule.Description.RegEx,
   [MatchRule.CidrV4]: Labels.Site.MatchRule.Description.CidrV4,
   [MatchRule.CidrV6]: Labels.Site.MatchRule.Description.CidrV6,
-};
+} as const;
 
-export const Placements: Record<Placement, string> = <const>{
+export const Placements: Record<Placement, string> = {
   [Placement.TopLeft]: Labels.Site.Placement.TopLeft,
   [Placement.TopRight]: Labels.Site.Placement.TopRight,
   [Placement.BottomLeft]: Labels.Site.Placement.BottomLeft,
   [Placement.BottomRight]: Labels.Site.Placement.BottomRight,
-};
+} as const;
