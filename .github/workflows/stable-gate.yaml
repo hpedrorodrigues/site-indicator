@@ -33,7 +33,7 @@ jobs:
         with:
           files: zip/site-indicator-*.zip
       - name: Publish to Web Store
-        uses: mnao305/chrome-extension-upload@v4.0.1
+        uses: mnao305/chrome-extension-upload@v5.0.0
         if: startsWith(github.ref, 'refs/tags/')
         with:
           file-path: zip/site-indicator-*.zip
