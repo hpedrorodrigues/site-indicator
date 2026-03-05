@@ -23,5 +23,7 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run lint
+      - name: Type check
+        run: npm run typecheck
       - name: Generate artifacts (build)
         run: NODE_ENV=production npm run build
