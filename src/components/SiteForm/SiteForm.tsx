@@ -135,7 +135,7 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
           <Alert
             type="info"
             showIcon
-            message={MatchRuleDescriptions[matchRule]}
+            title={MatchRuleDescriptions[matchRule]}
           />
         </Col>
       </Row>

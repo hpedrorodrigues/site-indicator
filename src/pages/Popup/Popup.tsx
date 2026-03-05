@@ -33,7 +33,7 @@ const Popup = () => {
         {isEmpty(sites) ? (
           <NoSite onAddSite={() => Tabs.openOptionsPage('?modal=true')} />
         ) : (
-          <Space direction="vertical" size="middle" style={spaceStyles}>
+          <Space orientation="vertical" size="middle" style={spaceStyles}>
             <Row gutter={42} justify="space-around" align="middle">
               <Col flex="50%">
                 <Switch

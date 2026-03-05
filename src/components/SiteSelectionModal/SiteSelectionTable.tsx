@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, Key } from 'react';
 import { Table } from 'antd';
 import { MatchRule, Placement, Shape, Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
+import { compareText } from '../../util';
 
 const { Column } = Table;
 
@@ -38,32 +39,37 @@ const SiteSelectionTable = ({
           onSelectionChanged?.(newSelectedKeys as number[]),
       }}
     >
-      <Column
+      <Column<Site>
         title={Labels.Site.Field.Label}
         dataIndex="label"
         key="label"
         ellipsis
+        sorter={(a, b) => compareText(a.label, b.label)}
       />
-      <Column
+      <Column<Site>
         title={Labels.Site.Field.MatchRule}
         dataIndex="matchRule"
         key="matchRule"
+        sorter={(a, b) =>
+          compareText(MatchRules[a.matchRule], MatchRules[b.matchRule])
+        }
         render={(value) => MatchRules[value as MatchRule]}
       />
-      <Column
+      <Column<Site>
         title={Labels.Site.Field.Value}
         dataIndex="value"
         key="value"
         ellipsis
+        sorter={(a, b) => compareText(a.value, b.value)}
       />
-      <Column
+      <Column<Site>
         title={Labels.Site.Field.Shape}
         dataIndex="shape"
         key="shape"
         align="center"
         render={(value) => Shapes[value as Shape]}
       />
-      <Column
+      <Column<Site>
         title={Labels.Site.Field.Placement}
         dataIndex="placement"
         key="placement"
