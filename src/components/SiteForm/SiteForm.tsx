@@ -11,7 +11,7 @@ import {
   Typography,
   Alert,
 } from 'antd';
-import { NamePath } from 'rc-field-form/es/interface';
+import { NamePath } from '@rc-component/form/es/interface';
 import { Color } from '@rc-component/color-picker';
 import { MatchRule, Placement, Shape, Site } from '../../persistence';
 import {

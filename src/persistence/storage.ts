@@ -21,13 +21,13 @@ class Storage {
     const result = await browser.storage.sync.get(null);
     return Object.entries(result)
       .filter(([key, _]) => isSiteKey(key))
-      .map(([_, value]) => value);
+      .map(([_, value]) => value as Site);
   }
 
   async get(id: number): Promise<Site | undefined> {
     console.debug('Finding site', id);
     const result = await browser.storage.sync.get(computeSiteKey(id));
-    return Object.values(result).find((site) => !!site);
+    return Object.values(result).find((site) => !!site) as Site | undefined;
   }
 
   async save(site: Site): Promise<Site> {
@@ -53,7 +53,7 @@ class Storage {
       return undefined;
     }
 
-    return result[0];
+    return result[0] as Value<T>;
   }
 
   async setKey<T>(key: Key, value: Value<T>): Promise<Value<T>> {
