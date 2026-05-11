@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["ES2023", "dom"],
+    "lib": ["ES2023", "dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
