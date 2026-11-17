@@ -4,3 +4,5 @@ export { default as useLoadItem } from './useLoadItem';
 export { default as useLoadSite } from './useLoadSite';
 export { default as useSaveItem } from './useSaveItem';
 export { default as useSaveSite } from './useSaveSite';
+export { default as useSaveSites } from './useSaveSites';
+export { default as useStorageUsage } from './useStorageUsage';

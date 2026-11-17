@@ -1,5 +1,19 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Button, Col, Row, Space } from 'antd';
+import {
+  type CSSProperties,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+} from 'react';
+import {
+  Button,
+  Col,
+  Row,
+  Space,
+  Tooltip,
+  Typography,
+  notification,
+} from 'antd';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   PageLayout,
@@ -10,6 +24,7 @@ import {
   SiteSelectionModal,
   ImportButton,
   SettingSwitch,
+  SiteSearch,
   INITIAL_SITE,
 } from '../../components';
 import {
@@ -19,10 +34,22 @@ import {
   useLoadSite,
   useLoadItem,
   useSaveItem,
+  useSaveSites,
+  useStorageUsage,
 } from '../../hooks';
 import { DefaultFileName, Labels } from '../../labels';
-import { type Site, StorageKey, type Configuration } from '../../persistence';
+import {
+  type Site,
+  StorageKey,
+  SyncLimits,
+  type Configuration,
+} from '../../persistence';
+import { filterSites, type SiteSort } from '../../query';
 import { downloadFile, isEmpty } from '../../util';
+
+const spaceStyles: CSSProperties = {
+  width: '100%',
+};
 
 const Options = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -31,6 +58,7 @@ const Options = () => {
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [showImportModal, setShowImportModal] = useState<boolean>(false);
   const [importSites, setImportSites] = useState<Site[]>([]);
+  const [query, setQuery] = useState<string>('');
 
   const urlParams = useMemo(
     () => new URLSearchParams(window.location.search),
@@ -49,8 +77,37 @@ const Options = () => {
     reload: reloadSites,
     isLoading: isLoadingSites,
   } = useListSites();
-  const { mutate: saveSite } = useSaveSite({ onSuccess: reloadSites });
-  const { mutate: deleteSite } = useDeleteSite({ onSuccess: reloadSites });
+  const { data: usedBytes, reload: reloadUsage } = useStorageUsage();
+  const reloadAll = useCallback(() => {
+    reloadSites();
+    reloadUsage();
+  }, [reloadSites, reloadUsage]);
+  const notifyStorageError = useCallback((error: Error) => {
+    notification.error({
+      message: Labels.Storage.Errors.Title,
+      description: /quota/i.test(error.message)
+        ? Labels.Storage.Errors.QuotaExceeded
+        : error.message,
+    });
+  }, []);
+  const { mutate: saveSite } = useSaveSite({
+    onSuccess: reloadAll,
+    onError: notifyStorageError,
+  });
+  const { mutate: saveSites } = useSaveSites({
+    onSuccess: reloadAll,
+    onError: notifyStorageError,
+  });
+  const { mutate: deleteSite } = useDeleteSite({
+    onSuccess: reloadAll,
+    onError: notifyStorageError,
+  });
+  const { data: sort, reload: reloadSort } = useLoadItem<SiteSort>({
+    key: StorageKey.Sort,
+  });
+  const { mutate: saveSort } = useSaveItem<SiteSort>({
+    onSuccess: reloadSort,
+  });
   const { data: isEnabled, reload: reloadIsEnabled } = useLoadItem<boolean>({
     key: StorageKey.IsEnabled,
   });
@@ -88,7 +145,7 @@ const Options = () => {
         {isEmpty(sites) ? (
           <NoSite onAddSite={() => setShowModal(true)} onImport={onImport} />
         ) : (
-          <Space orientation="vertical" size="middle">
+          <Space orientation="vertical" size="middle" style={spaceStyles}>
             <Row gutter={42} justify="space-around" align="middle">
               <Col flex="50%">
                 <Space orientation="horizontal" size="middle">
@@ -131,7 +188,28 @@ const Options = () => {
                 </Space>
               </Col>
             </Row>
-            <SiteTable sites={sites} onDelete={deleteSite} onEdit={onEdit} />
+            <Row gutter={42} align="middle">
+              <Col flex="auto">
+                <SiteSearch value={query} onChange={setQuery} />
+              </Col>
+              <Col>
+                <Tooltip title={Labels.Storage.Limits}>
+                  <Typography.Text type="secondary">
+                    {Labels.Storage.Usage(
+                      sites.length,
+                      Math.round((usedBytes / SyncLimits.bytes) * 100)
+                    )}
+                  </Typography.Text>
+                </Tooltip>
+              </Col>
+            </Row>
+            <SiteTable
+              sites={filterSites(sites, query)}
+              sort={sort}
+              onSortChange={(sort) => saveSort(StorageKey.Sort, sort)}
+              onDelete={deleteSite}
+              onEdit={onEdit}
+            />
           </Space>
         )}
       </PageLayout>
@@ -159,7 +237,7 @@ const Options = () => {
         onClose={() => setShowImportModal(false)}
         sites={importSites}
         okText={Labels.Action.Import}
-        onSitesSelected={(sites) => sites.forEach(saveSite)}
+        onSitesSelected={saveSites}
       />
     </Settings>
   );

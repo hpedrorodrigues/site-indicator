@@ -1,6 +1,12 @@
-import type { CSSProperties } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { Button, Col, Row, Space, Switch, message } from 'antd';
-import { PageLayout, Settings, SiteList, NoSite } from '../../components';
+import {
+  PageLayout,
+  Settings,
+  SiteList,
+  SiteSearch,
+  NoSite,
+} from '../../components';
 import {
   useDeleteSite,
   useListSites,
@@ -11,6 +17,7 @@ import { Labels } from '../../labels';
 import { Tabs } from '../../tabs';
 import { StorageKey } from '../../persistence';
 import { isEmpty } from '../../util';
+import { filterSites, sortSites, type SiteSort } from '../../query';
 
 const spaceStyles: CSSProperties = {
   width: '100%',
@@ -26,6 +33,8 @@ const Popup = () => {
   const { mutate: saveItem } = useSaveItem<boolean>({
     onSuccess: reloadIsEnabled,
   });
+  const { data: sort } = useLoadItem<SiteSort>({ key: StorageKey.Sort });
+  const [query, setQuery] = useState<string>('');
 
   return (
     <Settings>
@@ -59,8 +68,9 @@ const Popup = () => {
                 </Button>
               </Col>
             </Row>
+            <SiteSearch value={query} onChange={setQuery} />
             <SiteList
-              sites={sites}
+              sites={filterSites(sortSites(sites, sort), query)}
               onDelete={deleteSite}
               onEdit={({ id }) => Tabs.openOptionsPage(`?id=${id}&modal=true`)}
             />

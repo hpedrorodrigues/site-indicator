@@ -10,7 +10,13 @@ export enum StorageKey {
   Site = 'site-indicator::site',
   IsEnabled = 'site-indicator::enabled',
   DnsOverHttps = 'site-indicator::dns-over-https',
+  Sort = 'site-indicator::sort',
 }
+
+export const SyncLimits = {
+  bytes: 102_400,
+  items: 512,
+} as const;
 
 const computeSiteKey = (id: number): string => `${StorageKey.Site}-${id}`;
 
@@ -40,6 +46,23 @@ class Storage {
     return site;
   }
 
+  async saveAll(sites: Site[]): Promise<Site[]> {
+    console.debug('Saving sites:', sites);
+    const now = Date.now();
+    const saved = sites.map((site, index) => ({
+      ...site,
+      id: site.id ?? now + index,
+    }));
+    await browser.storage.sync.set(
+      Object.fromEntries(saved.map((site) => [computeSiteKey(site.id), site]))
+    );
+    return saved;
+  }
+
+  async usage(): Promise<number> {
+    return browser.storage.sync.getBytesInUse(null);
+  }
+
   async delete(id: number): Promise<boolean> {
     console.debug('Deleting site:', id);
     const site = await browser.storage.sync.get(computeSiteKey(id));
@@ -59,6 +82,10 @@ class Storage {
 
   async setKey<T>(key: Key, value: Value<T>): Promise<Value<T>> {
     console.debug('Setting key', key, value);
+    if (value === undefined) {
+      await browser.storage.sync.remove(key);
+      return value;
+    }
     await browser.storage.sync.set({ [key]: value });
     return value;
   }

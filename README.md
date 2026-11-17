@@ -1,30 +1,74 @@
 # Site Indicator
 
-A tiny extension to help me learn more about AntD and how extensions work.
+Quickly identify websites by adding an indicator to differentiate them.
 
-Boilerplate used to create this project: [Chrome Extension (MV3) Boilerplate with React 18 and Webpack 5][boilerplate].
+Site Indicator draws a ribbon or a triangle on the pages that match your rules and adds a badge to the tab icon, so a production page never looks like a staging one again. Rules are yours to define: a domain, a word, a pattern or an IP range, each with its own label, colors and position.
 
-## Installing and Running
+Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/site-indicator/jpipimaonfgahpepmjnhbbafgceikfal).
+
+## Features
+
+- Match rules: Exact, Contains words, Starts with, Ends with, Regular expression, CIDR v4 and CIDR v6.
+- Indicator shapes: ribbon or triangle, placed in any corner of the page, with a custom color and label color.
+- A badge on the tab icon, so the indicator is visible even when the page is not.
+- One switch to turn all indicators on or off.
+- Import and export of the whole configuration as a JSON file.
+- Search across labels, values and match rules, and a table sort that is remembered across sessions.
+
+## Usage
+
+1. Open the extension popup and click `Preferences`.
+1. Click `Add site` and fill in the form:
+   - `Label`: the text drawn on the indicator.
+   - `Match Rule` and `Value`: what the page domain is compared against. The description below the field explains each rule.
+   - `Shape`, `Placement`, `Color` and `Label Color`: how the indicator looks.
+1. Reload the pages you already had open.
+
+Two details worth knowing:
+
+- A value pasted as a URL is reduced to its domain before it is saved, so `https://www.example.com/path` becomes `www.example.com`.
+- CIDR rules compare the address returned by the resolver, which can differ from the address the browser used. Prefer a domain rule when you can.
+
+## Privacy
+
+The extension does not collect or send any data, with one optional exception. CIDR rules need the IP address of the page, so when the page address is a hostname it must be resolved. Resolution uses DNS over HTTPS through Cloudflare or Google nameservers and sends the hostnames of the pages you visit to those providers. It is disabled by default and can be enabled with the "DNS over HTTPS" switch in Preferences.
+
+Permissions: `storage` keeps your rules in Chrome sync storage, `tabs` opens the Preferences page, and the content script runs on every page to draw the indicator.
+
+## Limits
+
+Sites are stored in [Chrome sync storage](https://developer.chrome.com/docs/extensions/reference/api/storage#property-sync), which holds at most 512 items and 100 KB in total and accepts at most 120 writes per minute. Each site takes one item and about 250 bytes, so the practical limit is around 400 sites. Preferences shows the current usage, and Chrome reports an error when a limit is reached.
+
+## Development
+
+The Node version is pinned in `.tool-versions`, so `mise install` or `asdf install` gives you the right one.
 
 1. Install dependencies with `npm ci`.
-1. Run the local web server with `npm start`.
+1. Run the development server with `npm start`. It writes a development build to `build/` and reloads the extension when a file changes.
 1. Load the extension on Brave/Chrome:
    1. Access the extensions page (e.g., `brave://extensions`, `chrome://extensions`).
    1. Check `Developer mode`.
    1. Click on `Load unpacked`.
    1. Select the `build` folder.
 
-## Privacy
-
-The extension does not collect or send any data, with one optional exception. CIDR rules need the IP address of the page, so when the page address is a hostname it must be resolved. Resolution uses DNS over HTTPS through Cloudflare or Google nameservers and sends the hostnames of the pages you visit to those providers. It is disabled by default and can be enabled with the "DNS over HTTPS" switch in Preferences.
+| Script              | What it does                                                      |
+| ------------------- | ----------------------------------------------------------------- |
+| `npm start`         | Development server with auto reload.                              |
+| `npm run build`     | Production build in `build/` and the store package in `zip/`.     |
+| `npm run lint`      | ESLint.                                                           |
+| `npm run typecheck` | TypeScript, without emitting files.                               |
+| `npm run fmt`       | Prettier, rewriting the files.                                    |
+| `npm run fmt:check` | Prettier, failing when a file is not formatted. CI runs this one. |
 
 ## Release process
 
-In order to release a new version, follow these steps:
-
 1. Update the `version` in `package.json`.
-1. Run `npm install` (this will update the lock file).
-1. Create a tag in GitHub with the pattern `v*` (use the same version declared in `package.json`).
+1. Run `npm install` to update the lock file.
+1. Create a tag with the pattern `v*`, using the version declared in `package.json`, and push it:
    - e.g., `git tag v<version> && git push origin v<version>`
 
-[boilerplate]: https://github.com/lxieyang/chrome-extension-boilerplate-react
+CI then builds the extension, creates the GitHub release with the zip attached, and uploads it to the Chrome Web Store. The `publisher-id` in the release workflow belongs to this extension, so a fork needs its own, together with the `CLIENT_ID`, `CLIENT_SECRET` and `REFRESH_TOKEN` secrets.
+
+## License
+
+[Apache License 2.0](LICENSE).
