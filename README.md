@@ -1,6 +1,6 @@
 # Site Indicator
 
-Quickly identify websites by adding an indicator to differentiate them.
+Tell production from staging at a glance: a ribbon on the page and a badge on the tab icon for the websites you choose.
 
 Site Indicator draws a ribbon or a triangle on the pages that match your rules and adds a badge to the tab icon, so a production page never looks like a staging one again. Rules are yours to define: a domain, a word, a pattern or an IP range, each with its own label, colors and position.
 

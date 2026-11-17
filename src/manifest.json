@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Site Indicator",
-  "description": "Quickly identify websites by adding an indicator to differentiate them.",
+  "description": "Tell production from staging at a glance: a ribbon on the page and a badge on the tab icon for the websites you choose.",
   "options_page": "options.html",
   "incognito": "split",
   "background": {

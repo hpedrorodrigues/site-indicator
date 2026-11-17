@@ -8,6 +8,17 @@ const layoutStyle: CSSProperties = {
   height: '100%',
 };
 
+const headerStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 10,
+};
+
+const iconStyle: CSSProperties = {
+  width: 24,
+  height: 24,
+};
+
 const contentStyle: CSSProperties = {
   margin: '16px 16px 0',
   height: '100%',
@@ -24,7 +35,10 @@ type PopupHeaderProps = PropsWithChildren & {
 
 const PageLayout = ({ title, copyright, children }: PopupHeaderProps) => (
   <Layout style={layoutStyle}>
-    <Header>{title}</Header>
+    <Header style={headerStyle}>
+      <img src="icon-48.png" alt="" style={iconStyle} />
+      {title}
+    </Header>
     <Content style={contentStyle}>{children}</Content>
     <Footer style={footerStyle}>{copyright}</Footer>
   </Layout>
