@@ -59,7 +59,7 @@
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.17",
     "ts-loader": "^9.5.4",
-    "type-fest": "^5.4.4",
+    "type-fest": "^6.0.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.2",
     "webpack": "^5.105.4",
