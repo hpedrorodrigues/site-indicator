@@ -6,5 +6,6 @@ export * from './SettingSwitch';
 export * from './SiteForm';
 export * from './SiteList';
 export * from './SiteModal';
+export * from './SiteSearch';
 export * from './SiteSelectionModal';
 export * from './SiteTable';

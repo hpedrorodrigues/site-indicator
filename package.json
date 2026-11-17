@@ -1,6 +1,6 @@
 {
   "name": "site-indicator",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Quickly identify websites by adding an indicator to differentiate them.",
   "repository": {
     "type": "git",

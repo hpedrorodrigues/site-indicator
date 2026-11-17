@@ -95,9 +95,21 @@ export const Labels = {
     SearchByLabel: 'Search by label...',
     SearchByMatchRule: 'Search by match rule...',
     SearchByValue: 'Search by value...',
+    SearchSites: 'Search sites...',
   },
   Form: {
     SectionTitle: 'Indicator',
+  },
+  Storage: {
+    Usage: (count: number, percent: number) =>
+      `${count} ${count === 1 ? 'site' : 'sites'}, ${percent}% of sync storage`,
+    Limits:
+      'Chrome syncs at most 512 items and 100 KB in total. Each site takes one item and about 250 bytes.',
+    Errors: {
+      Title: 'Storage error',
+      QuotaExceeded:
+        'Chrome sync storage is full. It holds at most 512 items and 100 KB in total.',
+    },
   },
   Configuration: {
     Errors: {
