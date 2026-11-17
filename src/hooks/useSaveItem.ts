@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { storage, Key, Value } from '../persistence';
-import { MutationHook, MutationParams } from './types';
+import { storage, type Key, type Value } from '../persistence';
+import type { MutationHook, MutationParams } from './types';
 
 const useSaveItem = <T>({
   onSuccess,

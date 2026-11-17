@@ -1,8 +1,8 @@
-import React, { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { Empty, Button, Space } from 'antd';
 import { ImportButton } from '../../components';
 import { Labels } from '../../labels';
-import { Configuration } from '../../persistence';
+import type { Configuration } from '../../persistence';
 
 const emptyStyle: CSSProperties = {
   position: 'relative',

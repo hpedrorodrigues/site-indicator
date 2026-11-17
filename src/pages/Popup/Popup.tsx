@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { Button, Col, Row, Space, Switch, message } from 'antd';
 import { PageLayout, Settings, SiteList, NoSite } from '../../components';
 import {

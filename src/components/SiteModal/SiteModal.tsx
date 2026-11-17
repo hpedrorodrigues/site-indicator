@@ -1,7 +1,6 @@
-import React from 'react';
 import { Form, Modal } from 'antd';
 import { SiteForm, submitForm, INITIAL_SITE } from '../SiteForm';
-import { Site } from '../../persistence';
+import type { Site } from '../../persistence';
 import { Labels } from '../../labels';
 
 type SiteModalProps = {

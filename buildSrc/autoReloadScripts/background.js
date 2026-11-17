@@ -1,4 +1,3 @@
-import querystring from 'querystring';
 import browser from 'webextension-polyfill';
 import Logger from './logger';
 import Events from './events';
@@ -6,7 +5,7 @@ import Events from './events';
 const logger = new Logger('AutoReload / Background');
 
 logger.info('Connecting to SSE service...');
-const port = querystring.parse(__resourceQuery.slice(1)).port;
+const port = new URLSearchParams(__resourceQuery).get('port');
 const address = `http://localhost:${port}/__server_sent_events__`;
 const eventSource = new EventSource(address);
 

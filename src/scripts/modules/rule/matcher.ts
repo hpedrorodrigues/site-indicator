@@ -1,8 +1,14 @@
-import { MatchRule } from '../../../persistence';
+import { MatchRule, type Site } from '../../../persistence';
 import { cidrMatcher } from '../cidr';
 import { dnsResolver } from '../dns';
 
-const isMatch = (domain, value, operation) => {
+type Operation = (domain: string, value: string) => boolean;
+
+const isMatch = (
+  domain: string,
+  value: string,
+  operation: Operation
+): boolean => {
   if (domain.startsWith('www.') && !value.startsWith('www.')) {
     return operation(domain, `www.${value}`);
   }
@@ -14,38 +20,44 @@ const isMatch = (domain, value, operation) => {
   return operation(domain, value);
 };
 
-const isExactMatch = (domain, value) =>
+const isExactMatch = (domain: string, value: string): boolean =>
   isMatch(domain, value, (domain, value) => domain === value);
 
-const isContainsWordsMatch = (domain, value) =>
+const isContainsWordsMatch = (domain: string, value: string): boolean =>
   value.split(',').some((word) => domain.includes(word.toLowerCase()));
 
-const isStartsWithMatch = (domain, value) =>
+const isStartsWithMatch = (domain: string, value: string): boolean =>
   isMatch(domain, value, (domain, value) => domain.startsWith(value));
 
-const isEndsWithMatch = (domain, value) =>
+const isEndsWithMatch = (domain: string, value: string): boolean =>
   isMatch(domain, value, (domain, value) => domain.endsWith(value));
 
-const isCidr4Match = async (domain, value) => {
+const isCidr4Match = async (
+  domain: string,
+  value: string
+): Promise<boolean> => {
   console.debug('[start] Checking CIDR v4 rule', domain, value);
   const ipv4 = cidrMatcher.getIPv4(domain);
-  const ips = !!ipv4 ? [ipv4] : await dnsResolver.resolve4(domain);
+  const ips = ipv4 ? [ipv4] : await dnsResolver.resolve4(domain);
   const result = ips.some((ip) => cidrMatcher.match(value, ip));
   console.debug('[end] Checking CIDR v4 rule', ips, result);
   return result;
 };
 
-const isCidr6Match = async (domain, value) => {
+const isCidr6Match = async (
+  domain: string,
+  value: string
+): Promise<boolean> => {
   console.debug('[start] Checking CIDR v6 rule', domain, value);
   const ipv6 = cidrMatcher.getIPv6(domain);
-  const ips = !!ipv6 ? [ipv6] : await dnsResolver.resolve6(domain);
+  const ips = ipv6 ? [ipv6] : await dnsResolver.resolve6(domain);
   const result = ips.some((ip) => cidrMatcher.match(value, ip));
   console.debug('[end] Checking CIDR v6 rule', ips, result);
   return result;
 };
 
 const ruleMatcher = {
-  match: async (domain, site) => {
+  match: async (domain: string, site: Site): Promise<boolean> => {
     console.debug('Checking domain', domain, site);
     switch (site.matchRule) {
       case MatchRule.Exact:

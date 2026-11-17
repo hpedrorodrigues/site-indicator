@@ -1,6 +1,5 @@
-import React from 'react';
 import { Table, Button, Tag, Popconfirm, Row, Col } from 'antd';
-import { MatchRule, Placement, Shape, Site } from '../../persistence';
+import { MatchRule, Placement, Shape, type Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 import { compareText } from '../../util';
 import { getColumnSearchProps } from '../search';

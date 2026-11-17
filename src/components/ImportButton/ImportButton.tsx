@@ -1,9 +1,8 @@
-import React from 'react';
-import { Button, notification, Upload, UploadProps } from 'antd';
+import { Button, notification, Upload, type UploadProps } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Labels } from '../../labels';
 import {
-  Configuration,
+  type Configuration,
   isConfiguration,
   isValidValue,
   normalizeValue,

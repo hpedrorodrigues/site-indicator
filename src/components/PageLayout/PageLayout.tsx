@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, CSSProperties } from 'react';
+import type { PropsWithChildren, CSSProperties } from 'react';
 import { Layout } from 'antd';
 
 const { Header, Footer, Content } = Layout;

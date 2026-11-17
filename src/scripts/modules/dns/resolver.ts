@@ -9,7 +9,13 @@ const LocalAddress = {
   IPv6: '::1',
 };
 
-const resolve = async (hostname, localAddress, resolveOverHttps) => {
+type Resolve = (hostname: string) => Promise<string[]>;
+
+const resolve = async (
+  hostname: string,
+  localAddress: string,
+  resolveOverHttps: Resolve
+): Promise<string[]> => {
   if (hostname === LocalAddress.Host) {
     return [localAddress];
   }
@@ -24,9 +30,9 @@ const resolve = async (hostname, localAddress, resolveOverHttps) => {
 };
 
 const dnsResolver = {
-  resolve4: (hostname) =>
+  resolve4: (hostname: string): Promise<string[]> =>
     resolve(hostname, LocalAddress.IPv4, (host) => resolver.resolve4(host)),
-  resolve6: (hostname) =>
+  resolve6: (hostname: string): Promise<string[]> =>
     resolve(hostname, LocalAddress.IPv6, (host) => resolver.resolve6(host)),
 };
 

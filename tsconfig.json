@@ -10,10 +10,11 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "noEmit": false,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "include": ["src"],
   "exclude": ["build", "node_modules"]

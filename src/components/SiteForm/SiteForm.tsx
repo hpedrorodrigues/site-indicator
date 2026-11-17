@@ -1,10 +1,10 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import {
   Col,
   ColorPicker,
   Form,
-  FormInstance,
-  FormRule,
+  type FormInstance,
+  type FormRule,
   Input,
   Row,
   Select,
@@ -16,7 +16,7 @@ import {
   MatchRule,
   Placement,
   Shape,
-  Site,
+  type Site,
   isValidValue,
   normalizeValue,
 } from '../../persistence';

@@ -22,6 +22,11 @@ config.plugins = (config.plugins || []).concat(
   })
 );
 
-webpack(config, function (err) {
+webpack(config, function (err, stats) {
   if (err) throw err;
+
+  console.log(stats.toString({ all: false, errors: true, warnings: true }));
+  if (stats.hasErrors()) {
+    process.exitCode = 1;
+  }
 });

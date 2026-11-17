@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from 'react';
-import { ConfigProvider, ThemeConfig } from 'antd';
+import type { PropsWithChildren } from 'react';
+import { ConfigProvider, type ThemeConfig } from 'antd';
 
 const theme: ThemeConfig = {
   token: {

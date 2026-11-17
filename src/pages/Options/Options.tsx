@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button, Col, Row, Space } from 'antd';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import {
@@ -21,7 +21,7 @@ import {
   useSaveItem,
 } from '../../hooks';
 import { DefaultFileName, Labels } from '../../labels';
-import { Site, StorageKey, Configuration } from '../../persistence';
+import { type Site, StorageKey, type Configuration } from '../../persistence';
 import { downloadFile, isEmpty } from '../../util';
 
 const Options = () => {

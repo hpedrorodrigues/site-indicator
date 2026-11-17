@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { Site } from './site';
+import type { Site } from './site';
 import { isEmpty } from '../util';
 
 export type Key = string;

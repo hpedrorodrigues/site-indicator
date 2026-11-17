@@ -1,6 +1,5 @@
-import React from 'react';
-import { Button, Input, Space, TableColumnType } from 'antd';
-import { Site } from '../persistence';
+import { Button, Input, Space, type TableColumnType } from 'antd';
+import type { Site } from '../persistence';
 import { Labels } from '../labels';
 
 export const getColumnSearchProps = (

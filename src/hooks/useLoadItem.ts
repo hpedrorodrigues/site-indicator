@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { storage, Key, Value } from '../persistence';
-import { QueryHook, QueryParams } from './types';
+import { storage, type Key, type Value } from '../persistence';
+import type { QueryHook, QueryParams } from './types';
 
 type LoadItemParams<T> = QueryParams<Value<T>> & {
   key?: Key;
