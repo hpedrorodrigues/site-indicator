@@ -2,7 +2,12 @@ import React from 'react';
 import { Button, notification, Upload, UploadProps } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Labels } from '../../labels';
-import { Configuration, isConfiguration } from '../../persistence';
+import {
+  Configuration,
+  isConfiguration,
+  isValidValue,
+  normalizeValue,
+} from '../../persistence';
 import { readFile, toJSON } from '../../util';
 
 type ImportButtonProps = {
@@ -13,11 +18,28 @@ const ImportButton = ({ onImport }: ImportButtonProps) => {
   const onFileContentLoaded = (content: string) => {
     console.debug('Importing file', content);
     const parsed = toJSON(content);
-    if (isConfiguration(parsed)) {
-      onImport(parsed);
-    } else {
+    if (!isConfiguration(parsed)) {
       notification.error({ message: Labels.Configuration.Errors.InvalidFile });
+      return;
     }
+
+    const invalidSite = parsed.data.find(
+      (site) => !isValidValue(site.matchRule, site.value)
+    );
+    if (invalidSite) {
+      notification.error({
+        message: Labels.Configuration.Errors.InvalidSite(invalidSite.label),
+      });
+      return;
+    }
+
+    onImport({
+      ...parsed,
+      data: parsed.data.map((site) => ({
+        ...site,
+        value: normalizeValue(site.matchRule, site.value),
+      })),
+    });
   };
 
   const onChange: UploadProps['onChange'] = (info) => {

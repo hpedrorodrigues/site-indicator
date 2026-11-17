@@ -41,9 +41,22 @@ export const Labels = {
         RegEx:
           '"Regular Expression" will check whether the provided patterns match the page domain.',
         CidrV4:
-          '"CIDR v4 (Experimental)" will check whether the page IPv4 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences.',
+          '"CIDR v4 (Experimental)" will check whether the page IPv4 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences, and the resolver may answer with a different address than the one the browser used. Prefer a domain rule when possible.',
         CidrV6:
-          '"CIDR v6 (Experimental)" will check whether the page IPv6 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences.',
+          '"CIDR v6 (Experimental)" will check whether the page IPv6 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences, and the resolver may answer with a different address than the one the browser used. Prefer a domain rule when possible.',
+      },
+    },
+    Errors: {
+      Value: {
+        Exact: 'Enter a domain such as example.com.',
+        ContainsWords: 'Enter at least one word. Separate words with commas.',
+        StartsWith:
+          'Enter the beginning of a domain, using letters, digits, dots and hyphens.',
+        EndsWith:
+          'Enter the end of a domain, using letters, digits, dots and hyphens.',
+        RegEx: 'Enter a valid regular expression.',
+        CidrV4: 'Enter an IPv4 range in CIDR notation, such as 10.0.0.0/8.',
+        CidrV6: 'Enter an IPv6 range in CIDR notation, such as 2001:db8::/32.',
       },
     },
     Placement: {
@@ -91,6 +104,8 @@ export const Labels = {
       InvalidFile:
         'Invalid file uploaded! This file does not have the expected format!',
       CouldNotUpload: 'An error occurred uploading the selected file!',
+      InvalidSite: (label: string) =>
+        `Site "${label}" has an invalid value for its match rule.`,
     },
   },
   Modal: {
@@ -130,6 +145,16 @@ export const MatchRuleDescriptions: Record<MatchRule, string> = {
   [MatchRule.RegEx]: Labels.Site.MatchRule.Description.RegEx,
   [MatchRule.CidrV4]: Labels.Site.MatchRule.Description.CidrV4,
   [MatchRule.CidrV6]: Labels.Site.MatchRule.Description.CidrV6,
+} as const;
+
+export const ValueErrors: Record<MatchRule, string> = {
+  [MatchRule.Exact]: Labels.Site.Errors.Value.Exact,
+  [MatchRule.ContainsWords]: Labels.Site.Errors.Value.ContainsWords,
+  [MatchRule.StartsWith]: Labels.Site.Errors.Value.StartsWith,
+  [MatchRule.EndsWith]: Labels.Site.Errors.Value.EndsWith,
+  [MatchRule.RegEx]: Labels.Site.Errors.Value.RegEx,
+  [MatchRule.CidrV4]: Labels.Site.Errors.Value.CidrV4,
+  [MatchRule.CidrV6]: Labels.Site.Errors.Value.CidrV6,
 } as const;
 
 export const Placements: Record<Placement, string> = {

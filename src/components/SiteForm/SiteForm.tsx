@@ -11,17 +11,23 @@ import {
   Typography,
   Alert,
 } from 'antd';
-import { NamePath } from '@rc-component/form/es/interface';
 import { Color } from '@rc-component/color-picker';
-import { MatchRule, Placement, Shape, Site } from '../../persistence';
+import {
+  MatchRule,
+  Placement,
+  Shape,
+  Site,
+  isValidValue,
+  normalizeValue,
+} from '../../persistence';
 import {
   Labels,
   MatchRuleDescriptions,
   MatchRules,
   Placements,
   Shapes,
+  ValueErrors,
 } from '../../labels';
-import { isEmpty } from '../../util';
 
 const { Title } = Typography;
 
@@ -35,29 +41,14 @@ export const INITIAL_SITE: Site = {
   placement: Placement.TopLeft,
 };
 
-export const submitForm = (form: FormInstance, onPostSubmit?: () => void) => {
-  if (!hasUnsetFields(form)) {
-    form.submit();
-    onPostSubmit?.();
-  } else {
-    form.validateFields();
-  }
-};
-
-const hasUnsetFields = (
-  form: FormInstance,
-  nameList: NamePath[] = []
-): boolean => {
-  const values = isEmpty(nameList)
-    ? form.getFieldsValue()
-    : form.getFieldsValue(nameList);
-  return (
-    !values ||
-    Object.values(values).some(
-      (value) => value === undefined || value === null || value === ''
-    )
-  );
-};
+export const submitForm = (form: FormInstance, onPostSubmit?: () => void) =>
+  form
+    .validateFields()
+    .then(() => {
+      form.submit();
+      onPostSubmit?.();
+    })
+    .catch(() => undefined);
 
 function createOptions<T extends string>(record: Record<T, string>) {
   return Object.keys(record).map((key) => ({
@@ -95,7 +86,13 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
   return (
     <Form<Site>
       form={form}
-      onFinish={(site) => onSubmit?.({ ...initialSite, ...site })}
+      onFinish={(site) =>
+        onSubmit?.({
+          ...initialSite,
+          ...site,
+          value: normalizeValue(site.matchRule, site.value),
+        })
+      }
       layout="vertical"
       id="siteForm"
       initialValues={initialSite}
@@ -124,7 +121,18 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
           <Form.Item
             name="value"
             label={Labels.Site.Field.Value}
-            rules={[REQUIRED_FIELD_RULE]}
+            dependencies={['matchRule']}
+            rules={[
+              REQUIRED_FIELD_RULE,
+              ({ getFieldValue }) => ({
+                validator: (_, value: string) => {
+                  const rule: MatchRule = getFieldValue('matchRule');
+                  return isValidValue(rule, value ?? '')
+                    ? Promise.resolve()
+                    : Promise.reject(new Error(ValueErrors[rule]));
+                },
+              }),
+            ]}
           >
             <Input maxLength={100} />
           </Form.Item>
