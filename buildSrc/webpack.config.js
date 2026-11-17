@@ -1,13 +1,11 @@
 const webpack = require('webpack'),
   path = require('path'),
-  fileSystem = require('fs-extra'),
+  fileSystem = require('node:fs'),
   env = require('./env'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   TerserPlugin = require('terser-webpack-plugin'),
-  { CleanWebpackPlugin } = require('clean-webpack-plugin'),
-  ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'),
-  ReactRefreshTypeScript = require('react-refresh-typescript');
+  ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
@@ -45,7 +43,7 @@ const options = {
       'src',
       'scripts',
       'contentScript',
-      'index.js'
+      'index.ts'
     ),
     ...(isDevelopment && {
       background: path.join(
@@ -53,7 +51,7 @@ const options = {
         'src',
         'scripts',
         'background',
-        'index.js'
+        'index.ts'
       ),
     }),
   },
@@ -98,28 +96,8 @@ const options = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        test: /\.(js|jsx|ts|tsx)$/,
         use: [
-          {
-            loader: require.resolve('ts-loader'),
-            options: {
-              getCustomTransformers: () => ({
-                before: [isDevelopment && ReactRefreshTypeScript()].filter(
-                  Boolean
-                ),
-              }),
-              transpileOnly: isDevelopment,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.(js|jsx)$/,
-        use: [
-          {
-            loader: 'source-map-loader',
-          },
           {
             loader: require.resolve('babel-loader'),
             options: {
@@ -142,7 +120,6 @@ const options = {
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.EnvironmentPlugin(['NODE_ENV']),
@@ -165,57 +142,9 @@ const options = {
             return Buffer.from(JSON.stringify(manifest));
           },
         },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
         {
-          from: 'src/assets/img/icon-16.png',
-          to: path.join(rootDir, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-32.png',
-          to: path.join(rootDir, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-48.png',
-          to: path.join(rootDir, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-128.png',
-          to: path.join(rootDir, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-192.png',
-          to: path.join(rootDir, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-512.png',
+          from: 'icon-*.png',
+          context: path.join(rootDir, 'src', 'assets', 'img'),
           to: path.join(rootDir, 'build'),
           force: true,
         },
@@ -236,6 +165,9 @@ const options = {
   ].filter(Boolean),
   infrastructureLogging: {
     level: 'info',
+  },
+  performance: {
+    hints: false,
   },
 };
 

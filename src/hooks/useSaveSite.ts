@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { storage, Site } from '../persistence';
-import { MutationHook, MutationParams } from './types';
+import { storage, type Site } from '../persistence';
+import type { MutationHook, MutationParams } from './types';
 
 const useSaveSite = ({
   onSuccess,

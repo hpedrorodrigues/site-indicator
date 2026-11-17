@@ -1,4 +1,3 @@
-import React from 'react';
 import { Space, Switch, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Labels } from '../../labels';

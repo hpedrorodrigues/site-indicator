@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { storage, Site } from '../persistence';
-import { QueryHook, QueryParams } from './types';
+import { storage, type Site } from '../persistence';
+import type { QueryHook, QueryParams } from './types';
 
 type LoadSiteParams = QueryParams<Site | undefined> & {
   siteId?: number;

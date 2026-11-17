@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { storage } from '../persistence';
-import { MutationHook, MutationParams } from './types';
+import type { MutationHook, MutationParams } from './types';
 
 const useDeleteSite = ({
   onSuccess,

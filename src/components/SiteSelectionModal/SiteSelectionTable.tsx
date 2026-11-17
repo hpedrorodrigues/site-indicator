@@ -1,6 +1,6 @@
-import React, { useEffect, useCallback, Key } from 'react';
+import { useEffect, useCallback, type Key } from 'react';
 import { Table } from 'antd';
-import { MatchRule, Placement, Shape, Site } from '../../persistence';
+import { MatchRule, Placement, Shape, type Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 import { compareText } from '../../util';
 import { getColumnSearchProps } from '../search';

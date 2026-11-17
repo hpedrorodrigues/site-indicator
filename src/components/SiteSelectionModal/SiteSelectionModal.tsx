@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal } from 'antd';
 import SiteSelectionTable from './SiteSelectionTable';
 import { Labels } from '../../labels';
-import { Site } from '../../persistence';
+import type { Site } from '../../persistence';
 import { isEmpty } from '../../util';
 
 type SiteSelectionModalProps = {

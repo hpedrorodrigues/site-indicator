@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { storage, Site } from '../persistence';
-import { QueryHook } from './types';
+import { storage, type Site } from '../persistence';
+import type { QueryHook } from './types';
 
 const useListSites = (): QueryHook<Site[]> => {
   const [isLoading, setLoading] = useState<boolean>(false);

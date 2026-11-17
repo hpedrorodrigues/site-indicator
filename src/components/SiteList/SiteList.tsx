@@ -1,6 +1,5 @@
-import React from 'react';
 import { Button, List, Popconfirm } from 'antd';
-import { Site } from '../../persistence';
+import type { Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 
 type SiteListProps = {
