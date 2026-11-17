@@ -1,7 +1,7 @@
 {
   "name": "site-indicator",
-  "version": "1.1.0",
-  "description": "Quickly identify websites by adding an indicator to differentiate them.",
+  "version": "1.1.1",
+  "description": "Tell production from staging at a glance: a ribbon on the page and a badge on the tab icon for the websites you choose.",
   "repository": {
     "type": "git",
     "url": "https://github.com/hpedrorodrigues/site-indicator.git"
