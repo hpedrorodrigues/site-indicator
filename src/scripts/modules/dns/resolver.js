@@ -9,37 +9,25 @@ const LocalAddress = {
   IPv6: '::1',
 };
 
+const resolve = async (hostname, localAddress, resolveOverHttps) => {
+  if (hostname === LocalAddress.Host) {
+    return [localAddress];
+  }
+
+  const isEnabled = await browser.isDnsOverHttpsEnabled();
+  if (!isEnabled) {
+    console.debug('DNS over HTTPS is disabled. Not resolving', hostname);
+    return [];
+  }
+
+  return resolveOverHttps(hostname);
+};
+
 const dnsResolver = {
-  resolve4: (hostname) => {
-    if (hostname === LocalAddress.Host) {
-      return [LocalAddress.IPv4];
-    }
-
-    try {
-      return browser.resolveAddress(hostname);
-    } catch (e) {
-      console.debug(
-        'Error resolving address v4 using browser API. Falling back to HTTP...',
-        e
-      );
-      return resolver.resolve4(hostname);
-    }
-  },
-  resolve6: (hostname) => {
-    if (hostname === LocalAddress.Host) {
-      return [LocalAddress.IPv6];
-    }
-
-    try {
-      return browser.resolveAddress(hostname);
-    } catch (e) {
-      console.debug(
-        'Error resolving address v6 using browser API. Falling back to HTTP...',
-        e
-      );
-      return resolver.resolve6(hostname);
-    }
-  },
+  resolve4: (hostname) =>
+    resolve(hostname, LocalAddress.IPv4, (host) => resolver.resolve4(host)),
+  resolve6: (hostname) =>
+    resolve(hostname, LocalAddress.IPv6, (host) => resolver.resolve6(host)),
 };
 
 export default dnsResolver;

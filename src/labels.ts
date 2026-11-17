@@ -41,9 +41,9 @@ export const Labels = {
         RegEx:
           '"Regular Expression" will check whether the provided patterns match the page domain.',
         CidrV4:
-          '"CIDR v4 (Experimental)" will check whether the page IPv4 address it\'s inside an IP range expressed in CIDR notation. Address resolution may be performed using Cloudflare or Google nameservers or native Browser API.',
+          '"CIDR v4 (Experimental)" will check whether the page IPv4 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences.',
         CidrV6:
-          '"CIDR v6 (Experimental)" will check whether the page IPv6 address it\'s inside an IP range expressed in CIDR notation. Address resolution may be performed using Cloudflare or Google nameservers or native Browser API.',
+          '"CIDR v6 (Experimental)" will check whether the page IPv6 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences.',
       },
     },
     Placement: {
@@ -51,6 +51,18 @@ export const Labels = {
       TopRight: 'Top Right',
       BottomLeft: 'Bottom Left',
       BottomRight: 'Bottom Right',
+    },
+  },
+  Settings: {
+    Indicators: {
+      Label: 'Indicators',
+      Description:
+        'Shows the configured indicators on matching pages. Refresh open pages after changing it.',
+    },
+    DnsOverHttps: {
+      Label: 'DNS over HTTPS',
+      Description:
+        'Resolves page hostnames through Cloudflare or Google nameservers when a CIDR rule needs an IP address. The hostnames of the pages you visit are sent to those providers. Disabled by default.',
     },
   },
   Action: {

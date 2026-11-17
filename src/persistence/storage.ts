@@ -9,6 +9,7 @@ export type Value<T> = T | undefined;
 export enum StorageKey {
   Site = 'site-indicator::site',
   IsEnabled = 'site-indicator::enabled',
+  DnsOverHttps = 'site-indicator::dns-over-https',
 }
 
 const computeSiteKey = (id: number): string => `${StorageKey.Site}-${id}`;

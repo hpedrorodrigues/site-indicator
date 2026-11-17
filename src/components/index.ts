@@ -2,6 +2,7 @@ export * from './ImportButton';
 export * from './NoSite';
 export * from './PageLayout';
 export * from './Settings';
+export * from './SettingSwitch';
 export * from './SiteForm';
 export * from './SiteList';
 export * from './SiteModal';
