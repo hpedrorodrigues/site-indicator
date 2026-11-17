@@ -14,6 +14,10 @@ Boilerplate used to create this project: [Chrome Extension (MV3) Boilerplate wit
    1. Click on `Load unpacked`.
    1. Select the `build` folder.
 
+## Privacy
+
+The extension does not collect or send any data, with one optional exception. CIDR rules need the IP address of the page, so when the page address is a hostname it must be resolved. Resolution uses DNS over HTTPS through Cloudflare or Google nameservers and sends the hostnames of the pages you visit to those providers. It is disabled by default and can be enabled with the "DNS over HTTPS" switch in Preferences.
+
 ## Release process
 
 In order to release a new version, follow these steps:

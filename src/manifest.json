@@ -7,7 +7,7 @@
   "background": {
     "service_worker": "background.bundle.js"
   },
-  "permissions": ["<all_urls>", "storage", "dns", "tabs"],
+  "permissions": ["storage", "tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-128.png"

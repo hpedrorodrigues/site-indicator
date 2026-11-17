@@ -40,7 +40,6 @@ const options = {
   entry: {
     options: path.join(rootDir, 'src', 'pages', 'Options', 'index.tsx'),
     popup: path.join(rootDir, 'src', 'pages', 'Popup', 'index.tsx'),
-    background: path.join(rootDir, 'src', 'scripts', 'background', 'index.js'),
     contentScript: path.join(
       rootDir,
       'src',
@@ -48,6 +47,15 @@ const options = {
       'contentScript',
       'index.js'
     ),
+    ...(isDevelopment && {
+      background: path.join(
+        rootDir,
+        'src',
+        'scripts',
+        'background',
+        'index.js'
+      ),
+    }),
   },
   custom: {
     notHotReload: ['background', 'contentScript'],
@@ -146,13 +154,15 @@ const options = {
           force: true,
           transform: function (content, path) {
             // generates the manifest file using the package.json informations
-            return Buffer.from(
-              JSON.stringify({
-                description: process.env.npm_package_description,
-                version: process.env.npm_package_version,
-                ...JSON.parse(content.toString()),
-              })
-            );
+            const manifest = {
+              description: process.env.npm_package_description,
+              version: process.env.npm_package_version,
+              ...JSON.parse(content.toString()),
+            };
+            if (!isDevelopment) {
+              delete manifest.background;
+            }
+            return Buffer.from(JSON.stringify(manifest));
           },
         },
       ],

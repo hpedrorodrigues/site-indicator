@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Button, Col, Row, Space, Switch } from 'antd';
+import { Button, Col, Row, Space } from 'antd';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   PageLayout,
@@ -9,6 +9,7 @@ import {
   NoSite,
   SiteSelectionModal,
   ImportButton,
+  SettingSwitch,
   INITIAL_SITE,
 } from '../../components';
 import {
@@ -56,6 +57,11 @@ const Options = () => {
   const { mutate: saveItem } = useSaveItem<boolean>({
     onSuccess: reloadIsEnabled,
   });
+  const { data: isDnsOverHttpsEnabled, reload: reloadDnsOverHttps } =
+    useLoadItem<boolean>({ key: StorageKey.DnsOverHttps });
+  const { mutate: saveDnsOverHttps } = useSaveItem<boolean>({
+    onSuccess: reloadDnsOverHttps,
+  });
 
   useEffect(() => {
     setShowModal(urlParams.has('modal') && urlParams.get('modal') === 'true');
@@ -85,14 +91,24 @@ const Options = () => {
           <Space orientation="vertical" size="middle">
             <Row gutter={42} justify="space-around" align="middle">
               <Col flex="50%">
-                <Switch
-                  checkedChildren={Labels.Action.Enabled}
-                  unCheckedChildren={Labels.Action.Disabled}
-                  checked={isEnabled === undefined || isEnabled}
-                  onChange={(checked) =>
-                    saveItem(StorageKey.IsEnabled, checked)
-                  }
-                />
+                <Space orientation="horizontal" size="middle">
+                  <SettingSwitch
+                    label={Labels.Settings.Indicators.Label}
+                    description={Labels.Settings.Indicators.Description}
+                    checked={isEnabled === undefined || isEnabled}
+                    onChange={(checked) =>
+                      saveItem(StorageKey.IsEnabled, checked)
+                    }
+                  />
+                  <SettingSwitch
+                    label={Labels.Settings.DnsOverHttps.Label}
+                    description={Labels.Settings.DnsOverHttps.Description}
+                    checked={isDnsOverHttpsEnabled === true}
+                    onChange={(checked) =>
+                      saveDnsOverHttps(StorageKey.DnsOverHttps, checked)
+                    }
+                  />
+                </Space>
               </Col>
               <Col
                 flex="50%"
