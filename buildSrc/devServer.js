@@ -6,11 +6,18 @@ process.env.ASSET_PATH = '/';
 const WebpackDevServer = require('webpack-dev-server'),
   webpack = require('webpack'),
   path = require('path'),
-  debounce = require('lodash').debounce,
   SSEStream = require('ssestream').default,
   config = require('./webpack.config'),
   env = require('./env'),
   Events = require('./autoReloadScripts/events');
+
+const debounce = (fn, wait) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), wait);
+  };
+};
 
 const excludeEntriesToHotReload = config.custom.notHotReload || [];
 
@@ -25,7 +32,7 @@ for (const entryName in config.entry) {
   } else if (!excludeEntriesToHotReload.includes(entryName)) {
     config.entry[entryName] = [
       'webpack/hot/dev-server',
-      `webpack-dev-server/client?hot=true&hostname=localhost&port=${env.PORT}`,
+      `webpack-dev-server/client/index.js?hot=true&hostname=localhost&port=${env.PORT}`,
     ].concat(config.entry[entryName]);
   }
 }
