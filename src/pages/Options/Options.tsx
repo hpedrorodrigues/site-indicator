@@ -163,7 +163,7 @@ const Options = () => {
 
   return (
     <Settings>
-      <PageLayout title={Labels.AppName} copyright={Labels.Copyright}>
+      <PageLayout title={Labels.AppName}>
         {isEmpty(sites) ? (
           <NoSite onAddSite={() => setShowModal(true)} onImport={onImport} />
         ) : (

@@ -13,7 +13,7 @@ const createTheme = (isDark: boolean): ThemeConfig => ({
       headerColor: '#f7fcff',
       headerBg: '#179aeb',
       headerPadding: '0 16px',
-      footerPadding: '16px 50px',
+      footerPadding: '8px 16px',
     },
   },
 });

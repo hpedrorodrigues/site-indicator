@@ -4,7 +4,6 @@ export const DefaultFileName = 'site-indicator-configuration.json';
 
 export const Labels = {
   AppName: 'Site Indicator',
-  Copyright: 'Site Indicator ©2023',
   RefreshPage: 'Please, refresh the page!',
   Site: {
     NoSite: 'No sites configured!',
@@ -122,6 +121,11 @@ export const Labels = {
   },
   Form: {
     SectionTitle: 'Indicator',
+  },
+  Footer: {
+    Version: (version: string) => `v${version}`,
+    Repository: 'GitHub',
+    ReportIssue: 'Report an issue',
   },
   Storage: {
     Usage: (count: number, percent: number) =>
