@@ -1,3 +1,4 @@
+export * from './ColorSwatch';
 export * from './ImportButton';
 export * from './NoSite';
 export * from './PageLayout';

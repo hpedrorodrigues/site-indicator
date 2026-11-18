@@ -17,6 +17,7 @@ export const Labels = {
       Placement: 'Placement',
       MatchRule: 'Match Rule',
       TitlePrefix: 'Title prefix',
+      Enabled: 'Enabled',
     },
     Shape: {
       Ribbon: 'Ribbon',
@@ -67,6 +68,7 @@ export const Labels = {
       BottomLeft: 'Bottom Left',
       BottomRight: 'Bottom Right',
     },
+    CopyLabel: (label: string) => `${label} copy`,
     TitlePrefix: {
       Placeholder: '[PROD]',
       Description:
@@ -95,6 +97,7 @@ export const Labels = {
     Delete: 'Delete',
     ConfirmDelete: 'Are you sure?',
     Edit: 'Edit',
+    Clone: 'Clone',
     Preferences: 'Preferences',
     Enabled: 'Enabled',
     Disabled: 'Disabled',

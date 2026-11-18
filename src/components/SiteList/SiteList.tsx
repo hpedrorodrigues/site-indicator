@@ -1,12 +1,14 @@
-import { Button, List, Popconfirm, Space, Tag } from 'antd';
-import type { Site } from '../../persistence';
+import { Button, List, Popconfirm, Space, Switch, Tag } from 'antd';
+import { isSiteEnabled, type Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 
 type SiteListProps = {
   sites?: Site[];
   matchingIds?: number[];
   onEdit?: (site: Site) => void;
+  onClone?: (site: Site) => void;
   onDelete?: (id: number) => void;
+  onToggle?: (site: Site, enabled: boolean) => void;
   isLoading?: boolean;
 };
 
@@ -33,7 +35,9 @@ const SiteList = ({
   matchingIds,
   isLoading,
   onEdit,
+  onClone,
   onDelete,
+  onToggle,
 }: SiteListProps) => (
   <List
     dataSource={sites}
@@ -42,19 +46,31 @@ const SiteList = ({
     renderItem={(site) => (
       <List.Item
         actions={[
-          <Button type="link" onClick={() => onEdit?.(site)}>
+          <Button type="link" size="small" onClick={() => onEdit?.(site)}>
             {Labels.Action.Edit}
+          </Button>,
+          <Button type="link" size="small" onClick={() => onClone?.(site)}>
+            {Labels.Action.Clone}
           </Button>,
           <Popconfirm
             title={Labels.Action.ConfirmDelete}
             onConfirm={() => onDelete?.(site.id!!)}
             placement="leftTop"
           >
-            <Button type="link">{Labels.Action.Delete}</Button>
+            <Button type="link" size="small">
+              {Labels.Action.Delete}
+            </Button>
           </Popconfirm>,
         ]}
       >
         <List.Item.Meta
+          avatar={
+            <Switch
+              size="small"
+              checked={isSiteEnabled(site)}
+              onChange={(checked) => onToggle?.(site, checked)}
+            />
+          }
           title={getTitle(site, matchingIds?.includes(site.id!!) ?? false)}
           description={getDescription(site)}
         />

@@ -12,6 +12,7 @@ import {
   Space,
   Tooltip,
   Typography,
+  message,
   notification,
 } from 'antd';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
@@ -26,6 +27,7 @@ import {
   SettingSwitch,
   SiteSearch,
   INITIAL_SITE,
+  cloneSite,
 } from '../../components';
 import {
   useSaveSite,
@@ -40,6 +42,7 @@ import {
 import { DefaultFileName, Labels } from '../../labels';
 import {
   type Site,
+  setSiteEnabled,
   StorageKey,
   SyncLimits,
   type Configuration,
@@ -65,11 +68,12 @@ const Options = () => {
     []
   );
 
+  const siteId = urlParams.get('id') ?? urlParams.get('clone');
   useLoadSite({
-    siteId: urlParams.has('id') ? parseInt(urlParams.get('id')!) : undefined,
+    siteId: siteId ? parseInt(siteId) : undefined,
     onSuccess: (site) => {
       if (!site) return;
-      setInitialSite(site);
+      setInitialSite(urlParams.has('clone') ? cloneSite(site) : site);
     },
   });
   const {
@@ -131,6 +135,16 @@ const Options = () => {
   const onEdit = (site: Site) => {
     setInitialSite(site);
     setShowModal(true);
+  };
+
+  const onClone = (site: Site) => {
+    setInitialSite(cloneSite(site));
+    setShowModal(true);
+  };
+
+  const onToggle = (site: Site, enabled: boolean) => {
+    saveSite(setSiteEnabled(site, enabled));
+    message.open({ type: 'info', content: Labels.RefreshPage, duration: 5 });
   };
 
   const onClose = () => {
@@ -213,6 +227,8 @@ const Options = () => {
               onSortChange={(sort) => saveSort(StorageKey.Sort, sort)}
               onDelete={deleteSite}
               onEdit={onEdit}
+              onClone={onClone}
+              onToggle={onToggle}
             />
           </Space>
         )}

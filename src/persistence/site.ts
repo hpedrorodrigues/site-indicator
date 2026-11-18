@@ -31,7 +31,15 @@ export type Site = {
   matchRule: MatchRule;
   placement: Placement;
   titlePrefix?: string;
+  enabled?: boolean;
 };
+
+export const isSiteEnabled = (site: Site): boolean => site.enabled !== false;
+
+export const setSiteEnabled = (site: Site, enabled: boolean): Site => ({
+  ...site,
+  enabled: enabled ? undefined : false,
+});
 
 const SiteProperties: Array<keyof Site> = [
   'id',
