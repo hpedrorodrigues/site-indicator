@@ -16,10 +16,12 @@ export const Labels = {
       Shape: 'Shape',
       Placement: 'Placement',
       MatchRule: 'Match Rule',
+      TitlePrefix: 'Title prefix',
     },
     Shape: {
       Ribbon: 'Ribbon',
       Triangle: 'Triangle',
+      Frame: 'Frame',
     },
     MatchRule: {
       Exact: 'Exact',
@@ -65,6 +67,11 @@ export const Labels = {
       BottomLeft: 'Bottom Left',
       BottomRight: 'Bottom Right',
     },
+    TitlePrefix: {
+      Placeholder: '[PROD]',
+      Description:
+        'Shown before the page title in the tab strip. Leave it empty to keep the title.',
+    },
   },
   Settings: {
     Indicators: {
@@ -77,6 +84,9 @@ export const Labels = {
       Description:
         'Resolves page hostnames through Cloudflare or Google nameservers when a CIDR rule needs an IP address. The hostnames of the pages you visit are sent to those providers. Disabled by default.',
     },
+  },
+  Popup: {
+    OnThisPage: 'On this page',
   },
   Action: {
     Title: 'Actions',
@@ -137,6 +147,7 @@ export const Labels = {
 export const Shapes: Record<Shape, string> = {
   [Shape.Ribbon]: Labels.Site.Shape.Ribbon,
   [Shape.Triangle]: Labels.Site.Shape.Triangle,
+  [Shape.Frame]: Labels.Site.Shape.Frame,
 } as const;
 
 export const MatchRules: Record<MatchRule, string> = {

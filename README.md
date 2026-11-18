@@ -9,11 +9,14 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 ## Features
 
 - Match rules: Exact, Contains words, Starts with, Ends with, Regular expression, CIDR v4 and CIDR v6.
-- Indicator shapes: ribbon or triangle, placed in any corner of the page, with a custom color and label color.
+- Indicator shapes: ribbon, triangle or frame, placed in any corner of the page, with a custom color and label color.
+- An optional prefix before the page title, so the tab strip shows the environment too.
 - A badge on the tab icon, so the indicator is visible even when the page is not.
 - One switch to turn all indicators on or off.
 - Import and export of the whole configuration as a JSON file.
 - Search across labels, values and match rules, and a table sort that is remembered across sessions.
+- The popup marks the rules that match the current page.
+- Light and dark theme, following the system setting.
 
 ## Usage
 
@@ -22,6 +25,7 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
    - `Label`: the text drawn on the indicator.
    - `Match Rule` and `Value`: what the page domain is compared against. The description below the field explains each rule.
    - `Shape`, `Placement`, `Color` and `Label Color`: how the indicator looks.
+   - `Title prefix`, optional: text put before the page title, for example `[PROD]`.
 1. Reload the pages you already had open.
 
 Two details worth knowing:

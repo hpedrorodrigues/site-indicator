@@ -1,7 +1,9 @@
-import type { PropsWithChildren } from 'react';
-import { ConfigProvider, type ThemeConfig } from 'antd';
+import { type PropsWithChildren, useMemo } from 'react';
+import { ConfigProvider, theme, type ThemeConfig } from 'antd';
+import { usePrefersDark } from '../../hooks';
 
-const theme: ThemeConfig = {
+const createTheme = (isDark: boolean): ThemeConfig => ({
+  algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
   token: {
     colorPrimary: '#179aeb',
   },
@@ -14,12 +16,15 @@ const theme: ThemeConfig = {
       footerPadding: '16px 50px',
     },
   },
-};
+});
 
 type SettingsProps = PropsWithChildren;
 
-const Settings = ({ children }: SettingsProps) => (
-  <ConfigProvider theme={theme}>{children}</ConfigProvider>
-);
+const Settings = ({ children }: SettingsProps) => {
+  const isDark = usePrefersDark();
+  const themeConfig = useMemo(() => createTheme(isDark), [isDark]);
+
+  return <ConfigProvider theme={themeConfig}>{children}</ConfigProvider>;
+};
 
 export default Settings;

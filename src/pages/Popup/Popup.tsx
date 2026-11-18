@@ -8,20 +8,25 @@ import {
   NoSite,
 } from '../../components';
 import {
+  useActiveTabUrl,
   useDeleteSite,
   useListSites,
   useLoadItem,
+  useMatchingSites,
   useSaveItem,
 } from '../../hooks';
 import { Labels } from '../../labels';
 import { Tabs } from '../../tabs';
 import { StorageKey } from '../../persistence';
-import { isEmpty } from '../../util';
+import { getPageDomain, isEmpty } from '../../util';
 import { filterSites, sortSites, type SiteSort } from '../../query';
 
 const spaceStyles: CSSProperties = {
   width: '100%',
 };
+
+const addSiteParams = (domain?: string): string =>
+  domain ? `?modal=true&value=${encodeURIComponent(domain)}` : '?modal=true';
 
 const Popup = () => {
   const { data: sites, reload: reloadSites } = useListSites();
@@ -34,13 +39,22 @@ const Popup = () => {
     onSuccess: reloadIsEnabled,
   });
   const { data: sort } = useLoadItem<SiteSort>({ key: StorageKey.Sort });
+  const { data: url } = useActiveTabUrl();
+  const domain = getPageDomain(url);
+  const { data: matches } = useMatchingSites({
+    sites,
+    domain,
+  });
   const [query, setQuery] = useState<string>('');
+
+  const openAddSite = (domain?: string) =>
+    Tabs.openOptionsPage(addSiteParams(domain));
 
   return (
     <Settings>
       <PageLayout title={Labels.AppName} copyright={Labels.Copyright}>
         {isEmpty(sites) ? (
-          <NoSite onAddSite={() => Tabs.openOptionsPage('?modal=true')} />
+          <NoSite onAddSite={() => openAddSite(domain)} />
         ) : (
           <Space orientation="vertical" size="middle" style={spaceStyles}>
             <Row gutter={42} justify="space-around" align="middle">
@@ -71,6 +85,7 @@ const Popup = () => {
             <SiteSearch value={query} onChange={setQuery} />
             <SiteList
               sites={filterSites(sortSites(sites, sort), query)}
+              matchingIds={matches.map((site) => site.id!!)}
               onDelete={deleteSite}
               onEdit={({ id }) => Tabs.openOptionsPage(`?id=${id}&modal=true`)}
             />

@@ -122,6 +122,10 @@ const Options = () => {
 
   useEffect(() => {
     setShowModal(urlParams.has('modal') && urlParams.get('modal') === 'true');
+    const value = urlParams.get('value');
+    if (value) {
+      setInitialSite({ ...INITIAL_SITE, value });
+    }
   }, [urlParams]);
 
   const onEdit = (site: Site) => {

@@ -1,5 +1,5 @@
 import { Form, Modal } from 'antd';
-import { SiteForm, submitForm, INITIAL_SITE } from '../SiteForm';
+import { SiteForm, submitForm } from '../SiteForm';
 import type { Site } from '../../persistence';
 import { Labels } from '../../labels';
 
@@ -15,11 +15,7 @@ const SiteModal = ({ onClose, open, onSave, initialSite }: SiteModalProps) => {
   return (
     <Modal
       centered
-      title={
-        initialSite === INITIAL_SITE
-          ? Labels.Modal.Title.Add
-          : Labels.Modal.Title.Edit
-      }
+      title={initialSite?.id ? Labels.Modal.Title.Edit : Labels.Modal.Title.Add}
       keyboard={false}
       open={open}
       mask={{ closable: false }}
