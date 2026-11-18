@@ -1,9 +1,16 @@
-import { Table, Button, Tag, Popconfirm, Row, Col } from 'antd';
+import { Table, Button, Popconfirm, Row, Col, Switch } from 'antd';
 import type { SiteSort, SortColumn } from '../../query';
-import { MatchRule, Placement, Shape, type Site } from '../../persistence';
+import {
+  isSiteEnabled,
+  MatchRule,
+  Placement,
+  Shape,
+  type Site,
+} from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 import { compareText } from '../../util';
 import { getColumnSearchProps } from '../search';
+import { ColorSwatch } from '../ColorSwatch';
 
 const { Column } = Table;
 
@@ -11,6 +18,8 @@ type SiteTableProps = {
   sites?: Site[];
   onDelete?: (id: number) => void;
   onEdit?: (site: Site) => void;
+  onClone?: (site: Site) => void;
+  onToggle?: (site: Site, enabled: boolean) => void;
   isLoading?: boolean;
   sort?: SiteSort;
   onSortChange?: (sort: SiteSort | undefined) => void;
@@ -20,6 +29,8 @@ const SiteTable = ({
   sites,
   onDelete,
   onEdit,
+  onClone,
+  onToggle,
   isLoading,
   sort,
   onSortChange,
@@ -41,6 +52,19 @@ const SiteTable = ({
         );
       }}
     >
+      <Column<Site>
+        title={Labels.Site.Field.Enabled}
+        key="enabled"
+        align="center"
+        width={100}
+        render={(_, site) => (
+          <Switch
+            size="small"
+            checked={isSiteEnabled(site)}
+            onChange={(checked) => onToggle?.(site, checked)}
+          />
+        )}
+      />
       <Column<Site>
         title={Labels.Site.Field.Label}
         dataIndex="label"
@@ -98,32 +122,30 @@ const SiteTable = ({
         dataIndex="color"
         key="color"
         align="center"
-        render={(color) => (
-          <Tag variant="filled" color={color}>
-            &nbsp;&nbsp;&nbsp;
-          </Tag>
-        )}
+        render={(color) => <ColorSwatch color={color} />}
       />
       <Column
         title={Labels.Site.Field.LabelColor}
         dataIndex="labelColor"
         key="labelColor"
         align="center"
-        render={(color) => (
-          <Tag variant="filled" color={color}>
-            &nbsp;&nbsp;&nbsp;
-          </Tag>
-        )}
+        render={(color) => <ColorSwatch color={color} />}
       />
       <Column<Site>
         title={Labels.Action.Title}
         key="action"
         align="center"
+        width={250}
         render={(_, site) => (
-          <Row>
+          <Row wrap={false}>
             <Col>
               <Button type="link" onClick={() => onEdit?.(site)}>
                 {Labels.Action.Edit}
+              </Button>
+            </Col>
+            <Col>
+              <Button type="link" onClick={() => onClone?.(site)}>
+                {Labels.Action.Clone}
               </Button>
             </Col>
             <Col>

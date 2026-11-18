@@ -1,4 +1,4 @@
-import type { Site } from '../../persistence';
+import { isSiteEnabled, type Site } from '../../persistence';
 import {
   favicon,
   indicator,
@@ -22,7 +22,7 @@ browser.getSites().then(async (sites) => {
   }
 
   const matches: Site[] = [];
-  for (const site of sites) {
+  for (const site of sites.filter(isSiteEnabled)) {
     const isMatch = await ruleMatcher.match(domain, site).catch(console.error);
     if (isMatch) {
       matches.push(site);

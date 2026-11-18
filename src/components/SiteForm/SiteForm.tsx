@@ -41,6 +41,12 @@ export const INITIAL_SITE: Site = {
   placement: Placement.TopLeft,
 };
 
+export const cloneSite = (site: Site): Site => ({
+  ...site,
+  id: undefined,
+  label: Labels.Site.CopyLabel(site.label),
+});
+
 export const submitForm = (form: FormInstance, onPostSubmit?: () => void) =>
   form
     .validateFields()

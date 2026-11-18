@@ -15,12 +15,12 @@ body {
   height: 100%;
 }
 
-.ant-switch {
+.ant-switch:not(.ant-switch-small) {
   height: 32px;
   padding: 4px;
 }
 
-.ant-switch .ant-switch-handle {
+.ant-switch:not(.ant-switch-small) .ant-switch-handle {
   top: 6px;
   bottom: -6px;
 }

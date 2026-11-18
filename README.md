@@ -12,7 +12,8 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 - Indicator shapes: ribbon, triangle or frame, placed in any corner of the page, with a custom color and label color.
 - An optional prefix before the page title, so the tab strip shows the environment too.
 - A badge on the tab icon, so the indicator is visible even when the page is not.
-- One switch to turn all indicators on or off.
+- One switch to turn all indicators on or off, and one per rule to switch it off without deleting it.
+- Clone a rule to start the next one from it.
 - Import and export of the whole configuration as a JSON file.
 - Search across labels, values and match rules, and a table sort that is remembered across sessions.
 - The popup marks the rules that match the current page.

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { Site } from '../persistence';
+import { isSiteEnabled, type Site } from '../persistence';
 import { ruleMatcher } from '../scripts/modules/rule';
 
 type MatchingSitesParams = {
@@ -25,15 +25,18 @@ const useMatchingSites = ({
       return;
     }
 
+    const candidates = sites.filter(isSiteEnabled);
     let isCurrent = true;
     setLoading(true);
 
     Promise.all(
-      sites.map((site) => ruleMatcher.match(domain, site).catch(() => false))
+      candidates.map((site) =>
+        ruleMatcher.match(domain, site).catch(() => false)
+      )
     )
       .then((results) => {
         if (isCurrent) {
-          setMatches(sites.filter((_, index) => results[index]));
+          setMatches(candidates.filter((_, index) => results[index]));
         }
       })
       .finally(() => {

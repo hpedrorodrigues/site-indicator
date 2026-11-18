@@ -14,10 +14,11 @@ import {
   useLoadItem,
   useMatchingSites,
   useSaveItem,
+  useSaveSite,
 } from '../../hooks';
 import { Labels } from '../../labels';
 import { Tabs } from '../../tabs';
-import { StorageKey } from '../../persistence';
+import { type Site, setSiteEnabled, StorageKey } from '../../persistence';
 import { getPageDomain, isEmpty } from '../../util';
 import { filterSites, sortSites, type SiteSort } from '../../query';
 
@@ -31,6 +32,7 @@ const addSiteParams = (domain?: string): string =>
 const Popup = () => {
   const { data: sites, reload: reloadSites } = useListSites();
   const { mutate: deleteSite } = useDeleteSite({ onSuccess: reloadSites });
+  const { mutate: saveSite } = useSaveSite({ onSuccess: reloadSites });
 
   const { data: isEnabled, reload: reloadIsEnabled } = useLoadItem<boolean>({
     key: StorageKey.IsEnabled,
@@ -49,6 +51,11 @@ const Popup = () => {
 
   const openAddSite = (domain?: string) =>
     Tabs.openOptionsPage(addSiteParams(domain));
+
+  const onToggle = (site: Site, enabled: boolean) => {
+    saveSite(setSiteEnabled(site, enabled));
+    message.open({ type: 'info', content: Labels.RefreshPage, duration: 5 });
+  };
 
   return (
     <Settings>
@@ -88,6 +95,10 @@ const Popup = () => {
               matchingIds={matches.map((site) => site.id!!)}
               onDelete={deleteSite}
               onEdit={({ id }) => Tabs.openOptionsPage(`?id=${id}&modal=true`)}
+              onClone={({ id }) =>
+                Tabs.openOptionsPage(`?clone=${id}&modal=true`)
+              }
+              onToggle={onToggle}
             />
           </Space>
         )}

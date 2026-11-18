@@ -15,12 +15,20 @@ body {
   height: 100%;
 }
 
-.ant-switch {
+.ant-list-item-action {
+  margin-inline-start: 16px;
+}
+
+.ant-list-item-meta-avatar {
+  align-self: center;
+}
+
+.ant-switch:not(.ant-switch-small) {
   height: 32px;
   padding: 4px;
 }
 
-.ant-switch .ant-switch-handle {
+.ant-switch:not(.ant-switch-small) .ant-switch-handle {
   top: 6px;
   bottom: -6px;
 }
