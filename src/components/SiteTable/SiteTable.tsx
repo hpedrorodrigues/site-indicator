@@ -1,4 +1,6 @@
-import { Table, Button, Popconfirm, Row, Col, Switch } from 'antd';
+import { useState } from 'react';
+import { Table, Button, Popconfirm, Row, Col, Switch, Tooltip } from 'antd';
+import { HolderOutlined } from '@ant-design/icons';
 import type { SiteSort, SortColumn } from '../../query';
 import {
   isSiteEnabled,
@@ -20,6 +22,8 @@ type SiteTableProps = {
   onEdit?: (site: Site) => void;
   onClone?: (site: Site) => void;
   onToggle?: (site: Site, enabled: boolean) => void;
+  onReorder?: (sites: Site[]) => void;
+  canReorder?: boolean;
   isLoading?: boolean;
   sort?: SiteSort;
   onSortChange?: (sort: SiteSort | undefined) => void;
@@ -31,12 +35,31 @@ const SiteTable = ({
   onEdit,
   onClone,
   onToggle,
+  onReorder,
+  canReorder = false,
   isLoading,
   sort,
   onSortChange,
 }: SiteTableProps) => {
+  const [draggedId, setDraggedId] = useState<number | undefined>();
+
   const sortOrder = (column: SortColumn) =>
     sort?.column === column ? sort.order : null;
+
+  const dropOn = (target: Site) => {
+    if (draggedId === undefined || draggedId === target.id || !sites) {
+      return;
+    }
+    const ordered = [...sites];
+    const from = ordered.findIndex((site) => site.id === draggedId);
+    const to = ordered.findIndex((site) => site.id === target.id);
+    if (from < 0 || to < 0) {
+      return;
+    }
+    const [moved] = ordered.splice(from, 1);
+    ordered.splice(to, 0, moved);
+    onReorder?.(ordered);
+  };
 
   return (
     <Table<Site>
@@ -51,7 +74,44 @@ const SiteTable = ({
             : undefined
         );
       }}
+      onRow={(site) => ({
+        onDragOver: (event) => {
+          if (canReorder && draggedId !== undefined) {
+            event.preventDefault();
+          }
+        },
+        onDrop: () => {
+          dropOn(site);
+          setDraggedId(undefined);
+        },
+      })}
     >
+      <Column<Site>
+        title={Labels.Site.Field.Priority}
+        key="priority"
+        align="center"
+        width={100}
+        render={(_, site) => (
+          <Tooltip
+            title={
+              canReorder
+                ? Labels.Site.Priority.Drag
+                : Labels.Site.Priority.Locked
+            }
+          >
+            <Button
+              type="text"
+              size="small"
+              icon={<HolderOutlined />}
+              disabled={!canReorder}
+              draggable={canReorder}
+              style={{ cursor: canReorder ? 'grab' : 'not-allowed' }}
+              onDragStart={() => setDraggedId(site.id)}
+              onDragEnd={() => setDraggedId(undefined)}
+            />
+          </Tooltip>
+        )}
+      />
       <Column<Site>
         title={Labels.Site.Field.Enabled}
         key="enabled"

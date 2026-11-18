@@ -1,4 +1,4 @@
-import { isSiteEnabled, type Site } from '../../persistence';
+import { isSiteEnabled, sortByPriority } from '../../persistence';
 import {
   favicon,
   indicator,
@@ -21,20 +21,13 @@ browser.getSites().then(async (sites) => {
     return;
   }
 
-  const matches: Site[] = [];
-  for (const site of sites.filter(isSiteEnabled)) {
+  for (const site of sortByPriority(sites.filter(isSiteEnabled))) {
     const isMatch = await ruleMatcher.match(domain, site).catch(console.error);
     if (isMatch) {
-      matches.push(site);
+      indicator.insertOnPage(site);
+      favicon.updateOnPage(site);
+      title.updateOnPage(site);
+      return;
     }
   }
-
-  const site = matches.at(-1);
-  if (!site) {
-    return;
-  }
-
-  indicator.insertOnPage(site);
-  favicon.updateOnPage(site);
-  title.updateOnPage(site);
 });

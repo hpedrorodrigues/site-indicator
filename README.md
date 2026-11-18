@@ -14,6 +14,7 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 - A badge on the tab icon, so the indicator is visible even when the page is not.
 - One switch to turn all indicators on or off, and one per rule to switch it off without deleting it.
 - Clone a rule to start the next one from it.
+- Rules are checked in the order of the table and the first match wins. Drag a rule to change its priority.
 - Import and export of the whole configuration as a JSON file.
 - Search across labels, values and match rules, and a table sort that is remembered across sessions.
 - The popup marks the rules that match the current page.

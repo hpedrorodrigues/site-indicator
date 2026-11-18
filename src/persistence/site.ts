@@ -40,6 +40,7 @@ export type Site = {
   enabled?: boolean;
   size?: Size;
   opacity?: number;
+  order?: number;
 };
 
 export const DefaultSize = Size.Medium;
@@ -57,6 +58,15 @@ export const getSize = (site: Site): Size => site.size ?? DefaultSize;
 
 export const getOpacity = (site: Site): number =>
   site.opacity ?? DefaultOpacity;
+
+const priorityOf = (site: Site): number =>
+  site.order ?? Number.MAX_SAFE_INTEGER;
+
+export const sortByPriority = (sites: Site[]): Site[] =>
+  [...sites].sort(
+    (left, right) =>
+      priorityOf(left) - priorityOf(right) || (left.id ?? 0) - (right.id ?? 0)
+  );
 
 const SiteProperties: Array<keyof Site> = [
   'id',

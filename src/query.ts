@@ -1,5 +1,5 @@
 import { MatchRules } from './labels';
-import type { Site } from './persistence';
+import { sortByPriority, type Site } from './persistence';
 import { compareText } from './util';
 
 export type SortColumn = 'label' | 'matchRule' | 'value';
@@ -11,7 +11,7 @@ const columnText = (site: Site, column: SortColumn): string =>
 
 export const sortSites = (sites: Site[], sort?: SiteSort): Site[] => {
   if (!sort) {
-    return sites;
+    return sortByPriority(sites);
   }
   const direction = sort.order === 'ascend' ? 1 : -1;
   return [...sites].sort(

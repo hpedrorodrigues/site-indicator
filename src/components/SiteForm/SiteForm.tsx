@@ -51,6 +51,7 @@ export const INITIAL_SITE: Site = {
 export const cloneSite = (site: Site): Site => ({
   ...site,
   id: undefined,
+  order: undefined,
   label: Labels.Site.CopyLabel(site.label),
 });
 

@@ -19,6 +19,7 @@ export const Labels = {
       Enabled: 'Enabled',
       Size: 'Size',
       Opacity: 'Opacity',
+      Priority: 'Priority',
     },
     Shape: {
       Ribbon: 'Ribbon',
@@ -76,6 +77,10 @@ export const Labels = {
     },
     Opacity: {
       Description: 'How visible the indicator is. 100% is fully opaque.',
+    },
+    Priority: {
+      Drag: 'Drag to change the priority. The first rule that matches a page wins.',
+      Locked: 'Clear the sort and the search to change the priority.',
     },
     CopyLabel: (label: string) => `${label} copy`,
     TitlePrefix: {
