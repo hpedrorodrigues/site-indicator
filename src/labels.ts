@@ -1,10 +1,9 @@
-import { MatchRule, Placement, Shape } from './persistence';
+import { MatchRule, Placement, Shape, Size } from './persistence';
 
 export const DefaultFileName = 'site-indicator-configuration.json';
 
 export const Labels = {
   AppName: 'Site Indicator',
-  Copyright: 'Site Indicator ©2023',
   RefreshPage: 'Please, refresh the page!',
   Site: {
     NoSite: 'No sites configured!',
@@ -18,6 +17,8 @@ export const Labels = {
       MatchRule: 'Match Rule',
       TitlePrefix: 'Title prefix',
       Enabled: 'Enabled',
+      Size: 'Size',
+      Opacity: 'Opacity',
     },
     Shape: {
       Ribbon: 'Ribbon',
@@ -68,6 +69,14 @@ export const Labels = {
       BottomLeft: 'Bottom Left',
       BottomRight: 'Bottom Right',
     },
+    Size: {
+      Small: 'Small',
+      Medium: 'Medium',
+      Large: 'Large',
+    },
+    Opacity: {
+      Description: 'How visible the indicator is. 100% is fully opaque.',
+    },
     CopyLabel: (label: string) => `${label} copy`,
     TitlePrefix: {
       Placeholder: '[PROD]',
@@ -99,8 +108,6 @@ export const Labels = {
     Edit: 'Edit',
     Clone: 'Clone',
     Preferences: 'Preferences',
-    Enabled: 'Enabled',
-    Disabled: 'Disabled',
     Import: 'Import',
     Export: 'Export',
     Search: 'Search',
@@ -112,6 +119,11 @@ export const Labels = {
   },
   Form: {
     SectionTitle: 'Indicator',
+  },
+  Footer: {
+    Version: (version: string) => `v${version}`,
+    Repository: 'GitHub',
+    ReportIssue: 'Report an issue',
   },
   Storage: {
     Usage: (count: number, percent: number) =>
@@ -151,6 +163,12 @@ export const Shapes: Record<Shape, string> = {
   [Shape.Ribbon]: Labels.Site.Shape.Ribbon,
   [Shape.Triangle]: Labels.Site.Shape.Triangle,
   [Shape.Frame]: Labels.Site.Shape.Frame,
+} as const;
+
+export const Sizes: Record<Size, string> = {
+  [Size.Small]: Labels.Site.Size.Small,
+  [Size.Medium]: Labels.Site.Size.Medium,
+  [Size.Large]: Labels.Site.Size.Large,
 } as const;
 
 export const MatchRules: Record<MatchRule, string> = {

@@ -12,7 +12,6 @@ import {
   Space,
   Tooltip,
   Typography,
-  message,
   notification,
 } from 'antd';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
@@ -40,6 +39,7 @@ import {
   useStorageUsage,
 } from '../../hooks';
 import { DefaultFileName, Labels } from '../../labels';
+import { showRefreshMessage } from '../../messages';
 import {
   type Site,
   setSiteEnabled,
@@ -69,12 +69,16 @@ const Options = () => {
   );
 
   const siteId = urlParams.get('id') ?? urlParams.get('clone');
-  useLoadSite({
-    siteId: siteId ? parseInt(siteId) : undefined,
-    onSuccess: (site) => {
+  const onSiteLoaded = useCallback(
+    (site: Site | undefined) => {
       if (!site) return;
       setInitialSite(urlParams.has('clone') ? cloneSite(site) : site);
     },
+    [urlParams]
+  );
+  useLoadSite({
+    siteId: siteId ? parseInt(siteId) : undefined,
+    onSuccess: onSiteLoaded,
   });
   const {
     data: sites,
@@ -144,7 +148,7 @@ const Options = () => {
 
   const onToggle = (site: Site, enabled: boolean) => {
     saveSite(setSiteEnabled(site, enabled));
-    message.open({ type: 'info', content: Labels.RefreshPage, duration: 5 });
+    showRefreshMessage();
   };
 
   const onClose = () => {
@@ -159,7 +163,7 @@ const Options = () => {
 
   return (
     <Settings>
-      <PageLayout title={Labels.AppName} copyright={Labels.Copyright}>
+      <PageLayout title={Labels.AppName}>
         {isEmpty(sites) ? (
           <NoSite onAddSite={() => setShowModal(true)} onImport={onImport} />
         ) : (
@@ -171,9 +175,10 @@ const Options = () => {
                     label={Labels.Settings.Indicators.Label}
                     description={Labels.Settings.Indicators.Description}
                     checked={isEnabled === undefined || isEnabled}
-                    onChange={(checked) =>
-                      saveItem(StorageKey.IsEnabled, checked)
-                    }
+                    onChange={(checked) => {
+                      saveItem(StorageKey.IsEnabled, checked);
+                      showRefreshMessage();
+                    }}
                   />
                   <SettingSwitch
                     label={Labels.Settings.DnsOverHttps.Label}

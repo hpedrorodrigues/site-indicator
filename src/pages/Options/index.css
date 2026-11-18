@@ -14,13 +14,3 @@ body {
   width: 100%;
   height: 100%;
 }
-
-.ant-switch:not(.ant-switch-small) {
-  height: 32px;
-  padding: 4px;
-}
-
-.ant-switch:not(.ant-switch-small) .ant-switch-handle {
-  top: 6px;
-  bottom: -6px;
-}

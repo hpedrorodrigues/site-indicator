@@ -4,6 +4,12 @@ export enum Shape {
   Frame = 'FRAME',
 }
 
+export enum Size {
+  Small = 'SMALL',
+  Medium = 'MEDIUM',
+  Large = 'LARGE',
+}
+
 export enum MatchRule {
   Exact = 'EXACT',
   ContainsWords = 'CONTAINS_WORDS',
@@ -32,7 +38,13 @@ export type Site = {
   placement: Placement;
   titlePrefix?: string;
   enabled?: boolean;
+  size?: Size;
+  opacity?: number;
 };
+
+export const DefaultSize = Size.Medium;
+export const DefaultOpacity = 100;
+export const MinOpacity = 20;
 
 export const isSiteEnabled = (site: Site): boolean => site.enabled !== false;
 
@@ -40,6 +52,11 @@ export const setSiteEnabled = (site: Site, enabled: boolean): Site => ({
   ...site,
   enabled: enabled ? undefined : false,
 });
+
+export const getSize = (site: Site): Size => site.size ?? DefaultSize;
+
+export const getOpacity = (site: Site): number =>
+  site.opacity ?? DefaultOpacity;
 
 const SiteProperties: Array<keyof Site> = [
   'id',

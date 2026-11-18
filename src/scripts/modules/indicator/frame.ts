@@ -1,13 +1,25 @@
-import { Placement, type Site } from '../../../persistence';
+import { getSize, Placement, Size, type Site } from '../../../persistence';
 import { hideOnHover, ZIndex } from './element';
 
-const Thickness = 6;
+type FrameConfig = {
+  thickness: number;
+  fontSize: number;
+  lineHeight: number;
+};
+
+const Configs: Record<Size, FrameConfig> = {
+  [Size.Small]: { thickness: 4, fontSize: 11, lineHeight: 18 },
+  [Size.Medium]: { thickness: 6, fontSize: 12, lineHeight: 20 },
+  [Size.Large]: { thickness: 9, fontSize: 14, lineHeight: 24 },
+};
+
 const Radius = '4px';
 
 const tabPlacementStyles = (
-  placement: Placement
+  placement: Placement,
+  thickness: number
 ): Partial<CSSStyleDeclaration> | undefined => {
-  const offset = `${Thickness}px`;
+  const offset = `${thickness}px`;
   switch (placement) {
     case Placement.TopLeft:
       return { top: offset, left: offset, borderBottomRightRadius: Radius };
@@ -24,7 +36,8 @@ const tabPlacementStyles = (
 };
 
 export const createFrame = (site: Site): HTMLDivElement | undefined => {
-  const tabPlacement = tabPlacementStyles(site.placement);
+  const config = Configs[getSize(site)];
+  const tabPlacement = tabPlacementStyles(site.placement, config.thickness);
   if (!tabPlacement) {
     return undefined;
   }
@@ -34,7 +47,7 @@ export const createFrame = (site: Site): HTMLDivElement | undefined => {
     position: 'fixed',
     inset: '0',
     pointerEvents: 'none',
-    boxShadow: `inset 0 0 0 ${Thickness}px ${site.color}`,
+    boxShadow: `inset 0 0 0 ${config.thickness}px ${site.color}`,
   };
 
   const tabStyles: Partial<CSSStyleDeclaration> = {
@@ -42,8 +55,8 @@ export const createFrame = (site: Site): HTMLDivElement | undefined => {
     pointerEvents: 'auto',
     backgroundColor: site.color,
     color: site.labelColor,
-    fontSize: '12px',
-    lineHeight: '20px',
+    fontSize: `${config.fontSize}px`,
+    lineHeight: `${config.lineHeight}px`,
     padding: '0 10px',
     ...tabPlacement,
   };

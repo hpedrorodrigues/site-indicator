@@ -1,7 +1,11 @@
 import type { PropsWithChildren, CSSProperties } from 'react';
-import { Layout } from 'antd';
+import { Divider, Layout, Space, Typography } from 'antd';
+import browser from 'webextension-polyfill';
+import { Labels } from '../../labels';
+import { Links } from '../../links';
 
 const { Header, Footer, Content } = Layout;
+const { Link, Text } = Typography;
 
 const layoutStyle: CSSProperties = {
   width: '100%',
@@ -21,27 +25,47 @@ const iconStyle: CSSProperties = {
 
 const contentStyle: CSSProperties = {
   margin: '16px 16px 0',
-  height: '100%',
+  overflowX: 'hidden',
+  overflowY: 'auto',
 };
 
 const footerStyle: CSSProperties = {
   textAlign: 'center',
 };
 
-type PopupHeaderProps = PropsWithChildren & {
-  title: string;
-  copyright: string;
+const footerTextStyle: CSSProperties = {
+  fontSize: 12,
 };
 
-const PageLayout = ({ title, copyright, children }: PopupHeaderProps) => (
-  <Layout style={layoutStyle}>
-    <Header style={headerStyle}>
-      <img src="icon-48.png" alt="" style={iconStyle} />
-      {title}
-    </Header>
-    <Content style={contentStyle}>{children}</Content>
-    <Footer style={footerStyle}>{copyright}</Footer>
-  </Layout>
-);
+type PageLayoutProps = PropsWithChildren & {
+  title: string;
+};
+
+const PageLayout = ({ title, children }: PageLayoutProps) => {
+  const { version } = browser.runtime.getManifest();
+
+  return (
+    <Layout style={layoutStyle}>
+      <Header style={headerStyle}>
+        <img src="icon-48.png" alt="" style={iconStyle} />
+        {title}
+      </Header>
+      <Content style={contentStyle}>{children}</Content>
+      <Footer style={footerStyle}>
+        <Space size="small" split={<Divider vertical />}>
+          <Text type="secondary" style={footerTextStyle}>
+            {Labels.Footer.Version(version)}
+          </Text>
+          <Link href={Links.Repository} target="_blank" style={footerTextStyle}>
+            {Labels.Footer.Repository}
+          </Link>
+          <Link href={Links.Issues} target="_blank" style={footerTextStyle}>
+            {Labels.Footer.ReportIssue}
+          </Link>
+        </Space>
+      </Footer>
+    </Layout>
+  );
+};
 
 export default PageLayout;
