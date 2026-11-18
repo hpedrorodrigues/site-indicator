@@ -9,7 +9,7 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 ## Features
 
 - Match rules: Exact, Contains words, Starts with, Ends with, Regular expression, CIDR v4 and CIDR v6.
-- Indicator shapes: ribbon, triangle or frame, placed in any corner of the page, with a custom color and label color.
+- Indicator shapes: ribbon, triangle or frame, placed in any corner of the page, with a custom color, label color, size and opacity.
 - An optional prefix before the page title, so the tab strip shows the environment too.
 - A badge on the tab icon, so the indicator is visible even when the page is not.
 - One switch to turn all indicators on or off, and one per rule to switch it off without deleting it.

@@ -8,15 +8,21 @@ import {
   Input,
   Row,
   Select,
+  Slider,
   Typography,
   Alert,
 } from 'antd';
 import { Color } from '@rc-component/color-picker';
 import {
+  DefaultOpacity,
+  DefaultSize,
   MatchRule,
+  MinOpacity,
   Placement,
   Shape,
   type Site,
+  getOpacity,
+  getSize,
   isValidValue,
   normalizeValue,
 } from '../../persistence';
@@ -26,6 +32,7 @@ import {
   MatchRules,
   Placements,
   Shapes,
+  Sizes,
   ValueErrors,
 } from '../../labels';
 
@@ -45,6 +52,12 @@ export const cloneSite = (site: Site): Site => ({
   ...site,
   id: undefined,
   label: Labels.Site.CopyLabel(site.label),
+});
+
+const toFormValues = (site: Site): Site => ({
+  ...site,
+  size: getSize(site),
+  opacity: getOpacity(site),
 });
 
 export const submitForm = (form: FormInstance, onPostSubmit?: () => void) =>
@@ -85,7 +98,7 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
 
   useEffect(() => {
     if (initialSite) {
-      form?.setFieldsValue(initialSite);
+      form?.setFieldsValue(toFormValues(initialSite));
     }
   }, [form, initialSite]);
 
@@ -98,11 +111,13 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
           ...site,
           value: normalizeValue(site.matchRule, site.value),
           titlePrefix: site.titlePrefix?.trim() || undefined,
+          size: site.size === DefaultSize ? undefined : site.size,
+          opacity: site.opacity === DefaultOpacity ? undefined : site.opacity,
         })
       }
       layout="vertical"
       id="siteForm"
-      initialValues={initialSite}
+      initialValues={initialSite && toFormValues(initialSite)}
     >
       <Form.Item
         name="label"
@@ -196,6 +211,31 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
             normalize={(color: Color) => color.toHexString()}
           >
             <ColorPicker showText style={colorPickerStyle} disabledAlpha />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={42} align="middle">
+        <Col flex="300px">
+          <Form.Item
+            name="size"
+            label={Labels.Site.Field.Size}
+            rules={[REQUIRED_FIELD_RULE]}
+          >
+            <Select options={createOptions(Sizes)} />
+          </Form.Item>
+        </Col>
+        <Col flex="300px">
+          <Form.Item
+            name="opacity"
+            label={Labels.Site.Field.Opacity}
+            tooltip={Labels.Site.Opacity.Description}
+          >
+            <Slider
+              min={MinOpacity}
+              max={100}
+              step={10}
+              tooltip={{ formatter: (value) => `${value}%` }}
+            />
           </Form.Item>
         </Col>
       </Row>

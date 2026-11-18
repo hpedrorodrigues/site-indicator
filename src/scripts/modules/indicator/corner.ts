@@ -1,12 +1,15 @@
-import { Placement, Shape, type Site } from '../../../persistence';
+import { getSize, Placement, Shape, type Site } from '../../../persistence';
 import { hideOnHover, ZIndex } from './element';
+import { SizeScales } from './size';
 
 type CornerConfig = {
   height: number;
   distanceToCorner: number;
   alignItems: string;
-  padding?: string;
+  padding?: number;
 };
+
+const FontSize = 14;
 
 const Configs: Partial<Record<Shape, CornerConfig>> = {
   [Shape.Ribbon]: { height: 40, distanceToCorner: 80, alignItems: 'center' },
@@ -14,7 +17,7 @@ const Configs: Partial<Record<Shape, CornerConfig>> = {
     height: 100,
     distanceToCorner: 20,
     alignItems: 'end',
-    padding: '16px',
+    padding: 16,
   },
 };
 
@@ -51,10 +54,12 @@ export const createCorner = (site: Site): HTMLDivElement | undefined => {
     return undefined;
   }
 
-  const verticalOffset =
-    config.distanceToCorner / Math.sqrt(2) - config.height / 2;
-  const width = config.distanceToCorner * 2 + config.height * 2;
-  const horizontalOffset = config.distanceToCorner / Math.sqrt(2) - width / 2;
+  const scale = SizeScales[getSize(site)];
+  const height = config.height * scale;
+  const distanceToCorner = config.distanceToCorner * scale;
+  const verticalOffset = distanceToCorner / Math.sqrt(2) - height / 2;
+  const width = distanceToCorner * 2 + height * 2;
+  const horizontalOffset = distanceToCorner / Math.sqrt(2) - width / 2;
 
   const styles: Partial<CSSStyleDeclaration> = {
     zIndex: ZIndex,
@@ -65,10 +70,10 @@ export const createCorner = (site: Site): HTMLDivElement | undefined => {
     position: 'fixed',
     backgroundColor: site.color,
     color: site.labelColor,
-    height: `${config.height}px`,
+    height: `${height}px`,
     width: `${width}px`,
-    fontSize: '14px',
-    ...(config.padding && { padding: config.padding }),
+    fontSize: `${FontSize * scale}px`,
+    ...(config.padding && { padding: `${config.padding * scale}px` }),
     ...placementStyles(site.placement, verticalOffset, horizontalOffset),
   };
 

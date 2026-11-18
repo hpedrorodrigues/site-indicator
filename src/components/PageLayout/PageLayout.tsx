@@ -21,7 +21,8 @@ const iconStyle: CSSProperties = {
 
 const contentStyle: CSSProperties = {
   margin: '16px 16px 0',
-  height: '100%',
+  overflowX: 'hidden',
+  overflowY: 'auto',
 };
 
 const footerStyle: CSSProperties = {

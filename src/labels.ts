@@ -1,4 +1,4 @@
-import { MatchRule, Placement, Shape } from './persistence';
+import { MatchRule, Placement, Shape, Size } from './persistence';
 
 export const DefaultFileName = 'site-indicator-configuration.json';
 
@@ -18,6 +18,8 @@ export const Labels = {
       MatchRule: 'Match Rule',
       TitlePrefix: 'Title prefix',
       Enabled: 'Enabled',
+      Size: 'Size',
+      Opacity: 'Opacity',
     },
     Shape: {
       Ribbon: 'Ribbon',
@@ -67,6 +69,14 @@ export const Labels = {
       TopRight: 'Top Right',
       BottomLeft: 'Bottom Left',
       BottomRight: 'Bottom Right',
+    },
+    Size: {
+      Small: 'Small',
+      Medium: 'Medium',
+      Large: 'Large',
+    },
+    Opacity: {
+      Description: 'How visible the indicator is. 100% is fully opaque.',
     },
     CopyLabel: (label: string) => `${label} copy`,
     TitlePrefix: {
@@ -151,6 +161,12 @@ export const Shapes: Record<Shape, string> = {
   [Shape.Ribbon]: Labels.Site.Shape.Ribbon,
   [Shape.Triangle]: Labels.Site.Shape.Triangle,
   [Shape.Frame]: Labels.Site.Shape.Frame,
+} as const;
+
+export const Sizes: Record<Size, string> = {
+  [Size.Small]: Labels.Site.Size.Small,
+  [Size.Medium]: Labels.Site.Size.Medium,
+  [Size.Large]: Labels.Site.Size.Large,
 } as const;
 
 export const MatchRules: Record<MatchRule, string> = {

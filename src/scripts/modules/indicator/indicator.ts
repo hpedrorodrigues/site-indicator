@@ -1,4 +1,4 @@
-import { Shape, type Site } from '../../../persistence';
+import { getOpacity, Shape, type Site } from '../../../persistence';
 import { createCorner } from './corner';
 import { ElementId, removeElement } from './element';
 import { createFrame } from './frame';
@@ -15,6 +15,7 @@ const insertElement = (site: Site): void => {
   }
 
   element.id = ElementId;
+  element.style.opacity = `${getOpacity(site) / 100}`;
   document.body.appendChild(element);
 };
 

@@ -69,12 +69,16 @@ const Options = () => {
   );
 
   const siteId = urlParams.get('id') ?? urlParams.get('clone');
-  useLoadSite({
-    siteId: siteId ? parseInt(siteId) : undefined,
-    onSuccess: (site) => {
+  const onSiteLoaded = useCallback(
+    (site: Site | undefined) => {
       if (!site) return;
       setInitialSite(urlParams.has('clone') ? cloneSite(site) : site);
     },
+    [urlParams]
+  );
+  useLoadSite({
+    siteId: siteId ? parseInt(siteId) : undefined,
+    onSuccess: onSiteLoaded,
   });
   const {
     data: sites,
