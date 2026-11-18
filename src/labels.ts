@@ -1,166 +1,157 @@
+import browser from 'webextension-polyfill';
 import { MatchRule, Placement, Shape, Size } from './persistence';
 
 export const DefaultFileName = 'site-indicator-configuration.json';
 
+const message = (key: string, substitutions?: string | string[]): string =>
+  browser.i18n.getMessage(key, substitutions);
+
 export const Labels = {
   AppName: 'Site Indicator',
-  RefreshPage: 'Please, refresh the page!',
+  RefreshPage: message('refresh_page'),
   Site: {
-    NoSite: 'No sites configured!',
+    NoSite: message('site_no_site'),
     Field: {
-      Label: 'Label',
-      Value: 'Value',
-      Color: 'Color',
-      LabelColor: 'Label Color',
-      Shape: 'Shape',
-      Placement: 'Placement',
-      MatchRule: 'Match Rule',
-      TitlePrefix: 'Title prefix',
-      Enabled: 'Enabled',
-      Size: 'Size',
-      Opacity: 'Opacity',
-      Priority: 'Priority',
+      Label: message('site_field_label'),
+      Value: message('site_field_value'),
+      Color: message('site_field_color'),
+      LabelColor: message('site_field_label_color'),
+      Shape: message('site_field_shape'),
+      Placement: message('site_field_placement'),
+      MatchRule: message('site_field_match_rule'),
+      TitlePrefix: message('site_field_title_prefix'),
+      Enabled: message('site_field_enabled'),
+      Size: message('site_field_size'),
+      Opacity: message('site_field_opacity'),
+      Priority: message('site_field_priority'),
     },
     Shape: {
-      Ribbon: 'Ribbon',
-      Triangle: 'Triangle',
-      Frame: 'Frame',
+      Ribbon: message('site_shape_ribbon'),
+      Triangle: message('site_shape_triangle'),
+      Frame: message('site_shape_frame'),
     },
     MatchRule: {
-      Exact: 'Exact',
-      ContainsWords: 'Contains words',
-      StartsWith: 'Starts with',
-      EndsWith: 'Ends with',
-      RegEx: 'Regular Expression',
-      CidrV4: 'CIDR v4 (Experimental)',
-      CidrV6: 'CIDR v6 (Experimental)',
+      Exact: message('site_match_rule_exact'),
+      ContainsWords: message('site_match_rule_contains_words'),
+      StartsWith: message('site_match_rule_starts_with'),
+      EndsWith: message('site_match_rule_ends_with'),
+      RegEx: message('site_match_rule_regex'),
+      CidrV4: message('site_match_rule_cidr_v4'),
+      CidrV6: message('site_match_rule_cidr_v6'),
       Description: {
-        Exact:
-          '"Exact" will perform equality to match the page domain (ignoring "www.").',
-        ContainsWords:
-          '"Contains words" will check whether the page domain contains any of the given words. Please, provide words separated by comma.',
-        StartsWith:
-          '"Starts with" will check whether the page domain begins with the given value (ignoring "www.").',
-        EndsWith:
-          '"Ends with" will check whether the page domain ends with the given value (ignoring "www.").',
-        RegEx:
-          '"Regular Expression" will check whether the provided patterns match the page domain.',
-        CidrV4:
-          '"CIDR v4 (Experimental)" will check whether the page IPv4 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences, and the resolver may answer with a different address than the one the browser used. Prefer a domain rule when possible.',
-        CidrV6:
-          '"CIDR v6 (Experimental)" will check whether the page IPv6 address it\'s inside an IP range expressed in CIDR notation. Hostnames are resolved only when "DNS over HTTPS" is enabled in Preferences, and the resolver may answer with a different address than the one the browser used. Prefer a domain rule when possible.',
+        Exact: message('site_match_rule_description_exact'),
+        ContainsWords: message('site_match_rule_description_contains_words'),
+        StartsWith: message('site_match_rule_description_starts_with'),
+        EndsWith: message('site_match_rule_description_ends_with'),
+        RegEx: message('site_match_rule_description_regex'),
+        CidrV4: message('site_match_rule_description_cidr_v4'),
+        CidrV6: message('site_match_rule_description_cidr_v6'),
       },
     },
     Errors: {
       Value: {
-        Exact: 'Enter a domain such as example.com.',
-        ContainsWords: 'Enter at least one word. Separate words with commas.',
-        StartsWith:
-          'Enter the beginning of a domain, using letters, digits, dots and hyphens.',
-        EndsWith:
-          'Enter the end of a domain, using letters, digits, dots and hyphens.',
-        RegEx: 'Enter a valid regular expression.',
-        CidrV4: 'Enter an IPv4 range in CIDR notation, such as 10.0.0.0/8.',
-        CidrV6: 'Enter an IPv6 range in CIDR notation, such as 2001:db8::/32.',
+        Exact: message('site_errors_value_exact'),
+        ContainsWords: message('site_errors_value_contains_words'),
+        StartsWith: message('site_errors_value_starts_with'),
+        EndsWith: message('site_errors_value_ends_with'),
+        RegEx: message('site_errors_value_regex'),
+        CidrV4: message('site_errors_value_cidr_v4'),
+        CidrV6: message('site_errors_value_cidr_v6'),
       },
     },
     Placement: {
-      TopLeft: 'Top Left',
-      TopRight: 'Top Right',
-      BottomLeft: 'Bottom Left',
-      BottomRight: 'Bottom Right',
+      TopLeft: message('site_placement_top_left'),
+      TopRight: message('site_placement_top_right'),
+      BottomLeft: message('site_placement_bottom_left'),
+      BottomRight: message('site_placement_bottom_right'),
     },
     Size: {
-      Small: 'Small',
-      Medium: 'Medium',
-      Large: 'Large',
+      Small: message('site_size_small'),
+      Medium: message('site_size_medium'),
+      Large: message('site_size_large'),
     },
     Opacity: {
-      Description: 'How visible the indicator is. 100% is fully opaque.',
+      Description: message('site_opacity_description'),
     },
     Priority: {
-      Drag: 'Drag to change the priority. The first rule that matches a page wins.',
-      Locked: 'Clear the sort and the search to change the priority.',
+      Drag: message('site_priority_drag'),
+      Locked: message('site_priority_locked'),
     },
-    CopyLabel: (label: string) => `${label} copy`,
+    CopyLabel: (label: string) => message('site_copy_label', [label]),
     TitlePrefix: {
-      Placeholder: '[PROD]',
-      Description:
-        'Shown before the page title in the tab strip. Leave it empty to keep the title.',
+      Placeholder: message('site_title_prefix_placeholder'),
+      Description: message('site_title_prefix_description'),
     },
   },
   Settings: {
     Indicators: {
-      Label: 'Indicators',
-      Description:
-        'Shows the configured indicators on matching pages. Refresh open pages after changing it.',
+      Label: message('settings_indicators_label'),
+      Description: message('settings_indicators_description'),
     },
     DnsOverHttps: {
-      Label: 'DNS over HTTPS',
-      Description:
-        'Resolves page hostnames through Cloudflare or Google nameservers when a CIDR rule needs an IP address. The hostnames of the pages you visit are sent to those providers. Disabled by default.',
+      Label: message('settings_dns_over_https_label'),
+      Description: message('settings_dns_over_https_description'),
     },
   },
   Popup: {
-    OnThisPage: 'On this page',
+    OnThisPage: message('popup_on_this_page'),
   },
   Action: {
-    Title: 'Actions',
-    Add: 'Add site',
-    AddNow: 'Create now',
-    Delete: 'Delete',
-    ConfirmDelete: 'Are you sure?',
-    Edit: 'Edit',
-    Clone: 'Clone',
-    Preferences: 'Preferences',
-    Import: 'Import',
-    Export: 'Export',
-    Search: 'Search',
-    Reset: 'Reset',
-    SearchByLabel: 'Search by label...',
-    SearchByMatchRule: 'Search by match rule...',
-    SearchByValue: 'Search by value...',
-    SearchSites: 'Search sites...',
+    Title: message('action_title'),
+    Add: message('action_add'),
+    AddNow: message('action_add_now'),
+    Delete: message('action_delete'),
+    ConfirmDelete: message('action_confirm_delete'),
+    Edit: message('action_edit'),
+    Clone: message('action_clone'),
+    Preferences: message('action_preferences'),
+    Import: message('action_import'),
+    Export: message('action_export'),
+    Search: message('action_search'),
+    Reset: message('action_reset'),
+    SearchByLabel: message('action_search_by_label'),
+    SearchByMatchRule: message('action_search_by_match_rule'),
+    SearchByValue: message('action_search_by_value'),
+    SearchSites: message('action_search_sites'),
   },
   Form: {
-    SectionTitle: 'Indicator',
+    SectionTitle: message('form_section_title'),
   },
   Footer: {
-    Version: (version: string) => `v${version}`,
-    Repository: 'GitHub',
-    ReportIssue: 'Report an issue',
+    Version: (version: string) => message('footer_version', [version]),
+    Repository: message('footer_repository'),
+    ReportIssue: message('footer_report_issue'),
   },
   Storage: {
     Usage: (count: number, percent: number) =>
-      `${count} ${count === 1 ? 'site' : 'sites'}, ${percent}% of sync storage`,
-    Limits:
-      'Chrome syncs at most 512 items and 100 KB in total. Each site takes one item and about 250 bytes.',
+      count === 1
+        ? message('storage_usage_one', [String(percent)])
+        : message('storage_usage_other', [String(count), String(percent)]),
+    Limits: message('storage_limits'),
     Errors: {
-      Title: 'Storage error',
-      QuotaExceeded:
-        'Chrome sync storage is full. It holds at most 512 items and 100 KB in total.',
+      Title: message('storage_errors_title'),
+      QuotaExceeded: message('storage_errors_quota_exceeded'),
     },
   },
   Configuration: {
     Errors: {
-      InvalidFile:
-        'Invalid file uploaded! This file does not have the expected format!',
-      CouldNotUpload: 'An error occurred uploading the selected file!',
+      InvalidFile: message('configuration_errors_invalid_file'),
+      CouldNotUpload: message('configuration_errors_could_not_upload'),
       InvalidSite: (label: string) =>
-        `Site "${label}" has an invalid value for its match rule.`,
+        message('configuration_errors_invalid_site', [label]),
     },
   },
   Modal: {
     Title: {
-      Add: 'Add new site',
-      Edit: 'Edit site',
+      Add: message('modal_title_add'),
+      Edit: message('modal_title_edit'),
     },
-    Ok: 'Ok',
-    Save: 'Save',
-    Cancel: 'Cancel',
+    Ok: message('modal_ok'),
+    Save: message('modal_save'),
+    Cancel: message('modal_cancel'),
   },
   Selection: {
-    ModalTitle: 'Select Sites',
+    ModalTitle: message('selection_modal_title'),
   },
 } as const;
 

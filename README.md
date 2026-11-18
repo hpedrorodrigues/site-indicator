@@ -19,6 +19,7 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 - Search across labels, values and match rules, and a table sort that is remembered across sessions.
 - The popup marks the rules that match the current page.
 - Light and dark theme, following the system setting.
+- English and Brazilian Portuguese, following the browser language.
 
 ## Usage
 
@@ -57,14 +58,19 @@ The Node version is pinned in `.tool-versions`, so `mise install` or `asdf insta
    1. Click on `Load unpacked`.
    1. Select the `build` folder.
 
-| Script              | What it does                                                      |
-| ------------------- | ----------------------------------------------------------------- |
-| `npm start`         | Development server with auto reload.                              |
-| `npm run build`     | Production build in `build/` and the store package in `zip/`.     |
-| `npm run lint`      | ESLint.                                                           |
-| `npm run typecheck` | TypeScript, without emitting files.                               |
-| `npm run fmt`       | Prettier, rewriting the files.                                    |
-| `npm run fmt:check` | Prettier, failing when a file is not formatted. CI runs this one. |
+| Script                  | What it does                                                         |
+| ----------------------- | -------------------------------------------------------------------- |
+| `npm start`             | Development server with auto reload.                                 |
+| `npm run build`         | Production build in `build/` and the store package in `zip/`.        |
+| `npm run lint`          | ESLint.                                                              |
+| `npm run typecheck`     | TypeScript, without emitting files.                                  |
+| `npm run check:locales` | Checks that every text key exists in every locale. CI runs this one. |
+| `npm run fmt`           | Prettier, rewriting the files.                                       |
+| `npm run fmt:check`     | Prettier, failing when a file is not formatted. CI runs this one.    |
+
+### Translations
+
+The texts of the pages live in `src/_locales`, one folder per locale with a `messages.json` file, read through the [Chrome i18n API](https://developer.chrome.com/docs/extensions/reference/api/i18n). English is the default locale and the source of truth. To add a language, copy the English file to a new folder named after the locale, translate the `message` values, and map the locale to an [Ant Design locale](https://ant.design/docs/react/i18n) in `src/locale.ts` for the texts that come from the components. `npm run check:locales` fails when a key is missing from a locale, when a placeholder does not match the English one, or when a locale has no Ant Design mapping. To see the pages in another language, start Chrome with `--lang=pt-BR` on Linux and Windows. macOS ignores the flag, so set the language of Chrome with `defaults write com.google.Chrome AppleLanguages '("pt-BR")'` and remove it later with `defaults delete com.google.Chrome AppleLanguages`.
 
 ## Release process
 

@@ -1,0 +1,158 @@
+{
+  "refresh_page": { "message": "Atualize a página!" },
+  "site_no_site": { "message": "Nenhum site configurado!" },
+  "site_field_label": { "message": "Rótulo" },
+  "site_field_value": { "message": "Valor" },
+  "site_field_color": { "message": "Cor" },
+  "site_field_label_color": { "message": "Cor do rótulo" },
+  "site_field_shape": { "message": "Forma" },
+  "site_field_placement": { "message": "Posição" },
+  "site_field_match_rule": { "message": "Regra" },
+  "site_field_title_prefix": { "message": "Prefixo do título" },
+  "site_field_enabled": { "message": "Ativa" },
+  "site_field_size": { "message": "Tamanho" },
+  "site_field_opacity": { "message": "Opacidade" },
+  "site_field_priority": { "message": "Prioridade" },
+  "site_shape_ribbon": { "message": "Faixa" },
+  "site_shape_triangle": { "message": "Triângulo" },
+  "site_shape_frame": { "message": "Moldura" },
+  "site_match_rule_exact": { "message": "Exato" },
+  "site_match_rule_contains_words": { "message": "Contém palavras" },
+  "site_match_rule_starts_with": { "message": "Começa com" },
+  "site_match_rule_ends_with": { "message": "Termina com" },
+  "site_match_rule_regex": { "message": "Expressão regular" },
+  "site_match_rule_cidr_v4": { "message": "CIDR v4 (Experimental)" },
+  "site_match_rule_cidr_v6": { "message": "CIDR v6 (Experimental)" },
+  "site_match_rule_description_exact": {
+    "message": "\"Exato\" compara o domínio da página por igualdade (ignorando \"www.\")."
+  },
+  "site_match_rule_description_contains_words": {
+    "message": "\"Contém palavras\" verifica se o domínio da página contém alguma das palavras informadas. Separe as palavras com vírgula."
+  },
+  "site_match_rule_description_starts_with": {
+    "message": "\"Começa com\" verifica se o domínio da página começa com o valor informado (ignorando \"www.\")."
+  },
+  "site_match_rule_description_ends_with": {
+    "message": "\"Termina com\" verifica se o domínio da página termina com o valor informado (ignorando \"www.\")."
+  },
+  "site_match_rule_description_regex": {
+    "message": "\"Expressão regular\" verifica se os padrões informados correspondem ao domínio da página."
+  },
+  "site_match_rule_description_cidr_v4": {
+    "message": "\"CIDR v4 (Experimental)\" verifica se o endereço IPv4 da página está dentro de um intervalo de IPs em notação CIDR. Os nomes de host só são resolvidos quando \"DNS sobre HTTPS\" está ativo nas Preferências, e o resolvedor pode responder com um endereço diferente do usado pelo navegador. Prefira uma regra de domínio quando possível."
+  },
+  "site_match_rule_description_cidr_v6": {
+    "message": "\"CIDR v6 (Experimental)\" verifica se o endereço IPv6 da página está dentro de um intervalo de IPs em notação CIDR. Os nomes de host só são resolvidos quando \"DNS sobre HTTPS\" está ativo nas Preferências, e o resolvedor pode responder com um endereço diferente do usado pelo navegador. Prefira uma regra de domínio quando possível."
+  },
+  "site_errors_value_exact": {
+    "message": "Informe um domínio como example.com."
+  },
+  "site_errors_value_contains_words": {
+    "message": "Informe pelo menos uma palavra. Separe as palavras com vírgulas."
+  },
+  "site_errors_value_starts_with": {
+    "message": "Informe o início de um domínio, com letras, dígitos, pontos e hífens."
+  },
+  "site_errors_value_ends_with": {
+    "message": "Informe o fim de um domínio, com letras, dígitos, pontos e hífens."
+  },
+  "site_errors_value_regex": {
+    "message": "Informe uma expressão regular válida."
+  },
+  "site_errors_value_cidr_v4": {
+    "message": "Informe um intervalo IPv4 em notação CIDR, como 10.0.0.0/8."
+  },
+  "site_errors_value_cidr_v6": {
+    "message": "Informe um intervalo IPv6 em notação CIDR, como 2001:db8::/32."
+  },
+  "site_placement_top_left": { "message": "Superior esquerdo" },
+  "site_placement_top_right": { "message": "Superior direito" },
+  "site_placement_bottom_left": { "message": "Inferior esquerdo" },
+  "site_placement_bottom_right": { "message": "Inferior direito" },
+  "site_size_small": { "message": "Pequeno" },
+  "site_size_medium": { "message": "Médio" },
+  "site_size_large": { "message": "Grande" },
+  "site_opacity_description": {
+    "message": "Quão visível é o indicador. 100% é totalmente opaco."
+  },
+  "site_priority_drag": {
+    "message": "Arraste para mudar a prioridade. A primeira regra que corresponde a uma página vence."
+  },
+  "site_priority_locked": {
+    "message": "Limpe a ordenação e a busca para mudar a prioridade."
+  },
+  "site_copy_label": {
+    "message": "cópia de $LABEL$",
+    "placeholders": { "label": { "content": "$1", "example": "Produção" } }
+  },
+  "site_title_prefix_placeholder": { "message": "[PROD]" },
+  "site_title_prefix_description": {
+    "message": "Mostrado antes do título da página na barra de abas. Deixe vazio para manter o título."
+  },
+  "settings_indicators_label": { "message": "Indicadores" },
+  "settings_indicators_description": {
+    "message": "Mostra os indicadores configurados nas páginas correspondentes. Atualize as páginas abertas depois de mudar."
+  },
+  "settings_dns_over_https_label": { "message": "DNS sobre HTTPS" },
+  "settings_dns_over_https_description": {
+    "message": "Resolve os nomes de host das páginas pelos servidores da Cloudflare ou do Google quando uma regra CIDR precisa de um endereço IP. Os nomes de host das páginas que você visita são enviados a esses provedores. Desativado por padrão."
+  },
+  "popup_on_this_page": { "message": "Nesta página" },
+  "action_title": { "message": "Ações" },
+  "action_add": { "message": "Adicionar site" },
+  "action_add_now": { "message": "Criar agora" },
+  "action_delete": { "message": "Excluir" },
+  "action_confirm_delete": { "message": "Tem certeza?" },
+  "action_edit": { "message": "Editar" },
+  "action_clone": { "message": "Clonar" },
+  "action_preferences": { "message": "Preferências" },
+  "action_import": { "message": "Importar" },
+  "action_export": { "message": "Exportar" },
+  "action_search": { "message": "Buscar" },
+  "action_reset": { "message": "Limpar" },
+  "action_search_by_label": { "message": "Buscar por rótulo..." },
+  "action_search_by_match_rule": { "message": "Buscar por regra..." },
+  "action_search_by_value": { "message": "Buscar por valor..." },
+  "action_search_sites": { "message": "Buscar sites..." },
+  "form_section_title": { "message": "Indicador" },
+  "footer_version": {
+    "message": "v$VERSION$",
+    "placeholders": { "version": { "content": "$1", "example": "1.2.0" } }
+  },
+  "footer_repository": { "message": "GitHub" },
+  "footer_report_issue": { "message": "Relatar um problema" },
+  "storage_usage_one": {
+    "message": "1 site, $PERCENT$% do armazenamento sincronizado",
+    "placeholders": { "percent": { "content": "$1", "example": "3" } }
+  },
+  "storage_usage_other": {
+    "message": "$COUNT$ sites, $PERCENT$% do armazenamento sincronizado",
+    "placeholders": {
+      "count": { "content": "$1", "example": "12" },
+      "percent": { "content": "$2", "example": "3" }
+    }
+  },
+  "storage_limits": {
+    "message": "O Chrome sincroniza no máximo 512 itens e 100 KB no total. Cada site ocupa um item e cerca de 250 bytes."
+  },
+  "storage_errors_title": { "message": "Erro de armazenamento" },
+  "storage_errors_quota_exceeded": {
+    "message": "O armazenamento sincronizado do Chrome está cheio. Ele guarda no máximo 512 itens e 100 KB no total."
+  },
+  "configuration_errors_invalid_file": {
+    "message": "Arquivo inválido! Este arquivo não tem o formato esperado!"
+  },
+  "configuration_errors_could_not_upload": {
+    "message": "Ocorreu um erro ao enviar o arquivo selecionado!"
+  },
+  "configuration_errors_invalid_site": {
+    "message": "O site \"$LABEL$\" tem um valor inválido para a regra de correspondência.",
+    "placeholders": { "label": { "content": "$1", "example": "Produção" } }
+  },
+  "modal_title_add": { "message": "Adicionar site" },
+  "modal_title_edit": { "message": "Editar site" },
+  "modal_ok": { "message": "Ok" },
+  "modal_save": { "message": "Salvar" },
+  "modal_cancel": { "message": "Cancelar" },
+  "selection_modal_title": { "message": "Selecionar sites" }
+}

@@ -1,6 +1,7 @@
 import { type PropsWithChildren, useMemo } from 'react';
 import { ConfigProvider, theme, type ThemeConfig } from 'antd';
 import { usePrefersDark } from '../../hooks';
+import { getLocale } from '../../locale';
 
 const createTheme = (isDark: boolean): ThemeConfig => ({
   algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
@@ -24,7 +25,11 @@ const Settings = ({ children }: SettingsProps) => {
   const isDark = usePrefersDark();
   const themeConfig = useMemo(() => createTheme(isDark), [isDark]);
 
-  return <ConfigProvider theme={themeConfig}>{children}</ConfigProvider>;
+  return (
+    <ConfigProvider theme={themeConfig} locale={getLocale()}>
+      {children}
+    </ConfigProvider>
+  );
 };
 
 export default Settings;

@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Table, Button, Popconfirm, Row, Col, Switch, Tooltip } from 'antd';
+import {
+  Table,
+  Button,
+  Popconfirm,
+  Row,
+  Col,
+  Switch,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { HolderOutlined } from '@ant-design/icons';
 import type { SiteSort, SortColumn } from '../../query';
 import {
@@ -15,6 +24,13 @@ import { getColumnSearchProps } from '../search';
 import { ColorSwatch } from '../ColorSwatch';
 
 const { Column } = Table;
+const { Text } = Typography;
+
+const renderText = (text: string) => (
+  <Text ellipsis={{ tooltip: text }} style={{ maxWidth: 240 }}>
+    {text}
+  </Text>
+);
 
 type SiteTableProps = {
   sites?: Site[];
@@ -66,6 +82,7 @@ const SiteTable = ({
       dataSource={sites}
       rowKey={(site) => `${site.id}`}
       loading={isLoading}
+      scroll={{ x: 'max-content' }}
       onChange={(_, __, sorter) => {
         const current = Array.isArray(sorter) ? sorter[0] : sorter;
         onSortChange?.(
@@ -116,7 +133,7 @@ const SiteTable = ({
         title={Labels.Site.Field.Enabled}
         key="enabled"
         align="center"
-        width={100}
+        width={80}
         render={(_, site) => (
           <Switch
             size="small"
@@ -129,7 +146,7 @@ const SiteTable = ({
         title={Labels.Site.Field.Label}
         dataIndex="label"
         key="label"
-        ellipsis
+        render={renderText}
         sortOrder={sortOrder('label')}
         sorter={(a, b) => compareText(a.label, b.label)}
         {...getColumnSearchProps(
@@ -155,7 +172,7 @@ const SiteTable = ({
         title={Labels.Site.Field.Value}
         dataIndex="value"
         key="value"
-        ellipsis
+        render={renderText}
         sortOrder={sortOrder('value')}
         sorter={(a, b) => compareText(a.value, b.value)}
         {...getColumnSearchProps(
