@@ -9,6 +9,7 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 ## Features
 
 - Match rules: Exact, Contains words, Starts with, Ends with, Regular expression, CIDR v4 and CIDR v6.
+- Each rule compares the domain, the domain and port, or the domain, port and path, so `localhost:3000` and `localhost:8080` can get different indicators.
 - Indicator shapes: ribbon, triangle or frame, placed in any corner of the page, with a custom color, label color, size and opacity.
 - An optional prefix before the page title, so the tab strip shows the environment too.
 - A badge on the tab icon, so the indicator is visible even when the page is not.
@@ -26,14 +27,15 @@ Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/
 1. Open the extension popup and click `Preferences`.
 1. Click `Add site` and fill in the form:
    - `Label`: the text drawn on the indicator.
-   - `Match Rule` and `Value`: what the page domain is compared against. The description below the field explains each rule.
+   - `Match Rule` and `Value`: what the page address is compared against. The description below the field explains each rule.
+   - `Compare`: the part of the address the rule looks at: the domain, the domain and port, or the domain, port and path. The query string is never compared.
    - `Shape`, `Placement`, `Color` and `Label Color`: how the indicator looks.
    - `Title prefix`, optional: text put before the page title, for example `[PROD]`.
 1. Reload the pages you already had open.
 
 Two details worth knowing:
 
-- A value pasted as a URL is reduced to its domain before it is saved, so `https://www.example.com/path` becomes `www.example.com`.
+- A value pasted as a URL is reduced to the part the rule compares before it is saved, so `https://www.example.com/path` becomes `www.example.com` for a domain rule and `www.example.com/path` for a path rule.
 - CIDR rules compare the address returned by the resolver, which can differ from the address the browser used. Prefer a domain rule when you can.
 
 ## Privacy

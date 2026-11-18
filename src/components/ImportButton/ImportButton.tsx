@@ -23,7 +23,7 @@ const ImportButton = ({ onImport }: ImportButtonProps) => {
     }
 
     const invalidSite = parsed.data.find(
-      (site) => !isValidValue(site.matchRule, site.value)
+      (site) => !isValidValue(site, site.value)
     );
     if (invalidSite) {
       notification.error({
@@ -36,7 +36,7 @@ const ImportButton = ({ onImport }: ImportButtonProps) => {
       ...parsed,
       data: parsed.data.map((site) => ({
         ...site,
-        value: normalizeValue(site.matchRule, site.value),
+        value: normalizeValue(site, site.value),
       })),
     });
   };

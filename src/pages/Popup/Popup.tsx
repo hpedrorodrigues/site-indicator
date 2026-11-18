@@ -20,8 +20,13 @@ import {
 import { Labels } from '../../labels';
 import { showRefreshMessage } from '../../messages';
 import { Tabs } from '../../tabs';
-import { type Site, setSiteEnabled, StorageKey } from '../../persistence';
-import { getPageDomain, isEmpty } from '../../util';
+import {
+  getPageAddress,
+  type Site,
+  setSiteEnabled,
+  StorageKey,
+} from '../../persistence';
+import { isEmpty } from '../../util';
 import { filterSites, sortSites, type SiteSort } from '../../query';
 
 const spaceStyles: CSSProperties = {
@@ -44,11 +49,8 @@ const Popup = () => {
   });
   const { data: sort } = useLoadItem<SiteSort>({ key: StorageKey.Sort });
   const { data: url } = useActiveTabUrl();
-  const domain = getPageDomain(url);
-  const { data: matches } = useMatchingSites({
-    sites,
-    domain,
-  });
+  const domain = getPageAddress(url)?.domain;
+  const { data: matches } = useMatchingSites({ sites, url });
   const [query, setQuery] = useState<string>('');
 
   const openAddSite = (domain?: string) =>

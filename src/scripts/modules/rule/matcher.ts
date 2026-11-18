@@ -1,36 +1,41 @@
-import { MatchRule, type Site } from '../../../persistence';
+import {
+  getPageAddress,
+  MatchRule,
+  type Site,
+  targetOf,
+} from '../../../persistence';
 import { cidrMatcher } from '../cidr';
 import { dnsResolver } from '../dns';
 
-type Operation = (domain: string, value: string) => boolean;
+type Operation = (target: string, value: string) => boolean;
 
 const isMatch = (
-  domain: string,
+  target: string,
   value: string,
   operation: Operation
 ): boolean => {
-  if (domain.startsWith('www.') && !value.startsWith('www.')) {
-    return operation(domain, `www.${value}`);
+  if (target.startsWith('www.') && !value.startsWith('www.')) {
+    return operation(target, `www.${value}`);
   }
 
-  if (!domain.startsWith('www.') && value.startsWith('www.')) {
-    return operation(`www.${domain}`, value);
+  if (!target.startsWith('www.') && value.startsWith('www.')) {
+    return operation(`www.${target}`, value);
   }
 
-  return operation(domain, value);
+  return operation(target, value);
 };
 
-const isExactMatch = (domain: string, value: string): boolean =>
-  isMatch(domain, value, (domain, value) => domain === value);
+const isExactMatch = (target: string, value: string): boolean =>
+  isMatch(target, value, (target, value) => target === value);
 
-const isContainsWordsMatch = (domain: string, value: string): boolean =>
-  value.split(',').some((word) => domain.includes(word.toLowerCase()));
+const isContainsWordsMatch = (target: string, value: string): boolean =>
+  value.split(',').some((word) => target.includes(word.toLowerCase()));
 
-const isStartsWithMatch = (domain: string, value: string): boolean =>
-  isMatch(domain, value, (domain, value) => domain.startsWith(value));
+const isStartsWithMatch = (target: string, value: string): boolean =>
+  isMatch(target, value, (target, value) => target.startsWith(value));
 
-const isEndsWithMatch = (domain: string, value: string): boolean =>
-  isMatch(domain, value, (domain, value) => domain.endsWith(value));
+const isEndsWithMatch = (target: string, value: string): boolean =>
+  isMatch(target, value, (target, value) => target.endsWith(value));
 
 const isCidr4Match = async (
   domain: string,
@@ -57,23 +62,28 @@ const isCidr6Match = async (
 };
 
 const ruleMatcher = {
-  match: async (domain: string, site: Site): Promise<boolean> => {
-    console.debug('Checking domain', domain, site);
+  match: async (url: string, site: Site): Promise<boolean> => {
+    const address = getPageAddress(url);
+    if (!address) {
+      return false;
+    }
+    const target = targetOf(address, site);
+    console.debug('Checking address', target, site);
     switch (site.matchRule) {
       case MatchRule.Exact:
-        return isExactMatch(domain, site.value);
+        return isExactMatch(target, site.value);
       case MatchRule.ContainsWords:
-        return isContainsWordsMatch(domain, site.value);
+        return isContainsWordsMatch(target, site.value);
       case MatchRule.StartsWith:
-        return isStartsWithMatch(domain, site.value);
+        return isStartsWithMatch(target, site.value);
       case MatchRule.EndsWith:
-        return isEndsWithMatch(domain, site.value);
+        return isEndsWithMatch(target, site.value);
       case MatchRule.RegEx:
-        return RegExp(site.value, 'iu').test(domain);
+        return RegExp(site.value, 'iu').test(target);
       case MatchRule.CidrV4:
-        return await isCidr4Match(domain, site.value);
+        return await isCidr4Match(address.domain, site.value);
       case MatchRule.CidrV6:
-        return await isCidr6Match(domain, site.value);
+        return await isCidr6Match(address.domain, site.value);
       default:
         return false;
     }
