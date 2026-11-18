@@ -91,6 +91,7 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
           ...initialSite,
           ...site,
           value: normalizeValue(site.matchRule, site.value),
+          titlePrefix: site.titlePrefix?.trim() || undefined,
         })
       }
       layout="vertical"
@@ -189,6 +190,20 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
             normalize={(color: Color) => color.toHexString()}
           >
             <ColorPicker showText style={colorPickerStyle} disabledAlpha />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={42} align="middle">
+        <Col flex="300px">
+          <Form.Item
+            name="titlePrefix"
+            label={Labels.Site.Field.TitlePrefix}
+            tooltip={Labels.Site.TitlePrefix.Description}
+          >
+            <Input
+              maxLength={12}
+              placeholder={Labels.Site.TitlePrefix.Placeholder}
+            />
           </Form.Item>
         </Col>
       </Row>

@@ -1,7 +1,10 @@
+export { default as useActiveTabUrl } from './useActiveTabUrl';
 export { default as useDeleteSite } from './useDeleteSite';
 export { default as useListSites } from './useListSites';
 export { default as useLoadItem } from './useLoadItem';
 export { default as useLoadSite } from './useLoadSite';
+export { default as useMatchingSites } from './useMatchingSites';
+export { default as usePrefersDark } from './usePrefersDark';
 export { default as useSaveItem } from './useSaveItem';
 export { default as useSaveSite } from './useSaveSite';
 export { default as useSaveSites } from './useSaveSites';

@@ -1,17 +1,14 @@
 import { Placement, Shape, type Site } from '../../../persistence';
+import { hideOnHover, ZIndex } from './element';
 
-const RibbonElementId = 'site-indicator-extension-ribbon';
-const ZIndex = '99999';
-const HideDelay = 5000;
-
-type RibbonConfig = {
+type CornerConfig = {
   height: number;
   distanceToCorner: number;
   alignItems: string;
   padding?: string;
 };
 
-const Configs: Record<Shape, RibbonConfig> = {
+const Configs: Partial<Record<Shape, CornerConfig>> = {
   [Shape.Ribbon]: { height: 40, distanceToCorner: 80, alignItems: 'center' },
   [Shape.Triangle]: {
     height: 100,
@@ -19,10 +16,6 @@ const Configs: Record<Shape, RibbonConfig> = {
     alignItems: 'end',
     padding: '16px',
   },
-};
-
-const removeElement = (): void => {
-  document.getElementById(RibbonElementId)?.remove();
 };
 
 const placementStyles = (
@@ -51,10 +44,8 @@ const placementStyles = (
   }
 };
 
-const insertElement = (site: Site): HTMLDivElement | undefined => {
-  removeElement();
-
-  const config: RibbonConfig | undefined = Configs[site.shape];
+export const createCorner = (site: Site): HTMLDivElement | undefined => {
+  const config = Configs[site.shape];
   if (!config) {
     console.error('Unexpected shape received', site.shape);
     return undefined;
@@ -82,19 +73,9 @@ const insertElement = (site: Site): HTMLDivElement | undefined => {
   };
 
   const div = document.createElement('div');
-  div.id = RibbonElementId;
   div.innerText = site.label;
-  div.onmouseover = () => {
-    div.style.display = 'none';
-    setTimeout(() => (div.style.display = styles.display ?? ''), HideDelay);
-  };
-
   Object.assign(div.style, styles);
+  hideOnHover(div);
 
-  document.body.appendChild(div);
   return div;
 };
-
-const ribbon = { insertOnPage: insertElement };
-
-export default ribbon;

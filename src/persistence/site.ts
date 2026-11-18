@@ -1,6 +1,7 @@
 export enum Shape {
   Ribbon = 'RIBBON',
   Triangle = 'TRIANGLE',
+  Frame = 'FRAME',
 }
 
 export enum MatchRule {
@@ -29,6 +30,7 @@ export type Site = {
   shape: Shape;
   matchRule: MatchRule;
   placement: Placement;
+  titlePrefix?: string;
 };
 
 const SiteProperties: Array<keyof Site> = [

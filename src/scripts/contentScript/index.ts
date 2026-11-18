@@ -1,4 +1,12 @@
-import { favicon, ribbon, browser, ruleMatcher, util } from '../modules';
+import type { Site } from '../../persistence';
+import {
+  favicon,
+  indicator,
+  browser,
+  ruleMatcher,
+  title,
+  util,
+} from '../modules';
 
 const domain = util.getDomain(window.location.host);
 
@@ -13,10 +21,20 @@ browser.getSites().then(async (sites) => {
     return;
   }
 
+  const matches: Site[] = [];
   for (const site of sites) {
-    if (await ruleMatcher.match(domain, site).catch(console.error)) {
-      ribbon.insertOnPage(site);
-      favicon.updateOnPage(site);
+    const isMatch = await ruleMatcher.match(domain, site).catch(console.error);
+    if (isMatch) {
+      matches.push(site);
     }
   }
+
+  const site = matches.at(-1);
+  if (!site) {
+    return;
+  }
+
+  indicator.insertOnPage(site);
+  favicon.updateOnPage(site);
+  title.updateOnPage(site);
 });

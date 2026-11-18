@@ -32,3 +32,15 @@ export const readFile = (file: File, callback: (content: string) => void) => {
   reader.addEventListener('load', () => callback(reader.result as string));
   reader.readAsText(file);
 };
+
+export const getPageDomain = (url: string | undefined): string | undefined => {
+  if (!url) {
+    return undefined;
+  }
+  try {
+    const { protocol, hostname } = new URL(url);
+    return protocol === 'http:' || protocol === 'https:' ? hostname : undefined;
+  } catch {
+    return undefined;
+  }
+};

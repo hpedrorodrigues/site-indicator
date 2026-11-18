@@ -1,9 +1,10 @@
-import { Button, List, Popconfirm } from 'antd';
+import { Button, List, Popconfirm, Space, Tag } from 'antd';
 import type { Site } from '../../persistence';
 import { Labels, MatchRules, Placements, Shapes } from '../../labels';
 
 type SiteListProps = {
   sites?: Site[];
+  matchingIds?: number[];
   onEdit?: (site: Site) => void;
   onDelete?: (id: number) => void;
   isLoading?: boolean;
@@ -16,7 +17,24 @@ const getDescription = (site: Site): string => {
   return `${matchRule} - ${placement} - ${shape}`;
 };
 
-const SiteList = ({ sites, isLoading, onEdit, onDelete }: SiteListProps) => (
+const getTitle = (site: Site, isMatch: boolean) => (
+  <Space size="small">
+    {site.label}
+    {isMatch && (
+      <Tag variant="solid" color={site.color}>
+        {Labels.Popup.OnThisPage}
+      </Tag>
+    )}
+  </Space>
+);
+
+const SiteList = ({
+  sites,
+  matchingIds,
+  isLoading,
+  onEdit,
+  onDelete,
+}: SiteListProps) => (
   <List
     dataSource={sites}
     loading={isLoading}
@@ -36,7 +54,10 @@ const SiteList = ({ sites, isLoading, onEdit, onDelete }: SiteListProps) => (
           </Popconfirm>,
         ]}
       >
-        <List.Item.Meta title={site.label} description={getDescription(site)} />
+        <List.Item.Meta
+          title={getTitle(site, matchingIds?.includes(site.id!!) ?? false)}
+          description={getDescription(site)}
+        />
       </List.Item>
     )}
   />
