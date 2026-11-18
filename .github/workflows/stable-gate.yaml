@@ -31,6 +31,8 @@ jobs:
         run: npm run lint
       - name: Type check
         run: npm run typecheck
+      - name: Locale check
+        run: npm run check:locales
       - name: Generate artifacts (build)
         run: NODE_ENV=production npm run build
       - name: Create GitHub Release

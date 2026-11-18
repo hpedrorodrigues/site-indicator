@@ -148,6 +148,12 @@ const options = {
           to: path.join(rootDir, 'build'),
           force: true,
         },
+        {
+          from: '**/messages.json',
+          context: path.join(rootDir, 'src', '_locales'),
+          to: path.join(rootDir, 'build', '_locales'),
+          force: true,
+        },
       ],
     }),
     new HtmlWebpackPlugin({

@@ -1,0 +1,358 @@
+{
+  "refresh_page": {
+    "message": "Please, refresh the page!",
+    "description": "Shown after a setting changes, because open pages apply it only after a reload."
+  },
+  "site_no_site": {
+    "message": "No sites configured!",
+    "description": "Empty state of the rule list."
+  },
+  "site_field_label": {
+    "message": "Label",
+    "description": "Field name: the text drawn on the indicator."
+  },
+  "site_field_value": {
+    "message": "Value",
+    "description": "Field name: the value the match rule compares against."
+  },
+  "site_field_color": {
+    "message": "Color",
+    "description": "Field name: background color of the indicator."
+  },
+  "site_field_label_color": {
+    "message": "Label Color",
+    "description": "Field name: text color of the indicator."
+  },
+  "site_field_shape": {
+    "message": "Shape",
+    "description": "Field name: shape of the indicator."
+  },
+  "site_field_placement": {
+    "message": "Placement",
+    "description": "Field name: corner of the page for the indicator."
+  },
+  "site_field_match_rule": {
+    "message": "Match Rule",
+    "description": "Field name: how the page domain is compared."
+  },
+  "site_field_title_prefix": {
+    "message": "Title prefix",
+    "description": "Field name: text put before the page title."
+  },
+  "site_field_enabled": {
+    "message": "Enabled",
+    "description": "Column title: switch that turns one rule on or off."
+  },
+  "site_field_size": {
+    "message": "Size",
+    "description": "Field name: size of the indicator."
+  },
+  "site_field_opacity": {
+    "message": "Opacity",
+    "description": "Field name: opacity of the indicator."
+  },
+  "site_field_priority": {
+    "message": "Priority",
+    "description": "Column title: drag handle that changes the rule order."
+  },
+  "site_shape_ribbon": {
+    "message": "Ribbon",
+    "description": "Shape option: a diagonal band in a corner."
+  },
+  "site_shape_triangle": {
+    "message": "Triangle",
+    "description": "Shape option: a triangle in a corner."
+  },
+  "site_shape_frame": {
+    "message": "Frame",
+    "description": "Shape option: a border around the whole page."
+  },
+  "site_match_rule_exact": {
+    "message": "Exact",
+    "description": "Match rule option."
+  },
+  "site_match_rule_contains_words": {
+    "message": "Contains words",
+    "description": "Match rule option."
+  },
+  "site_match_rule_starts_with": {
+    "message": "Starts with",
+    "description": "Match rule option."
+  },
+  "site_match_rule_ends_with": {
+    "message": "Ends with",
+    "description": "Match rule option."
+  },
+  "site_match_rule_regex": {
+    "message": "Regular Expression",
+    "description": "Match rule option."
+  },
+  "site_match_rule_cidr_v4": {
+    "message": "CIDR v4 (Experimental)",
+    "description": "Match rule option. CIDR is an IP range notation."
+  },
+  "site_match_rule_cidr_v6": {
+    "message": "CIDR v6 (Experimental)",
+    "description": "Match rule option. CIDR is an IP range notation."
+  },
+  "site_match_rule_description_exact": {
+    "message": "\"Exact\" will perform equality to match the page domain (ignoring \"www.\").",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_match_rule_description_contains_words": {
+    "message": "\"Contains words\" will check whether the page domain contains any of the given words. Please, provide words separated by comma.",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_match_rule_description_starts_with": {
+    "message": "\"Starts with\" will check whether the page domain begins with the given value (ignoring \"www.\").",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_match_rule_description_ends_with": {
+    "message": "\"Ends with\" will check whether the page domain ends with the given value (ignoring \"www.\").",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_match_rule_description_regex": {
+    "message": "\"Regular Expression\" will check whether the provided patterns match the page domain.",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_match_rule_description_cidr_v4": {
+    "message": "\"CIDR v4 (Experimental)\" will check whether the page IPv4 address it's inside an IP range expressed in CIDR notation. Hostnames are resolved only when \"DNS over HTTPS\" is enabled in Preferences, and the resolver may answer with a different address than the one the browser used. Prefer a domain rule when possible.",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_match_rule_description_cidr_v6": {
+    "message": "\"CIDR v6 (Experimental)\" will check whether the page IPv6 address it's inside an IP range expressed in CIDR notation. Hostnames are resolved only when \"DNS over HTTPS\" is enabled in Preferences, and the resolver may answer with a different address than the one the browser used. Prefer a domain rule when possible.",
+    "description": "Help text shown under the match rule field."
+  },
+  "site_errors_value_exact": {
+    "message": "Enter a domain such as example.com.",
+    "description": "Validation error for the value field."
+  },
+  "site_errors_value_contains_words": {
+    "message": "Enter at least one word. Separate words with commas.",
+    "description": "Validation error for the value field."
+  },
+  "site_errors_value_starts_with": {
+    "message": "Enter the beginning of a domain, using letters, digits, dots and hyphens.",
+    "description": "Validation error for the value field."
+  },
+  "site_errors_value_ends_with": {
+    "message": "Enter the end of a domain, using letters, digits, dots and hyphens.",
+    "description": "Validation error for the value field."
+  },
+  "site_errors_value_regex": {
+    "message": "Enter a valid regular expression.",
+    "description": "Validation error for the value field."
+  },
+  "site_errors_value_cidr_v4": {
+    "message": "Enter an IPv4 range in CIDR notation, such as 10.0.0.0/8.",
+    "description": "Validation error for the value field."
+  },
+  "site_errors_value_cidr_v6": {
+    "message": "Enter an IPv6 range in CIDR notation, such as 2001:db8::/32.",
+    "description": "Validation error for the value field."
+  },
+  "site_placement_top_left": {
+    "message": "Top Left",
+    "description": "Placement option."
+  },
+  "site_placement_top_right": {
+    "message": "Top Right",
+    "description": "Placement option."
+  },
+  "site_placement_bottom_left": {
+    "message": "Bottom Left",
+    "description": "Placement option."
+  },
+  "site_placement_bottom_right": {
+    "message": "Bottom Right",
+    "description": "Placement option."
+  },
+  "site_size_small": { "message": "Small", "description": "Size option." },
+  "site_size_medium": { "message": "Medium", "description": "Size option." },
+  "site_size_large": { "message": "Large", "description": "Size option." },
+  "site_opacity_description": {
+    "message": "How visible the indicator is. 100% is fully opaque.",
+    "description": "Tooltip of the opacity field."
+  },
+  "site_priority_drag": {
+    "message": "Drag to change the priority. The first rule that matches a page wins.",
+    "description": "Tooltip of the drag handle when dragging is possible."
+  },
+  "site_priority_locked": {
+    "message": "Clear the sort and the search to change the priority.",
+    "description": "Tooltip of the drag handle when a column sort or a search is active."
+  },
+  "site_copy_label": {
+    "message": "$LABEL$ copy",
+    "description": "Label given to a cloned rule.",
+    "placeholders": { "label": { "content": "$1", "example": "Production" } }
+  },
+  "site_title_prefix_placeholder": {
+    "message": "[PROD]",
+    "description": "Example shown inside the empty title prefix field."
+  },
+  "site_title_prefix_description": {
+    "message": "Shown before the page title in the tab strip. Leave it empty to keep the title.",
+    "description": "Tooltip of the title prefix field."
+  },
+  "settings_indicators_label": {
+    "message": "Indicators",
+    "description": "Label of the global switch that turns all indicators on or off."
+  },
+  "settings_indicators_description": {
+    "message": "Shows the configured indicators on matching pages. Refresh open pages after changing it.",
+    "description": "Tooltip of the global switch."
+  },
+  "settings_dns_over_https_label": {
+    "message": "DNS over HTTPS",
+    "description": "Label of the switch that enables hostname resolution."
+  },
+  "settings_dns_over_https_description": {
+    "message": "Resolves page hostnames through Cloudflare or Google nameservers when a CIDR rule needs an IP address. The hostnames of the pages you visit are sent to those providers. Disabled by default.",
+    "description": "Tooltip of the DNS over HTTPS switch."
+  },
+  "popup_on_this_page": {
+    "message": "On this page",
+    "description": "Tag on the rules that match the current page."
+  },
+  "action_title": {
+    "message": "Actions",
+    "description": "Column title for the row buttons."
+  },
+  "action_add": {
+    "message": "Add site",
+    "description": "Button that opens the form for a new rule."
+  },
+  "action_add_now": {
+    "message": "Create now",
+    "description": "Button in the empty state that opens the form."
+  },
+  "action_delete": {
+    "message": "Delete",
+    "description": "Button that deletes a rule."
+  },
+  "action_confirm_delete": {
+    "message": "Are you sure?",
+    "description": "Confirmation shown before a rule is deleted."
+  },
+  "action_edit": {
+    "message": "Edit",
+    "description": "Button that opens a rule in the form."
+  },
+  "action_clone": {
+    "message": "Clone",
+    "description": "Button that opens the form with a copy of a rule."
+  },
+  "action_preferences": {
+    "message": "Preferences",
+    "description": "Button in the popup that opens the options page."
+  },
+  "action_import": {
+    "message": "Import",
+    "description": "Button that loads rules from a file."
+  },
+  "action_export": {
+    "message": "Export",
+    "description": "Button that saves rules to a file."
+  },
+  "action_search": {
+    "message": "Search",
+    "description": "Button in a column filter."
+  },
+  "action_reset": {
+    "message": "Reset",
+    "description": "Button in a column filter that clears it."
+  },
+  "action_search_by_label": {
+    "message": "Search by label...",
+    "description": "Placeholder of the label column filter."
+  },
+  "action_search_by_match_rule": {
+    "message": "Search by match rule...",
+    "description": "Placeholder of the match rule column filter."
+  },
+  "action_search_by_value": {
+    "message": "Search by value...",
+    "description": "Placeholder of the value column filter."
+  },
+  "action_search_sites": {
+    "message": "Search sites...",
+    "description": "Placeholder of the search box above the list."
+  },
+  "form_section_title": {
+    "message": "Indicator",
+    "description": "Heading of the form section with the look of the indicator."
+  },
+  "footer_version": {
+    "message": "v$VERSION$",
+    "description": "Version shown in the footer.",
+    "placeholders": { "version": { "content": "$1", "example": "1.2.0" } }
+  },
+  "footer_repository": {
+    "message": "GitHub",
+    "description": "Footer link to the source code."
+  },
+  "footer_report_issue": {
+    "message": "Report an issue",
+    "description": "Footer link to the issue tracker."
+  },
+  "storage_usage_one": {
+    "message": "1 site, $PERCENT$% of sync storage",
+    "description": "Storage usage line when there is exactly one rule.",
+    "placeholders": { "percent": { "content": "$1", "example": "3" } }
+  },
+  "storage_usage_other": {
+    "message": "$COUNT$ sites, $PERCENT$% of sync storage",
+    "description": "Storage usage line for zero or several rules.",
+    "placeholders": {
+      "count": { "content": "$1", "example": "12" },
+      "percent": { "content": "$2", "example": "3" }
+    }
+  },
+  "storage_limits": {
+    "message": "Chrome syncs at most 512 items and 100 KB in total. Each site takes one item and about 250 bytes.",
+    "description": "Tooltip of the storage usage line."
+  },
+  "storage_errors_title": {
+    "message": "Storage error",
+    "description": "Title of the notification shown when a save fails."
+  },
+  "storage_errors_quota_exceeded": {
+    "message": "Chrome sync storage is full. It holds at most 512 items and 100 KB in total.",
+    "description": "Notification shown when the storage quota is reached."
+  },
+  "configuration_errors_invalid_file": {
+    "message": "Invalid file uploaded! This file does not have the expected format!",
+    "description": "Notification shown when an imported file is not a configuration."
+  },
+  "configuration_errors_could_not_upload": {
+    "message": "An error occurred uploading the selected file!",
+    "description": "Notification shown when the file could not be read."
+  },
+  "configuration_errors_invalid_site": {
+    "message": "Site \"$LABEL$\" has an invalid value for its match rule.",
+    "description": "Notification shown when an imported rule has an invalid value.",
+    "placeholders": { "label": { "content": "$1", "example": "Production" } }
+  },
+  "modal_title_add": {
+    "message": "Add new site",
+    "description": "Title of the form when creating a rule."
+  },
+  "modal_title_edit": {
+    "message": "Edit site",
+    "description": "Title of the form when editing a rule."
+  },
+  "modal_ok": { "message": "Ok", "description": "Button that saves the form." },
+  "modal_save": {
+    "message": "Save",
+    "description": "Button that saves the form."
+  },
+  "modal_cancel": {
+    "message": "Cancel",
+    "description": "Button that closes the form without saving."
+  },
+  "selection_modal_title": {
+    "message": "Select Sites",
+    "description": "Title of the dialog that picks rules to import or export."
+  }
+}

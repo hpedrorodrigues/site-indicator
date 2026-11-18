@@ -1,4 +1,15 @@
-import { Table, Button, Popconfirm, Row, Col, Switch } from 'antd';
+import { useState } from 'react';
+import {
+  Table,
+  Button,
+  Popconfirm,
+  Row,
+  Col,
+  Switch,
+  Tooltip,
+  Typography,
+} from 'antd';
+import { HolderOutlined } from '@ant-design/icons';
 import type { SiteSort, SortColumn } from '../../query';
 import {
   isSiteEnabled,
@@ -13,6 +24,13 @@ import { getColumnSearchProps } from '../search';
 import { ColorSwatch } from '../ColorSwatch';
 
 const { Column } = Table;
+const { Text } = Typography;
+
+const renderText = (text: string) => (
+  <Text ellipsis={{ tooltip: text }} style={{ maxWidth: 240 }}>
+    {text}
+  </Text>
+);
 
 type SiteTableProps = {
   sites?: Site[];
@@ -20,6 +38,8 @@ type SiteTableProps = {
   onEdit?: (site: Site) => void;
   onClone?: (site: Site) => void;
   onToggle?: (site: Site, enabled: boolean) => void;
+  onReorder?: (sites: Site[]) => void;
+  canReorder?: boolean;
   isLoading?: boolean;
   sort?: SiteSort;
   onSortChange?: (sort: SiteSort | undefined) => void;
@@ -31,18 +51,38 @@ const SiteTable = ({
   onEdit,
   onClone,
   onToggle,
+  onReorder,
+  canReorder = false,
   isLoading,
   sort,
   onSortChange,
 }: SiteTableProps) => {
+  const [draggedId, setDraggedId] = useState<number | undefined>();
+
   const sortOrder = (column: SortColumn) =>
     sort?.column === column ? sort.order : null;
+
+  const dropOn = (target: Site) => {
+    if (draggedId === undefined || draggedId === target.id || !sites) {
+      return;
+    }
+    const ordered = [...sites];
+    const from = ordered.findIndex((site) => site.id === draggedId);
+    const to = ordered.findIndex((site) => site.id === target.id);
+    if (from < 0 || to < 0) {
+      return;
+    }
+    const [moved] = ordered.splice(from, 1);
+    ordered.splice(to, 0, moved);
+    onReorder?.(ordered);
+  };
 
   return (
     <Table<Site>
       dataSource={sites}
       rowKey={(site) => `${site.id}`}
       loading={isLoading}
+      scroll={{ x: 'max-content' }}
       onChange={(_, __, sorter) => {
         const current = Array.isArray(sorter) ? sorter[0] : sorter;
         onSortChange?.(
@@ -51,12 +91,49 @@ const SiteTable = ({
             : undefined
         );
       }}
+      onRow={(site) => ({
+        onDragOver: (event) => {
+          if (canReorder && draggedId !== undefined) {
+            event.preventDefault();
+          }
+        },
+        onDrop: () => {
+          dropOn(site);
+          setDraggedId(undefined);
+        },
+      })}
     >
+      <Column<Site>
+        title={Labels.Site.Field.Priority}
+        key="priority"
+        align="center"
+        width={100}
+        render={(_, site) => (
+          <Tooltip
+            title={
+              canReorder
+                ? Labels.Site.Priority.Drag
+                : Labels.Site.Priority.Locked
+            }
+          >
+            <Button
+              type="text"
+              size="small"
+              icon={<HolderOutlined />}
+              disabled={!canReorder}
+              draggable={canReorder}
+              style={{ cursor: canReorder ? 'grab' : 'not-allowed' }}
+              onDragStart={() => setDraggedId(site.id)}
+              onDragEnd={() => setDraggedId(undefined)}
+            />
+          </Tooltip>
+        )}
+      />
       <Column<Site>
         title={Labels.Site.Field.Enabled}
         key="enabled"
         align="center"
-        width={100}
+        width={80}
         render={(_, site) => (
           <Switch
             size="small"
@@ -69,7 +146,7 @@ const SiteTable = ({
         title={Labels.Site.Field.Label}
         dataIndex="label"
         key="label"
-        ellipsis
+        render={renderText}
         sortOrder={sortOrder('label')}
         sorter={(a, b) => compareText(a.label, b.label)}
         {...getColumnSearchProps(
@@ -95,7 +172,7 @@ const SiteTable = ({
         title={Labels.Site.Field.Value}
         dataIndex="value"
         key="value"
-        ellipsis
+        render={renderText}
         sortOrder={sortOrder('value')}
         sorter={(a, b) => compareText(a.value, b.value)}
         {...getColumnSearchProps(

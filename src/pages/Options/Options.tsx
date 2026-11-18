@@ -43,6 +43,7 @@ import { showRefreshMessage } from '../../messages';
 import {
   type Site,
   setSiteEnabled,
+  sortByPriority,
   StorageKey,
   SyncLimits,
   type Configuration,
@@ -151,6 +152,13 @@ const Options = () => {
     showRefreshMessage();
   };
 
+  const canReorder = !sort && query.trim() === '';
+
+  const onReorder = (ordered: Site[]) => {
+    saveSites(ordered.map((site, index) => ({ ...site, order: index })));
+    showRefreshMessage();
+  };
+
   const onClose = () => {
     setShowModal(false);
     setInitialSite(INITIAL_SITE);
@@ -227,13 +235,15 @@ const Options = () => {
               </Col>
             </Row>
             <SiteTable
-              sites={filterSites(sites, query)}
+              sites={filterSites(sortByPriority(sites), query)}
               sort={sort}
               onSortChange={(sort) => saveSort(StorageKey.Sort, sort)}
               onDelete={deleteSite}
               onEdit={onEdit}
               onClone={onClone}
               onToggle={onToggle}
+              onReorder={onReorder}
+              canReorder={canReorder}
             />
           </Space>
         )}
