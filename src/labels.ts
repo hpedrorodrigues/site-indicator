@@ -108,8 +108,6 @@ export const Labels = {
     Edit: 'Edit',
     Clone: 'Clone',
     Preferences: 'Preferences',
-    Enabled: 'Enabled',
-    Disabled: 'Disabled',
     Import: 'Import',
     Export: 'Export',
     Search: 'Search',

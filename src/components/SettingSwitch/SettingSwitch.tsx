@@ -1,6 +1,5 @@
 import { Space, Switch, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Labels } from '../../labels';
 
 type SettingSwitchProps = {
   label: string;
@@ -16,12 +15,7 @@ const SettingSwitch = ({
   onChange,
 }: SettingSwitchProps) => (
   <Space size="small">
-    <Switch
-      checkedChildren={Labels.Action.Enabled}
-      unCheckedChildren={Labels.Action.Disabled}
-      checked={checked}
-      onChange={onChange}
-    />
+    <Switch aria-label={label} checked={checked} onChange={onChange} />
     {label}
     <Tooltip title={description}>
       <QuestionCircleOutlined />

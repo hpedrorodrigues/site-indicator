@@ -1,8 +1,9 @@
 import { type CSSProperties, useState } from 'react';
-import { Button, Col, Row, Space, Switch, message } from 'antd';
+import { Button, Col, Row, Space } from 'antd';
 import {
   PageLayout,
   Settings,
+  SettingSwitch,
   SiteList,
   SiteSearch,
   NoSite,
@@ -17,6 +18,7 @@ import {
   useSaveSite,
 } from '../../hooks';
 import { Labels } from '../../labels';
+import { showRefreshMessage } from '../../messages';
 import { Tabs } from '../../tabs';
 import { type Site, setSiteEnabled, StorageKey } from '../../persistence';
 import { getPageDomain, isEmpty } from '../../util';
@@ -54,7 +56,7 @@ const Popup = () => {
 
   const onToggle = (site: Site, enabled: boolean) => {
     saveSite(setSiteEnabled(site, enabled));
-    message.open({ type: 'info', content: Labels.RefreshPage, duration: 5 });
+    showRefreshMessage();
   };
 
   return (
@@ -66,17 +68,13 @@ const Popup = () => {
           <Space orientation="vertical" size="middle" style={spaceStyles}>
             <Row gutter={42} justify="space-around" align="middle">
               <Col flex="50%">
-                <Switch
-                  checkedChildren={Labels.Action.Enabled}
-                  unCheckedChildren={Labels.Action.Disabled}
+                <SettingSwitch
+                  label={Labels.Settings.Indicators.Label}
+                  description={Labels.Settings.Indicators.Description}
                   checked={isEnabled === undefined || isEnabled}
                   onChange={(checked) => {
                     saveItem(StorageKey.IsEnabled, checked);
-                    message.open({
-                      type: 'info',
-                      content: Labels.RefreshPage,
-                      duration: 5,
-                    });
+                    showRefreshMessage();
                   }}
                 />
               </Col>

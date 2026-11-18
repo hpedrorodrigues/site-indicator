@@ -12,7 +12,6 @@ import {
   Space,
   Tooltip,
   Typography,
-  message,
   notification,
 } from 'antd';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
@@ -40,6 +39,7 @@ import {
   useStorageUsage,
 } from '../../hooks';
 import { DefaultFileName, Labels } from '../../labels';
+import { showRefreshMessage } from '../../messages';
 import {
   type Site,
   setSiteEnabled,
@@ -148,7 +148,7 @@ const Options = () => {
 
   const onToggle = (site: Site, enabled: boolean) => {
     saveSite(setSiteEnabled(site, enabled));
-    message.open({ type: 'info', content: Labels.RefreshPage, duration: 5 });
+    showRefreshMessage();
   };
 
   const onClose = () => {
@@ -175,9 +175,10 @@ const Options = () => {
                     label={Labels.Settings.Indicators.Label}
                     description={Labels.Settings.Indicators.Description}
                     checked={isEnabled === undefined || isEnabled}
-                    onChange={(checked) =>
-                      saveItem(StorageKey.IsEnabled, checked)
-                    }
+                    onChange={(checked) => {
+                      saveItem(StorageKey.IsEnabled, checked);
+                      showRefreshMessage();
+                    }}
                   />
                   <SettingSwitch
                     label={Labels.Settings.DnsOverHttps.Label}
