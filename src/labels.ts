@@ -1,5 +1,13 @@
 import browser from 'webextension-polyfill';
-import { MatchRule, Placement, Shape, Size } from './persistence';
+import {
+  MatchRule,
+  Placement,
+  Shape,
+  Size,
+  Target,
+  type ValueRule,
+  getTarget,
+} from './persistence';
 
 export const DefaultFileName = 'site-indicator-configuration.json';
 
@@ -24,6 +32,7 @@ export const Labels = {
       Size: message('site_field_size'),
       Opacity: message('site_field_opacity'),
       Priority: message('site_field_priority'),
+      Target: message('site_field_target'),
     },
     Shape: {
       Ribbon: message('site_shape_ribbon'),
@@ -57,6 +66,8 @@ export const Labels = {
         RegEx: message('site_errors_value_regex'),
         CidrV4: message('site_errors_value_cidr_v4'),
         CidrV6: message('site_errors_value_cidr_v6'),
+        Host: message('site_errors_value_host'),
+        Path: message('site_errors_value_path'),
       },
     },
     Placement: {
@@ -76,6 +87,12 @@ export const Labels = {
     Priority: {
       Drag: message('site_priority_drag'),
       Locked: message('site_priority_locked'),
+    },
+    Target: {
+      Domain: message('site_target_domain'),
+      Host: message('site_target_host'),
+      Path: message('site_target_path'),
+      Description: message('site_target_description'),
     },
     CopyLabel: (label: string) => message('site_copy_label', [label]),
     TitlePrefix: {
@@ -196,6 +213,32 @@ export const ValueErrors: Record<MatchRule, string> = {
   [MatchRule.CidrV4]: Labels.Site.Errors.Value.CidrV4,
   [MatchRule.CidrV6]: Labels.Site.Errors.Value.CidrV6,
 } as const;
+
+export const Targets: Record<Target, string> = {
+  [Target.Domain]: Labels.Site.Target.Domain,
+  [Target.Host]: Labels.Site.Target.Host,
+  [Target.Path]: Labels.Site.Target.Path,
+} as const;
+
+const AddressRules = [
+  MatchRule.Exact,
+  MatchRule.StartsWith,
+  MatchRule.EndsWith,
+];
+
+export const valueError = (rule: ValueRule): string => {
+  if (!AddressRules.includes(rule.matchRule)) {
+    return ValueErrors[rule.matchRule];
+  }
+  switch (getTarget(rule)) {
+    case Target.Domain:
+      return ValueErrors[rule.matchRule];
+    case Target.Host:
+      return Labels.Site.Errors.Value.Host;
+    case Target.Path:
+      return Labels.Site.Errors.Value.Path;
+  }
+};
 
 export const Placements: Record<Placement, string> = {
   [Placement.TopLeft]: Labels.Site.Placement.TopLeft,

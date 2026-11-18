@@ -4,7 +4,7 @@ import { ruleMatcher } from '../scripts/modules/rule';
 
 type MatchingSitesParams = {
   sites: Site[];
-  domain?: string;
+  url?: string;
 };
 
 type MatchingSitesHook = {
@@ -14,13 +14,13 @@ type MatchingSitesHook = {
 
 const useMatchingSites = ({
   sites,
-  domain,
+  url,
 }: MatchingSitesParams): MatchingSitesHook => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [matches, setMatches] = useState<Site[]>([]);
 
   useEffect(() => {
-    if (!domain) {
+    if (!url) {
       setMatches([]);
       return;
     }
@@ -30,9 +30,7 @@ const useMatchingSites = ({
     setLoading(true);
 
     Promise.all(
-      candidates.map((site) =>
-        ruleMatcher.match(domain, site).catch(() => false)
-      )
+      candidates.map((site) => ruleMatcher.match(url, site).catch(() => false))
     )
       .then((results) => {
         if (isCurrent) {
@@ -48,7 +46,7 @@ const useMatchingSites = ({
     return () => {
       isCurrent = false;
     };
-  }, [sites, domain]);
+  }, [sites, url]);
 
   return {
     data: matches,

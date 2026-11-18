@@ -55,6 +55,10 @@
     "message": "Priority",
     "description": "Column title: drag handle that changes the rule order."
   },
+  "site_field_target": {
+    "message": "Compare",
+    "description": "Field name: which part of the page address the rule compares."
+  },
   "site_shape_ribbon": {
     "message": "Ribbon",
     "description": "Shape option: a diagonal band in a corner."
@@ -96,23 +100,23 @@
     "description": "Match rule option. CIDR is an IP range notation."
   },
   "site_match_rule_description_exact": {
-    "message": "\"Exact\" will perform equality to match the page domain (ignoring \"www.\").",
+    "message": "\"Exact\" will perform equality to match the page address (ignoring \"www.\").",
     "description": "Help text shown under the match rule field."
   },
   "site_match_rule_description_contains_words": {
-    "message": "\"Contains words\" will check whether the page domain contains any of the given words. Please, provide words separated by comma.",
+    "message": "\"Contains words\" will check whether the page address contains any of the given words. Please, provide words separated by comma.",
     "description": "Help text shown under the match rule field."
   },
   "site_match_rule_description_starts_with": {
-    "message": "\"Starts with\" will check whether the page domain begins with the given value (ignoring \"www.\").",
+    "message": "\"Starts with\" will check whether the page address begins with the given value (ignoring \"www.\").",
     "description": "Help text shown under the match rule field."
   },
   "site_match_rule_description_ends_with": {
-    "message": "\"Ends with\" will check whether the page domain ends with the given value (ignoring \"www.\").",
+    "message": "\"Ends with\" will check whether the page address ends with the given value (ignoring \"www.\").",
     "description": "Help text shown under the match rule field."
   },
   "site_match_rule_description_regex": {
-    "message": "\"Regular Expression\" will check whether the provided patterns match the page domain.",
+    "message": "\"Regular Expression\" will check whether the provided patterns match the page address.",
     "description": "Help text shown under the match rule field."
   },
   "site_match_rule_description_cidr_v4": {
@@ -151,6 +155,14 @@
     "message": "Enter an IPv6 range in CIDR notation, such as 2001:db8::/32.",
     "description": "Validation error for the value field."
   },
+  "site_errors_value_host": {
+    "message": "Enter a domain with an optional port, such as example.com:8080.",
+    "description": "Validation error for the value field when the rule compares the domain and port."
+  },
+  "site_errors_value_path": {
+    "message": "Enter a domain with an optional port and path, such as example.com:8080/admin.",
+    "description": "Validation error for the value field when the rule compares the domain, port and path."
+  },
   "site_placement_top_left": {
     "message": "Top Left",
     "description": "Placement option."
@@ -167,9 +179,18 @@
     "message": "Bottom Right",
     "description": "Placement option."
   },
-  "site_size_small": { "message": "Small", "description": "Size option." },
-  "site_size_medium": { "message": "Medium", "description": "Size option." },
-  "site_size_large": { "message": "Large", "description": "Size option." },
+  "site_size_small": {
+    "message": "Small",
+    "description": "Size option."
+  },
+  "site_size_medium": {
+    "message": "Medium",
+    "description": "Size option."
+  },
+  "site_size_large": {
+    "message": "Large",
+    "description": "Size option."
+  },
   "site_opacity_description": {
     "message": "How visible the indicator is. 100% is fully opaque.",
     "description": "Tooltip of the opacity field."
@@ -182,10 +203,31 @@
     "message": "Clear the sort and the search to change the priority.",
     "description": "Tooltip of the drag handle when a column sort or a search is active."
   },
+  "site_target_domain": {
+    "message": "Domain",
+    "description": "Compare option: only the domain of the page, such as example.com."
+  },
+  "site_target_host": {
+    "message": "Domain and port",
+    "description": "Compare option: the domain and the port, such as example.com:8080."
+  },
+  "site_target_path": {
+    "message": "Domain, port and path",
+    "description": "Compare option: the domain, the port and the path, such as example.com:8080/admin."
+  },
+  "site_target_description": {
+    "message": "The part of the page address the rule compares. Domain: example.com. Domain and port: example.com:8080. Domain, port and path: example.com:8080/admin. The query string is never compared, and CIDR rules always use the domain.",
+    "description": "Tooltip of the Compare field."
+  },
   "site_copy_label": {
     "message": "$LABEL$ copy",
     "description": "Label given to a cloned rule.",
-    "placeholders": { "label": { "content": "$1", "example": "Production" } }
+    "placeholders": {
+      "label": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
   },
   "site_title_prefix_placeholder": {
     "message": "[PROD]",
@@ -286,7 +328,12 @@
   "footer_version": {
     "message": "v$VERSION$",
     "description": "Version shown in the footer.",
-    "placeholders": { "version": { "content": "$1", "example": "1.2.0" } }
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
   },
   "footer_repository": {
     "message": "GitHub",
@@ -299,14 +346,25 @@
   "storage_usage_one": {
     "message": "1 site, $PERCENT$% of sync storage",
     "description": "Storage usage line when there is exactly one rule.",
-    "placeholders": { "percent": { "content": "$1", "example": "3" } }
+    "placeholders": {
+      "percent": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
   },
   "storage_usage_other": {
     "message": "$COUNT$ sites, $PERCENT$% of sync storage",
     "description": "Storage usage line for zero or several rules.",
     "placeholders": {
-      "count": { "content": "$1", "example": "12" },
-      "percent": { "content": "$2", "example": "3" }
+      "count": {
+        "content": "$1",
+        "example": "12"
+      },
+      "percent": {
+        "content": "$2",
+        "example": "3"
+      }
     }
   },
   "storage_limits": {
@@ -332,7 +390,12 @@
   "configuration_errors_invalid_site": {
     "message": "Site \"$LABEL$\" has an invalid value for its match rule.",
     "description": "Notification shown when an imported rule has an invalid value.",
-    "placeholders": { "label": { "content": "$1", "example": "Production" } }
+    "placeholders": {
+      "label": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
   },
   "modal_title_add": {
     "message": "Add new site",
@@ -342,7 +405,10 @@
     "message": "Edit site",
     "description": "Title of the form when editing a rule."
   },
-  "modal_ok": { "message": "Ok", "description": "Button that saves the form." },
+  "modal_ok": {
+    "message": "Ok",
+    "description": "Button that saves the form."
+  },
   "modal_save": {
     "message": "Save",
     "description": "Button that saves the form."

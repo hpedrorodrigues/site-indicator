@@ -16,13 +16,16 @@ import { Color } from '@rc-component/color-picker';
 import {
   DefaultOpacity,
   DefaultSize,
+  DefaultTarget,
   MatchRule,
   MinOpacity,
   Placement,
   Shape,
   type Site,
+  type ValueRule,
   getOpacity,
   getSize,
+  getTarget,
   isValidValue,
   normalizeValue,
 } from '../../persistence';
@@ -33,7 +36,8 @@ import {
   Placements,
   Shapes,
   Sizes,
-  ValueErrors,
+  Targets,
+  valueError,
 } from '../../labels';
 
 const { Title } = Typography;
@@ -57,6 +61,7 @@ export const cloneSite = (site: Site): Site => ({
 
 const toFormValues = (site: Site): Site => ({
   ...site,
+  target: getTarget(site),
   size: getSize(site),
   opacity: getOpacity(site),
 });
@@ -76,6 +81,9 @@ function createOptions<T extends string>(record: Record<T, string>) {
     value: key,
   }));
 }
+
+const isCidrRule = (matchRule: MatchRule): boolean =>
+  matchRule === MatchRule.CidrV4 || matchRule === MatchRule.CidrV6;
 
 const REQUIRED_FIELD_RULE: FormRule = {
   message: 'This field is required.',
@@ -106,16 +114,24 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
   return (
     <Form<Site>
       form={form}
-      onFinish={(site) =>
+      onFinish={(site) => {
+        const target =
+          isCidrRule(site.matchRule) || site.target === DefaultTarget
+            ? undefined
+            : site.target;
         onSubmit?.({
           ...initialSite,
           ...site,
-          value: normalizeValue(site.matchRule, site.value),
+          target,
+          value: normalizeValue(
+            { matchRule: site.matchRule, target },
+            site.value
+          ),
           titlePrefix: site.titlePrefix?.trim() || undefined,
           size: site.size === DefaultSize ? undefined : site.size,
           opacity: site.opacity === DefaultOpacity ? undefined : site.opacity,
-        })
-      }
+        });
+      }}
       layout="vertical"
       id="siteForm"
       initialValues={initialSite && toFormValues(initialSite)}
@@ -144,15 +160,18 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
           <Form.Item
             name="value"
             label={Labels.Site.Field.Value}
-            dependencies={['matchRule']}
+            dependencies={['matchRule', 'target']}
             rules={[
               REQUIRED_FIELD_RULE,
               ({ getFieldValue }) => ({
                 validator: (_, value: string) => {
-                  const rule: MatchRule = getFieldValue('matchRule');
+                  const rule: ValueRule = {
+                    matchRule: getFieldValue('matchRule'),
+                    target: getFieldValue('target'),
+                  };
                   return isValidValue(rule, value ?? '')
                     ? Promise.resolve()
-                    : Promise.reject(new Error(ValueErrors[rule]));
+                    : Promise.reject(new Error(valueError(rule)));
                 },
               }),
             ]}
@@ -161,6 +180,20 @@ const SiteForm = ({ onSubmit, form, initialSite }: SiteFormProps) => {
           </Form.Item>
         </Col>
       </Row>
+      {!isCidrRule(matchRule) && (
+        <Row gutter={42} align="middle">
+          <Col flex="250px">
+            <Form.Item
+              name="target"
+              label={Labels.Site.Field.Target}
+              tooltip={Labels.Site.Target.Description}
+              rules={[REQUIRED_FIELD_RULE]}
+            >
+              <Select options={createOptions(Targets)} />
+            </Form.Item>
+          </Col>
+        </Row>
+      )}
       <Row gutter={42} align="middle">
         <Col flex="auto">
           <Alert

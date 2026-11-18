@@ -20,6 +20,12 @@ export enum MatchRule {
   CidrV6 = 'CIDR_V6',
 }
 
+export enum Target {
+  Domain = 'DOMAIN',
+  Host = 'HOST',
+  Path = 'PATH',
+}
+
 export enum Placement {
   TopLeft = 'TOP_LEFT',
   TopRight = 'TOP_RIGHT',
@@ -36,6 +42,7 @@ export type Site = {
   shape: Shape;
   matchRule: MatchRule;
   placement: Placement;
+  target?: Target;
   titlePrefix?: string;
   enabled?: boolean;
   size?: Size;
@@ -43,6 +50,7 @@ export type Site = {
   order?: number;
 };
 
+export const DefaultTarget = Target.Domain;
 export const DefaultSize = Size.Medium;
 export const DefaultOpacity = 100;
 export const MinOpacity = 20;
@@ -53,6 +61,9 @@ export const setSiteEnabled = (site: Site, enabled: boolean): Site => ({
   ...site,
   enabled: enabled ? undefined : false,
 });
+
+export const getTarget = (site: Pick<Site, 'target'>): Target =>
+  site.target ?? DefaultTarget;
 
 export const getSize = (site: Site): Size => site.size ?? DefaultSize;
 

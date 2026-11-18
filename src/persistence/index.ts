@@ -1,3 +1,4 @@
+export * from './address';
 export * from './site';
 export * from './storage';
 export * from './value';

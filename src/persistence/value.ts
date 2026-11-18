@@ -1,19 +1,43 @@
 import ipaddr from 'ipaddr.js';
-import { MatchRule } from './site';
+import { getTarget, MatchRule, type Site, Target } from './site';
 
 const HostnameLabel = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
 const HostnameCharacters = /^[a-z0-9.-]+$/;
+const HostCharacters = /^[a-z0-9.:-]+$/;
+const PathCharacters = /^[^\s?#]+$/;
+const PathSegment = /^[^\s/?#]+$/;
+const Port = /^[1-9][0-9]{0,4}$/;
+const MaxPort = 65_535;
 
-const normalizeHost = (value: string): string =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/^[a-z][a-z0-9+.-]*:\/\//, '')
-    .split(/[/?#]/)[0]
-    .replace(/^[^@]*@/, '')
-    .replace(/:\d+$/, '');
+export type ValueRule = Pick<Site, 'matchRule' | 'target'>;
 
-const stripTrailingDot = (host: string): string => host.replace(/\.$/, '');
+const stripScheme = (value: string): string =>
+  value.replace(/^[a-z][a-z0-9+.-]*:\/\//, '');
+
+const stripUserInfo = (host: string): string => host.replace(/^[^@]*@/, '');
+
+const stripPort = (host: string): string => host.replace(/:\d+$/, '');
+
+const stripTrailingDot = (host: string): string =>
+  host.replace(/\.(?=(:\d+)?$)/, '');
+
+const stripTrailingSlash = (path: string): string => path.replace(/\/+$/, '');
+
+const normalizeAddress = (rule: ValueRule, value: string): string => {
+  const [hostAndPath] = stripScheme(value.trim().toLowerCase()).split(/[?#]/);
+  const [rawHost, ...segments] = hostAndPath.split('/');
+  const host = stripUserInfo(rawHost);
+  const hostname =
+    rule.matchRule === MatchRule.StartsWith ? host : stripTrailingDot(host);
+  switch (getTarget(rule)) {
+    case Target.Domain:
+      return stripPort(hostname);
+    case Target.Host:
+      return hostname;
+    case Target.Path:
+      return stripTrailingSlash([hostname, ...segments].join('/'));
+  }
+};
 
 const normalizeWords = (value: string): string =>
   value
@@ -43,13 +67,51 @@ const isRegExp = (value: string): boolean => {
   }
 };
 
-export const normalizeValue = (matchRule: MatchRule, value: string): string => {
-  switch (matchRule) {
+const isValidHostname = (hostname: string): boolean =>
+  hostname.split('.').every((label) => HostnameLabel.test(label));
+
+const isValidHost = (host: string): boolean => {
+  const [hostname, port, ...rest] = host.split(':');
+  const isValidPort =
+    port === undefined || (Port.test(port) && Number(port) <= MaxPort);
+  return rest.length === 0 && isValidHostname(hostname) && isValidPort;
+};
+
+const isValidPath = (path: string): boolean => {
+  const [host, ...segments] = path.split('/');
+  return (
+    isValidHost(host) && segments.every((segment) => PathSegment.test(segment))
+  );
+};
+
+const isValidExact = (target: Target, value: string): boolean => {
+  switch (target) {
+    case Target.Domain:
+      return isValidHostname(value);
+    case Target.Host:
+      return isValidHost(value);
+    case Target.Path:
+      return isValidPath(value);
+  }
+};
+
+const isValidPartial = (target: Target, value: string): boolean => {
+  switch (target) {
+    case Target.Domain:
+      return HostnameCharacters.test(value);
+    case Target.Host:
+      return HostCharacters.test(value);
+    case Target.Path:
+      return PathCharacters.test(value);
+  }
+};
+
+export const normalizeValue = (rule: ValueRule, value: string): string => {
+  switch (rule.matchRule) {
     case MatchRule.Exact:
-    case MatchRule.EndsWith:
-      return stripTrailingDot(normalizeHost(value));
     case MatchRule.StartsWith:
-      return normalizeHost(value);
+    case MatchRule.EndsWith:
+      return normalizeAddress(rule, value);
     case MatchRule.ContainsWords:
       return normalizeWords(value);
     case MatchRule.RegEx:
@@ -61,14 +123,14 @@ export const normalizeValue = (matchRule: MatchRule, value: string): string => {
   }
 };
 
-export const isValidValue = (matchRule: MatchRule, value: string): boolean => {
-  const normalized = normalizeValue(matchRule, value);
-  switch (matchRule) {
+export const isValidValue = (rule: ValueRule, value: string): boolean => {
+  const normalized = normalizeValue(rule, value);
+  switch (rule.matchRule) {
     case MatchRule.Exact:
-      return normalized.split('.').every((label) => HostnameLabel.test(label));
+      return isValidExact(getTarget(rule), normalized);
     case MatchRule.StartsWith:
     case MatchRule.EndsWith:
-      return HostnameCharacters.test(normalized);
+      return isValidPartial(getTarget(rule), normalized);
     case MatchRule.ContainsWords:
       return normalized !== '';
     case MatchRule.RegEx:
